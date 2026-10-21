@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Yönetim Paneli · Psk. Heval Deniz Özdemir</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<script>try{var t=localStorage.getItem("psk_theme");if(t==="light")document.documentElement.setAttribute("data-theme","light");}catch(e){}</script>
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,500;0,7..72,600;1,7..72,400;1,7..72,500&display=swap">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <nav class="wrap nav" aria-label="Yönetim">
+    <a class="brand" href="index.html"><strong>Yönetim paneli</strong><span>Heval Deniz Özdemir</span></a>
+    <div class="nav-end"><button class="theme-btn" type="button" data-theme-toggle aria-label="Temayı değiştir"></button><button class="btn ghost small" id="logout" type="button" hidden>Çıkış yap</button></div>
+  </nav>
+</header>
+
+<main class="wrap">
+  <!-- Giriş -->
+  <div class="card login" id="login-view" hidden>
+    <form class="form" id="login-form" novalidate>
+      <h2 style="font-size: 1.5rem">Giriş yap</h2>
+      <p class="muted small" id="login-hint">Supabase'de oluşturduğunuz yönetici e-postası ve şifresiyle girin.</p>
+      <div class="field"><label for="l-email">E-posta</label><input id="l-email" type="email" autocomplete="username" required></div>
+      <div class="field"><label for="l-pass">Şifre</label><input id="l-pass" type="password" autocomplete="current-password" required></div>
+      <div id="login-msg" hidden></div>
+      <button class="btn" type="submit">Giriş yap</button>
+    </form>
+  </div>
+
+  <!-- Panel -->
+  <div class="admin-layout" id="app-view" hidden>
+    <div class="stats" id="stats"></div>
+
+    <div class="tabs" role="tablist">
+      <button class="tab" role="tab" id="t-bookings" aria-selected="true" aria-controls="p-bookings">Randevular</button>
+      <button class="tab" role="tab" id="t-calendar" aria-selected="false" aria-controls="p-calendar">Takvim</button>
+      <button class="tab" role="tab" id="t-add" aria-selected="false" aria-controls="p-add">Saat ekle</button>
+      <button class="tab" role="tab" id="t-tests" aria-selected="false" aria-controls="p-tests">Testler</button>
+    </div>
+
+    <!-- Testler -->
+    <div role="tabpanel" id="p-tests" class="stack" hidden>
+      <p class="muted small">Danışanlarınıza belirli bir formu göndermek için bağlantı: <b>alanadiniz.com/test.html?form=phq9</b> (diğerleri: on-gorusme, gad7, who5).</p>
+      <div class="faq" id="tests" style="max-width:none"></div>
+    </div>
+
+    <!-- Randevular -->
+    <div role="tabpanel" id="p-bookings" class="stack">
+      <div class="filters" role="group" aria-label="Randevu filtresi">
+        <button class="chip" type="button" data-bf="upcoming" aria-pressed="true">Yaklaşan</button>
+        <button class="chip" type="button" data-bf="past" aria-pressed="false">Geçmiş</button>
+        <button class="chip" type="button" data-bf="cancelled" aria-pressed="false">İptal edilen</button>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Tarih</th><th>Saat</th><th>Tür</th><th>Danışan</th><th>İletişim</th><th>Not</th><th>Durum</th><th>İşlem</th></tr></thead>
+          <tbody id="b-rows"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Takvim -->
+    <div role="tabpanel" id="p-calendar" class="stack" hidden>
+      <p class="muted small">Boş saatin türüne tıklayarak online ↔ yüz yüze arasında değiştirebilirsiniz. Dolu saatler silinemez; önce randevuyu iptal edin.</p>
+      <div class="stack" id="cal"></div>
+    </div>
+
+    <!-- Saat ekle -->
+    <div role="tabpanel" id="p-add" hidden>
+      <form class="card form" id="gen-form" style="max-width: 720px" novalidate>
+        <h3>Toplu seans saati oluştur</h3>
+        <div class="row">
+          <div class="field"><label for="g-from">Başlangıç tarihi</label><input id="g-from" type="date" required></div>
+          <div class="field"><label for="g-to">Bitiş tarihi</label><input id="g-to" type="date" required></div>
+        </div>
+        <div class="field">
+          <span style="font-size:.88rem;font-weight:600">Günler</span>
+          <div class="weekdays" id="g-days">
+            <label><input type="checkbox" value="1" checked>Pzt</label>
+            <label><input type="checkbox" value="2" checked>Sal</label>
+            <label><input type="checkbox" value="3" checked>Çar</label>
+            <label><input type="checkbox" value="4" checked>Per</label>
+            <label><input type="checkbox" value="5" checked>Cum</label>
+            <label><input type="checkbox" value="6">Cmt</label>
+            <label><input type="checkbox" value="0">Paz</label>
+          </div>
+        </div>
+        <div class="row">
+          <div class="field"><label for="g-start">İlk seans</label><input id="g-start" type="time" value="10:00" required></div>
+          <div class="field"><label for="g-end">Son seansın bitişi</label><input id="g-end" type="time" value="19:00" required></div>
+        </div>
+        <div class="row">
+          <div class="field"><label for="g-len">Seans süresi (dk)</label><input id="g-len" type="number" min="15" max="180" value="50" required></div>
+          <div class="field"><label for="g-gap">Ara (dk)</label><input id="g-gap" type="number" min="0" max="120" value="10" required></div>
+        </div>
+        <div class="field">
+          <label for="g-type">Seans türü</label>
+          <select id="g-type"><option value="online">Online</option><option value="yuzyuze">Yüz yüze</option></select>
+        </div>
+        <div class="notice info" id="g-preview">—</div>
+        <div id="g-msg" hidden></div>
+        <button class="btn" type="submit">Saatleri ekle</button>
+      </form>
+    </div>
+  </div>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script src="assets/js/config.js"></script>
+<script src="assets/js/data.js"></script>
+<script src="assets/js/main.js"></script>
+<script src="assets/js/admin.js"></script>
+</body>
+</html>

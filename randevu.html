@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Randevu Al · Psk. Heval Deniz Özdemir</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<script>try{var t=localStorage.getItem("psk_theme");if(t==="light")document.documentElement.setAttribute("data-theme","light");}catch(e){}</script>
+<meta name="description" content="Online veya yüz yüze terapi seansı için uygun saati seçin ve randevunuzu oluşturun.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,500;0,7..72,600;1,7..72,400;1,7..72,500&display=swap">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <nav class="wrap nav" aria-label="Ana menü">
+    <a class="brand" href="index.html"><strong>Heval Deniz Özdemir</strong><span>Klinik Psikolog</span></a>
+    <div class="nav-end"><button class="theme-btn" type="button" data-theme-toggle aria-label="Temayı değiştir"></button><button class="nav-toggle" type="button" aria-expanded="false" aria-controls="nav-links">Menü</button></div>
+    <div class="nav-links" id="nav-links">
+      <a href="index.html#hakkimda">Hakkımda</a>
+      <a href="index.html#seans-turleri">Online / Yüz yüze</a>
+      <a href="test.html">Ön değerlendirme</a>
+      <a href="index.html#sss">SSS</a>
+      <a href="index.html#iletisim">İletişim</a>
+    </div>
+  </nav>
+</header>
+
+<main>
+  <section style="padding-block: 40px 72px">
+    <div class="wrap stack" style="gap: 28px">
+      <div class="section-head" style="margin-bottom: 0">
+        <p class="eyebrow">Randevu</p>
+        <h1 style="font-size: clamp(1.9rem, 4vw, 2.8rem)">Size uyan saati seçin</h1>
+        <p class="muted">Her seans 50 dakikadır. Saatin yanındaki etiket, seansın online mı yoksa ofiste yüz yüze mi olduğunu gösterir.</p>
+      </div>
+
+      <div class="booking-grid">
+        <div class="card stack">
+          <div class="filters" role="group" aria-label="Seans türü">
+            <button class="chip" type="button" data-filter="all" aria-pressed="true">Tümü</button>
+            <button class="chip" type="button" data-filter="online" aria-pressed="false">Online</button>
+            <button class="chip" type="button" data-filter="yuzyuze" aria-pressed="false">Yüz yüze</button>
+          </div>
+          <div class="days" id="days" role="group" aria-label="Gün seçimi"></div>
+          <div>
+            <h3 id="day-title" style="font-size: 1.05rem; margin-bottom: 12px">&nbsp;</h3>
+            <div class="slots" id="slots"><div class="empty">Takvim yükleniyor…</div></div>
+          </div>
+        </div>
+
+        <div class="card" id="form-card">
+          <form class="form" id="book-form" novalidate>
+            <h3>Randevu bilgileri</h3>
+            <div class="summary" id="summary"><span class="muted">Önce soldan bir saat seçin.</span></div>
+            <div class="field"><label for="f-name">Ad soyad</label><input id="f-name" name="name" autocomplete="name" required maxlength="120"></div>
+            <div class="row">
+              <div class="field"><label for="f-phone">Telefon</label><input id="f-phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" placeholder="05XX XXX XX XX" required maxlength="30"></div>
+              <div class="field"><label for="f-email">E-posta <span class="muted">(isteğe bağlı)</span></label><input id="f-email" name="email" type="email" autocomplete="email" maxlength="160"></div>
+            </div>
+            <div class="field"><label for="f-note">Kısa not <span class="muted">(isteğe bağlı)</span></label><textarea id="f-note" name="note" maxlength="600" placeholder="İlk görüşme mi, devam eden süreç mi gibi."></textarea></div>
+            <label class="check"><input id="f-kvkk" type="checkbox" required><span><a href="kvkk.html" target="_blank" rel="noopener">KVKK Aydınlatma Metni</a>'ni okudum; randevunun oluşturulması için kişisel verilerimin işlenmesine onay veriyorum.</span></label>
+            <div id="form-msg" hidden></div>
+            <button class="btn" id="submit" type="submit" disabled>Randevuyu oluştur</button>
+          </form>
+
+          <div class="stack" id="done" hidden>
+            <span class="pill ok">Randevunuz alındı</span>
+            <h3 id="done-title"></h3>
+            <p class="muted" id="done-text"></p>
+            <p class="small muted">İptal veya değişiklik için seanstan en az 24 saat önce <b data-c="phone">telefon</b> ya da WhatsApp üzerinden haber verin.</p>
+            <div class="hero-actions"><a class="btn ghost" href="index.html">Ana sayfaya dön</a></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="foot-grid">
+      <span>© <span data-year></span> Psk. Heval Deniz Özdemir</span>
+      <span><a href="kvkk.html">KVKK Aydınlatma Metni</a></span>
+    </div>
+    <p class="crisis">Bu site acil destek hizmeti vermez. Kendinize ya da bir başkasına zarar verme riski varsa lütfen hemen <b>112</b>'yi arayın.</p>
+  </div>
+</footer>
+
+<a class="wa" data-href="whatsapp" data-track="contact" href="#" target="_blank" rel="noopener">WhatsApp</a>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script src="assets/js/config.js"></script>
+<script src="assets/js/data.js"></script>
+<script src="assets/js/main.js"></script>
+<script src="assets/js/booking.js"></script>
+</body>
+</html>
