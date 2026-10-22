@@ -349,3 +349,5 @@ tr:last-child td { border-bottom: none; }
 /* Toplu silme */
 .cal-tools { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 14px; border: 1px solid var(--line); border-radius: 12px; background: var(--surface); }
 .cal-tools .confirm-inline { flex-wrap: wrap; }
+
+.req { color: var(--danger); font-weight: 700; }

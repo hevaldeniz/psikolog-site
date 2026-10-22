@@ -85,7 +85,7 @@
     ev.preventDefault(); msg("");
     if (!picked) return msg("Lütfen bir seans saati seçin.");
     const name = $("f-name").value.trim(), phone = $("f-phone").value.trim(), email = $("f-email").value.trim(), note = $("f-note").value.trim();
-    if (name.length < 3) return msg("Lütfen adınızı ve soyadınızı yazın.");
+    if (name.split(/\s+/).filter(w => w.length >= 2).length < 2) return msg("Lütfen adınızı ve soyadınızı birlikte yazın (ör. Ayşe Yılmaz).");
     if (phone.replace(/\D/g, "").length < 10) return msg("Telefon numarası en az 10 haneli olmalı (örn. 05XX XXX XX XX).");
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return msg("Randevu onayını gönderebilmemiz için geçerli bir e-posta adresi yazın.");
     const type = chosenType();
