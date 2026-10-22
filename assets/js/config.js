@@ -19,8 +19,8 @@ window.SITE_CONFIG = {
 
   // Supabase — README'deki "2. Supabase" adımından alın.
   // İkisi de boşsa site DEMO modunda çalışır (veriler yalnızca tarayıcıda tutulur).
-  supabaseUrl: "",
-  supabaseAnonKey: "",
+  supabaseUrl: "https://etqlcpukpiayywozxqmu.supabase.co",
+  supabaseAnonKey: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImV0cWxjcHVrcGlheXl3b3p4cW11Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTI2Njk0OTUsImV4cCI6MjEwODI0NTQ5NX0.uSLZYgvJIGHhW65YPci2yuRMeAZZ2Hed2NsVo3aHPMc",
 
   // Google Ads — README'deki "5. Google Ads" adımı
   googleAdsId: "",                    // örn. "AW-123456789"
