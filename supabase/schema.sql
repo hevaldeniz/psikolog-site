@@ -37,6 +37,7 @@ create table if not exists public.bookings (
   note text check (note is null or char_length(note) <= 600),
   status text not null default 'onayli' check (status in ('onayli', 'tamamlandi', 'iptal')),
   kvkk_consent_at timestamptz not null default now(),
+  notified_at timestamptz,
   created_at timestamptz not null default now()
 );
 create index if not exists bookings_starts_idx on public.bookings (starts_at);

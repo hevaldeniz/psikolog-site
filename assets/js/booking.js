@@ -87,7 +87,7 @@
     const name = $("f-name").value.trim(), phone = $("f-phone").value.trim(), email = $("f-email").value.trim(), note = $("f-note").value.trim();
     if (name.length < 3) return msg("Lütfen adınızı ve soyadınızı yazın.");
     if (phone.replace(/\D/g, "").length < 10) return msg("Telefon numarası en az 10 haneli olmalı (örn. 05XX XXX XX XX).");
-    if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return msg("E-posta adresi geçerli görünmüyor; boş da bırakabilirsiniz.");
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return msg("Randevu onayını gönderebilmemiz için geçerli bir e-posta adresi yazın.");
     const type = chosenType();
     if (!type) return msg("Lütfen seansın online mı yüz yüze mi olacağını seçin.");
     if (!$("f-kvkk").checked) return msg("Devam etmek için KVKK onay kutusunu işaretleyin.");
@@ -104,8 +104,8 @@
       $("book-form").hidden = true; $("done").hidden = false;
       $("done-title").textContent = `${F.dateLong(picked.starts_at)}, ${F.time(picked.starts_at)}`;
       $("done-text").textContent = type === "online"
-        ? "Online seansınız kaydedildi. Görüşme bağlantısı seanstan önce telefonunuza veya e-postanıza iletilecek."
-        : `Yüz yüze seansınız kaydedildi. Adres: ${window.SITE_CONFIG.address}`;
+        ? `Online seansınız kaydedildi. Onay e-postası ${email} adresine gönderildi; görüşme bağlantısı seanstan önce iletilecek.`
+        : `Yüz yüze seansınız kaydedildi. Onay e-postası ${email} adresine gönderildi. Adres: ${window.SITE_CONFIG.address}`;
       $("form-card").scrollIntoView({ behavior: "smooth", block: "start" });
     } catch (e) {
       msg("Randevu kaydedilemedi. İnternet bağlantınızı kontrol edip tekrar deneyin ya da WhatsApp'tan yazın.");
