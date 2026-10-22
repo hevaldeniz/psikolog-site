@@ -14,8 +14,10 @@
     weekdayShort(iso) { return new Intl.DateTimeFormat("tr-TR", { timeZone: TZ, weekday: "short" }).format(new Date(iso)); },
     dayNum(iso) { return new Intl.DateTimeFormat("tr-TR", { timeZone: TZ, day: "numeric" }).format(new Date(iso)); },
     monthShort(iso) { return new Intl.DateTimeFormat("tr-TR", { timeZone: TZ, month: "short" }).format(new Date(iso)); },
-    typeLabel(t) { return t === "online" ? "Online" : "Yüz yüze"; },
-    typeClass(t) { return t === "online" ? "online" : "inperson"; },
+    typeLabel(t) { return t === "online" ? "Online" : t === "ikisi" ? "Online / Yüz yüze" : "Yüz yüze"; },
+    typeClass(t) { return t === "online" ? "online" : t === "ikisi" ? "both" : "inperson"; },
+    // Bir saat, istenen türü karşılıyor mu? ("ikisi" her iki türü de karşılar)
+    fits(slotType, want) { return want === "all" || slotType === want || slotType === "ikisi"; },
     // İstanbul sabit UTC+3 (2016'dan beri yaz saati yok)
     toIso(dateStr, timeStr) { return new Date(`${dateStr}T${timeStr}:00+03:00`).toISOString(); },
     todayKey() { return fmt.dayKey(new Date().toISOString()); }
@@ -41,7 +43,7 @@
       if (wd === 0) continue;
       const times = wd === 6 ? ["10:00", "11:00", "12:00"] : ["10:00", "11:00", "13:00", "14:00", "16:00", "17:00", "18:00", "19:00"];
       times.forEach((t, i) => {
-        const type = (wd === 2 || wd === 4 || wd === 6 || t >= "18:00") ? "online" : (i % 3 === 0 ? "online" : "yuzyuze");
+        const type = t >= "18:00" ? "online" : (i % 3 === 0 ? "ikisi" : (wd === 2 || wd === 4 ? "online" : "yuzyuze"));
         const starts = fmt.toIso(key, t);
         slots.push({ id: uid(), starts_at: starts, ends_at: new Date(new Date(starts).getTime() + C.sessionMinutes * 60000).toISOString(), type, status: "available" });
       });
@@ -74,14 +76,15 @@
 
     async book(slotId, f) {
       if (sb) {
-        const { data, error } = await sb.rpc("book_slot", { p_slot: slotId, p_name: f.name, p_phone: f.phone, p_email: f.email || null, p_note: f.note || null });
+        const { data, error } = await sb.rpc("book_slot", { p_slot: slotId, p_name: f.name, p_phone: f.phone, p_email: f.email || null, p_note: f.note || null, p_type: f.type || null });
         if (error) { if ((error.message || "").includes("slot_unavailable")) return { ok: false, reason: "taken" }; throw error; }
         return { ok: true, id: data };
       }
       const db = demoLoad(); const s = db.slots.find(x => x.id === slotId);
       if (!s || s.status !== "available") return { ok: false, reason: "taken" };
       s.status = "booked";
-      db.bookings.push({ id: uid(), slot_id: s.id, starts_at: s.starts_at, type: s.type, status: "onayli", name: f.name, phone: f.phone, email: f.email, note: f.note, created_at: new Date().toISOString() });
+      const chosen = s.type === "ikisi" ? (f.type || "online") : s.type;
+      db.bookings.push({ id: uid(), slot_id: s.id, starts_at: s.starts_at, type: chosen, status: "onayli", name: f.name, phone: f.phone, email: f.email, note: f.note, created_at: new Date().toISOString() });
       demoSave(); return { ok: true };
     },
 
@@ -112,6 +115,11 @@
     async updateSlot(id, patch) {
       if (sb) { const { error } = await sb.from("slots").update(patch).eq("id", id); if (error) throw error; return; }
       const s = demoLoad().slots.find(x => x.id === id); if (s) Object.assign(s, patch); demoSave();
+    },
+    async updateSlots(ids, patch) {
+      if (!ids.length) return;
+      if (sb) { const { error } = await sb.from("slots").update(patch).in("id", ids).eq("status", "available"); if (error) throw error; return; }
+      demoLoad().slots.forEach(x => { if (ids.includes(x.id) && x.status === "available") Object.assign(x, patch); }); demoSave();
     },
     async deleteSlot(id) {
       if (sb) { const { error } = await sb.from("slots").delete().eq("id", id).neq("status", "booked"); if (error) throw error; return; }

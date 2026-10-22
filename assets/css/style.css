@@ -336,3 +336,12 @@ tr:last-child td { border-bottom: none; }
 @media (max-width: 480px) { .theme-btn span { display: none; } }
 .brand { margin-right: auto; }
 .nav-end { order: 2; }
+
+/* Online + Yüz yüze ortak saat */
+.pill.both { background: linear-gradient(90deg, var(--online-bg) 50%, var(--inperson-bg) 50%); color: var(--fg); }
+.pill.both::before { background: linear-gradient(90deg, var(--online) 50%, var(--inperson) 50%); }
+.type-pick { border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px; margin: 0; display: grid; gap: 10px; }
+.type-pick legend { padding: 0 4px; font-size: 0.88rem; font-weight: 600; }
+.chip-radio { display: inline-flex; align-items: center; gap: 8px; border: 1px solid var(--line); border-radius: 999px; padding: 6px 12px 6px 10px; cursor: pointer; background: var(--bg); }
+.chip-radio input { width: 16px; height: 16px; margin: 0; accent-color: var(--cobalt); }
+.chip-radio:has(input:checked) { border-color: var(--accent); }

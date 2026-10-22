@@ -55,6 +55,13 @@
           <form class="form" id="book-form" novalidate>
             <h3>Randevu bilgileri</h3>
             <div class="summary" id="summary"><span class="muted">Önce soldan bir saat seçin.</span></div>
+            <fieldset class="type-pick" id="type-pick" hidden>
+              <legend>Bu saat iki şekilde de yapılabilir. Hangisini tercih edersiniz?</legend>
+              <div class="filters">
+                <label class="chip-radio"><input type="radio" name="f-type" id="f-type-online" value="online"><span class="pill online">Online</span></label>
+                <label class="chip-radio"><input type="radio" name="f-type" id="f-type-yuzyuze" value="yuzyuze"><span class="pill inperson">Yüz yüze</span></label>
+              </div>
+            </fieldset>
             <div class="field"><label for="f-name">Ad soyad</label><input id="f-name" name="name" autocomplete="name" required maxlength="120"></div>
             <div class="row">
               <div class="field"><label for="f-phone">Telefon</label><input id="f-phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" placeholder="05XX XXX XX XX" required maxlength="30"></div>

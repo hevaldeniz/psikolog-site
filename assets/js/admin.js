@@ -63,8 +63,8 @@
     const items = [
       ["Bu hafta seans", up.filter(b => b.starts_at < week).length],
       ["Yaklaşan randevu", up.length],
-      ["Açık online saat", open.filter(s => s.type === "online").length],
-      ["Açık yüz yüze saat", open.filter(s => s.type === "yuzyuze").length]
+      ["Açık online saat", open.filter(s => s.type === "online" || s.type === "ikisi").length],
+      ["Açık yüz yüze saat", open.filter(s => s.type === "yuzyuze" || s.type === "ikisi").length]
     ];
     $("stats").innerHTML = items.map(([l, v]) => `<div class="stat"><span>${l}</span><b>${v}</b></div>`).join("");
   }
@@ -130,7 +130,7 @@
           return `<span class="item ${booked ? "booked" : ""}" data-id="${s.id}">
             <b>${F.time(s.starts_at)}</b>
             ${booked
-              ? `<span class="pill ${F.typeClass(s.type)}">${F.typeLabel(s.type)}</span><span class="small">${esc(b ? b.name : "Dolu")}</span>`
+              ? `<span class="pill ${F.typeClass(b ? b.type : s.type)}">${F.typeLabel(b ? b.type : s.type)}</span><span class="small">${esc(b ? b.name : "Dolu")}</span>`
               : `<button class="icon-btn" data-act="toggle" title="Türü değiştir"><span class="pill ${F.typeClass(s.type)}">${F.typeLabel(s.type)}</span></button>
                  <button class="icon-btn" data-act="del" aria-label="Saati sil" title="Sil">✕</button>`}
           </span>`; }).join("")}</div></div>`).join("");
@@ -145,7 +145,7 @@
     }
     try {
       if (btn.dataset.act === "del") await Data.deleteSlot(id);
-      else await Data.updateSlot(id, { type: s.type === "online" ? "yuzyuze" : "online" });
+      else await Data.updateSlot(id, { type: ({ online: "yuzyuze", yuzyuze: "ikisi", ikisi: "online" })[s.type] || "online" });
       await refresh();
     } catch (err) { btn.textContent = "!"; }
   });
@@ -159,31 +159,41 @@
     const len = +$("g-len").value, gap = +$("g-gap").value, type = $("g-type").value;
     const days = [...$("g-days").querySelectorAll("input:checked")].map(i => +i.value);
     if (!from || !to || !st || !en || !len || from > to || st >= en || !days.length) return { rows: [], err: "Tarih aralığını, günleri ve saatleri kontrol edin." };
-    const existing = new Set(slots.map(s => new Date(s.starts_at).toISOString()));
-    const rows = []; let skipped = 0, guard = 0;
+    const existing = new Map(slots.map(s => [new Date(s.starts_at).toISOString(), s]));
+    const rows = [], upgrade = []; let skipped = 0, guard = 0;
     for (let k = from; k <= to && guard < 400; k = addDays(k, 1), guard++) {
       const wd = new Date(`${k}T12:00:00+03:00`).getUTCDay(); if (!days.includes(wd)) continue;
       let t = new Date(F.toIso(k, st)).getTime(); const end = new Date(F.toIso(k, en)).getTime();
       while (t + len * 60000 <= end) {
         const iso = new Date(t).toISOString();
-        if (existing.has(iso)) skipped++;
+        const ex = existing.get(iso);
+        // Aynı saatte farklı türde boş bir saat varsa ikisini birleştir: "Online / Yüz yüze"
+        if (ex) { if (ex.status === "available" && ex.type !== type && ex.type !== "ikisi") upgrade.push(ex.id); else skipped++; }
         else rows.push({ starts_at: iso, ends_at: new Date(t + len * 60000).toISOString(), type });
         t += (len + gap) * 60000;
       }
     }
-    return { rows, skipped };
+    return { rows, skipped, upgrade };
   }
   function preview() {
-    const { rows, skipped, err } = buildRows();
-    $("g-preview").textContent = err || `${rows.length} yeni ${$("g-type").value === "online" ? "online" : "yüz yüze"} seans saati eklenecek.` + (skipped ? ` ${skipped} saat zaten var, atlanacak.` : "");
+    const { rows, skipped, upgrade, err } = buildRows();
+    const label = F.typeLabel($("g-type").value).toLowerCase();
+    $("g-preview").textContent = err || `${rows.length} yeni "${label}" seans saati eklenecek.`
+      + (upgrade && upgrade.length ? ` ${upgrade.length} mevcut saat "online / yüz yüze" yapılacak; danışan türü kendisi seçecek.` : "")
+      + (skipped ? ` ${skipped} saat zaten var, atlanacak.` : "");
   }
   $("gen-form").addEventListener("input", preview);
   $("gen-form").addEventListener("submit", async e => {
     e.preventDefault();
-    const { rows, err } = buildRows();
-    if (err || !rows.length) return note($("g-msg"), err || "Eklenecek yeni saat yok.");
+    const { rows, upgrade, err } = buildRows();
+    if (err || (!rows.length && !upgrade.length)) return note($("g-msg"), err || "Eklenecek yeni saat yok.");
     const btn = e.submitter; btn.disabled = true;
-    try { await Data.createSlots(rows); note($("g-msg"), `${rows.length} saat eklendi ve randevu sayfasında görünüyor.`, "ok"); await refresh(); preview(); }
+    try {
+      if (rows.length) await Data.createSlots(rows);
+      if (upgrade.length) await Data.updateSlots(upgrade, { type: "ikisi" });
+      note($("g-msg"), `${rows.length} saat eklendi${upgrade.length ? `, ${upgrade.length} saat "online / yüz yüze" yapıldı` : ""}. Randevu sayfasında görünüyor.`, "ok");
+      await refresh(); preview();
+    }
     catch (er) { note($("g-msg"), "Saatler eklenemedi. Bağlantınızı ve yönetici yetkinizi kontrol edin."); }
     finally { btn.disabled = false; }
   });

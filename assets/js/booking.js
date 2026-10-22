@@ -10,7 +10,13 @@
     render();
   }
 
-  function visible() { return all.filter(s => filter === "all" || s.type === filter); }
+  function visible() { return all.filter(s => F.fits(s.type, filter)); }
+  // Seçilen saat için kesinleşen seans türü (ortak saatte danışanın seçimi)
+  function chosenType() {
+    if (!picked) return null;
+    if (picked.type !== "ikisi") return picked.type;
+    const c = document.querySelector('input[name="f-type"]:checked'); return c ? c.value : null;
+  }
 
   function render() {
     const slots = visible();
@@ -41,7 +47,13 @@
       const b = document.createElement("button");
       b.type = "button"; b.className = "slot"; b.setAttribute("aria-pressed", picked && picked.id === s.id);
       b.innerHTML = `<b>${F.time(s.starts_at)}</b><span class="pill ${F.typeClass(s.type)}">${F.typeLabel(s.type)}</span>`;
-      b.onclick = () => { picked = s; render(); summary(); };
+      b.onclick = () => {
+        picked = s;
+        if (s.type === "ikisi") {
+          document.querySelectorAll('input[name="f-type"]').forEach(r => r.checked = (filter !== "all" && r.value === filter));
+        }
+        render(); summary();
+      };
       wrap.appendChild(b);
     });
   }
@@ -49,18 +61,23 @@
   function summary() {
     const el = $("summary");
     if (!picked) { el.innerHTML = '<span class="muted">Önce soldan bir saat seçin.</span>'; $("submit").disabled = true; return; }
-    el.innerHTML = `<b></b><span></span><span class="pill ${F.typeClass(picked.type)}" style="justify-self:start">${F.typeLabel(picked.type)}</span>`;
+    const t = chosenType() || picked.type;
+    $("type-pick").hidden = picked.type !== "ikisi";
+    el.innerHTML = `<b></b><span></span><span class="pill ${F.typeClass(t)}" style="justify-self:start">${F.typeLabel(t)}</span>`;
     el.querySelector("b").textContent = `${F.dateLong(picked.starts_at)} · ${F.time(picked.starts_at)}–${F.time(picked.ends_at)}`;
-    el.querySelector("span").textContent = picked.type === "online" ? "Görüntülü görüşme" : (window.SITE_CONFIG.address || "Ofiste");
+    el.querySelector("span").textContent = t === "online" ? "Görüntülü görüşme" : t === "yuzyuze" ? (window.SITE_CONFIG.address || "Ofiste") : "Aşağıdan seans türünü seçin";
     $("submit").disabled = false;
   }
 
   document.querySelectorAll("[data-filter]").forEach(b => b.addEventListener("click", () => {
     filter = b.dataset.filter;
     document.querySelectorAll("[data-filter]").forEach(x => x.setAttribute("aria-pressed", x === b));
-    if (picked && filter !== "all" && picked.type !== filter) { picked = null; summary(); }
+    if (picked && !F.fits(picked.type, filter)) { picked = null; summary(); }
+    else if (picked && picked.type === "ikisi" && filter !== "all") { document.querySelectorAll('input[name="f-type"]').forEach(r => r.checked = r.value === filter); summary(); }
     render();
   }));
+
+  document.querySelectorAll('input[name="f-type"]').forEach(r => r.addEventListener("change", summary));
 
   function msg(text, kind) { const m = $("form-msg"); m.hidden = !text; m.className = `notice ${kind || "err"}`; m.textContent = text || ""; }
 
@@ -71,11 +88,13 @@
     if (name.length < 3) return msg("Lütfen adınızı ve soyadınızı yazın.");
     if (phone.replace(/\D/g, "").length < 10) return msg("Telefon numarası en az 10 haneli olmalı (örn. 05XX XXX XX XX).");
     if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return msg("E-posta adresi geçerli görünmüyor; boş da bırakabilirsiniz.");
+    const type = chosenType();
+    if (!type) return msg("Lütfen seansın online mı yüz yüze mi olacağını seçin.");
     if (!$("f-kvkk").checked) return msg("Devam etmek için KVKK onay kutusunu işaretleyin.");
 
     const btn = $("submit"); btn.disabled = true; btn.textContent = "Kaydediliyor…";
     try {
-      const r = await Data.book(picked.id, { name, phone, email, note });
+      const r = await Data.book(picked.id, { name, phone, email, note, type });
       if (!r.ok) {
         msg("Bu saat az önce başka biri tarafından alındı. Lütfen başka bir saat seçin.");
         all = all.filter(s => s.id !== picked.id); picked = null; summary(); render();
@@ -84,7 +103,7 @@
       window.trackConversion && window.trackConversion("booking");
       $("book-form").hidden = true; $("done").hidden = false;
       $("done-title").textContent = `${F.dateLong(picked.starts_at)}, ${F.time(picked.starts_at)}`;
-      $("done-text").textContent = picked.type === "online"
+      $("done-text").textContent = type === "online"
         ? "Online seansınız kaydedildi. Görüşme bağlantısı seanstan önce telefonunuza veya e-postanıza iletilecek."
         : `Yüz yüze seansınız kaydedildi. Adres: ${window.SITE_CONFIG.address}`;
       $("form-card").scrollIntoView({ behavior: "smooth", block: "start" });

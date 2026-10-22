@@ -17,7 +17,7 @@ create table if not exists public.slots (
   id uuid primary key default gen_random_uuid(),
   starts_at timestamptz not null unique,
   ends_at timestamptz not null,
-  type text not null check (type in ('online', 'yuzyuze')),
+  type text not null check (type in ('online', 'yuzyuze', 'ikisi')),
   status text not null default 'available' check (status in ('available', 'booked')),
   created_at timestamptz not null default now()
 );
@@ -59,26 +59,32 @@ drop policy if exists "admin manages bookings" on public.bookings;
 create policy "admin manages bookings" on public.bookings
   for all using (public.is_admin()) with check (public.is_admin());
 
--- Danışanın randevu alması: tek adımda ve çakışmasız
+-- Danışanın randevu alması: tek adımda ve çakışmasız. "ikisi" saatlerde danışan türü seçer.
 create or replace function public.book_slot(
-  p_slot uuid, p_name text, p_phone text, p_email text default null, p_note text default null
+  p_slot uuid, p_name text, p_phone text, p_email text default null, p_note text default null, p_type text default null
 ) returns uuid
 language plpgsql security definer set search_path = public as $$
-declare s public.slots; new_id uuid;
+declare s public.slots; new_id uuid; chosen text;
 begin
   select * into s from public.slots where id = p_slot for update;
   if s.id is null or s.status <> 'available' or s.starts_at <= now() then
     raise exception 'slot_unavailable';
   end if;
+  if s.type = 'ikisi' then
+    if p_type is null or p_type not in ('online', 'yuzyuze') then raise exception 'type_required'; end if;
+    chosen := p_type;
+  else
+    chosen := s.type;
+  end if;
   insert into public.bookings (slot_id, starts_at, type, name, phone, email, note)
-  values (s.id, s.starts_at, s.type, trim(p_name), trim(p_phone), nullif(trim(p_email), ''), nullif(trim(p_note), ''))
+  values (s.id, s.starts_at, chosen, trim(p_name), trim(p_phone), nullif(trim(p_email), ''), nullif(trim(p_note), ''))
   returning id into new_id;
   update public.slots set status = 'booked' where id = s.id;
   return new_id;
 end; $$;
 
-revoke all on function public.book_slot(uuid, text, text, text, text) from public;
-grant execute on function public.book_slot(uuid, text, text, text, text) to anon, authenticated;
+revoke all on function public.book_slot(uuid, text, text, text, text, text) from public;
+grant execute on function public.book_slot(uuid, text, text, text, text, text) to anon, authenticated;
 
 -- Yöneticinin randevu durumunu değiştirmesi (iptalde saat yeniden açılır)
 create or replace function public.admin_set_booking_status(p_booking uuid, p_status text)
