@@ -153,7 +153,7 @@ section { padding-block: clamp(56px, 8vw, 96px); }
 .portrait small { background: rgb(255 255 255 / 70%); padding: 6px 10px; border-radius: 8px; font-size: 0.8rem; }
 .about-text { display: grid; gap: 16px; max-width: 64ch; }
 .creds { list-style: none; padding: 0; margin: 8px 0 0; display: grid; gap: 10px; }
-.creds li { display: grid; grid-template-columns: 84px 1fr; gap: 12px; padding-top: 10px; border-top: 1px solid var(--line); }
+.creds li { display: grid; grid-template-columns: 96px 1fr; gap: 12px; padding-top: 10px; border-top: 1px solid var(--line); }
 .creds li span:first-child { color: var(--muted); font-size: 0.85rem; font-variant-numeric: tabular-nums; }
 @media (max-width: 760px) { .about-grid { grid-template-columns: 1fr; } .portrait { max-width: 320px; } }
 

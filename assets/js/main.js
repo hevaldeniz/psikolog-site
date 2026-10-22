@@ -13,6 +13,7 @@
     if (k === "email") el.href = `mailto:${C.email}`;
     if (k === "maps") el.href = C.mapsUrl;
     if (k === "instagram") el.href = `https://instagram.com/${C.instagram}`;
+    if (k === "linkedin") el.href = C.linkedin;
   });
   document.querySelectorAll("[data-year]").forEach(el => el.textContent = new Date().getFullYear());
 
