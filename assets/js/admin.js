@@ -9,18 +9,64 @@
   function note(el, text, kind) { el.hidden = !text; el.className = `notice ${kind || "err"}`; el.textContent = text || ""; }
 
   /* ---------- Oturum ---------- */
+  // Görünümler: giriş → iki adımlı doğrulama → panel
+  function show(view) {
+    $("login-view").hidden = view !== "login"; $("mfa-view").hidden = view !== "mfa";
+    $("app-view").hidden = view !== "app"; $("logout").hidden = view === "login";
+  }
+  let mfaFactorId = null;
   async function boot() {
     if (Data.mode === "demo") $("login-hint").textContent = "Demo modu: herhangi bir e-posta ve şifreyle girebilirsiniz.";
     const s = await Data.session();
-    $("login-view").hidden = !!s; $("app-view").hidden = !s; $("logout").hidden = !s;
-    if (s) refresh();
+    if (!s) { stopIdle(); return show("login"); }
+    let level;
+    try { level = await Data.aal(); } catch (e) { await Data.signOut(); return show("login"); }
+    if (level.current === "aal2") { show("app"); startIdle(); return refresh(); }
+    // Şifre doğru ama ikinci adım tamamlanmadı
+    show("mfa"); note($("mfa-msg"), ""); $("mfa-code").value = "";
+    try {
+      const verified = (await Data.mfaFactors()).find(f => f.status === "verified");
+      if (verified) {
+        mfaFactorId = verified.id; $("mfa-setup").hidden = true;
+        $("mfa-title").textContent = "Doğrulama kodu";
+        $("mfa-hint").textContent = "Doğrulama uygulamanızdaki 6 haneli kodu girin.";
+      } else {
+        const en = await Data.mfaEnroll();
+        mfaFactorId = en.id; $("mfa-qr").src = en.qr; $("mfa-secret").textContent = en.secret; $("mfa-setup").hidden = false;
+        $("mfa-title").textContent = "İki adımlı doğrulamayı kurun";
+        $("mfa-hint").textContent = "Kurulumdan sonra uygulamada görünen 6 haneli kodu girin. Bu kurulum bir kez yapılır.";
+      }
+    } catch (e) { note($("mfa-msg"), "Doğrulama başlatılamadı. Sayfayı yenileyip tekrar deneyin."); }
+    $("mfa-code").focus();
   }
   $("login-form").addEventListener("submit", async e => {
     e.preventDefault(); note($("login-msg"), "");
-    try { await Data.signIn($("l-email").value.trim(), $("l-pass").value); boot(); }
-    catch (err) { note($("login-msg"), "E-posta veya şifre hatalı. Supabase'de bu kullanıcının yönetici olarak eklendiğini kontrol edin."); }
+    const btn = e.submitter; if (btn) btn.disabled = true;
+    try { await Data.signIn($("l-email").value.trim(), $("l-pass").value); $("l-pass").value = ""; await boot(); }
+    catch (err) { note($("login-msg"), "E-posta veya şifre hatalı."); }
+    finally { if (btn) btn.disabled = false; }
   });
-  $("logout").onclick = async () => { await Data.signOut(); boot(); };
+  $("mfa-form").addEventListener("submit", async e => {
+    e.preventDefault(); note($("mfa-msg"), "");
+    const code = $("mfa-code").value.replace(/\D/g, "");
+    if (code.length !== 6) return note($("mfa-msg"), "Kod 6 haneli olmalı.");
+    try { await Data.mfaVerify(mfaFactorId, code); await boot(); }
+    catch (err) { $("mfa-code").value = ""; note($("mfa-msg"), "Kod hatalı ya da süresi doldu. Uygulamadaki güncel kodu girin."); }
+  });
+  async function logout(reason) {
+    stopIdle(); await Data.signOut(); slots = []; bookings = [];
+    ["b-rows", "cal", "tests", "stats"].forEach(id => { if ($(id)) $(id).innerHTML = ""; });
+    await boot(); if (reason) note($("login-msg"), reason, "warn");
+  }
+  $("logout").onclick = () => logout();
+  $("mfa-cancel").onclick = () => logout();
+
+  // Hareketsizlikte otomatik çıkış (danışan verisi açık kalmasın)
+  const IDLE_MIN = 20; let idleTimer = null;
+  function bump() { if (!idleTimer) return; clearTimeout(idleTimer); idleTimer = setTimeout(() => logout(`${IDLE_MIN} dakika işlem yapılmadığı için güvenlik amacıyla çıkış yapıldı.`), IDLE_MIN * 60000); }
+  function startIdle() { idleTimer = 1; bump(); }
+  function stopIdle() { clearTimeout(idleTimer); idleTimer = null; }
+  ["click", "keydown", "scroll", "touchstart"].forEach(ev => document.addEventListener(ev, bump, { passive: true }));
 
   /* ---------- Veri ---------- */
   async function refresh() {

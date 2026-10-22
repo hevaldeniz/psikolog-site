@@ -101,6 +101,27 @@
       if (sb) { await sb.auth.signOut(); return; }
       try { sessionStorage.removeItem("psk_demo_admin"); } catch (e) {} if (mem) mem._admin = false;
     },
+    /* ---- İki adımlı doğrulama (TOTP) ---- */
+    async aal() {
+      if (!sb) return { current: "aal2", next: "aal2" };
+      const { data, error } = await sb.auth.mfa.getAuthenticatorAssuranceLevel();
+      if (error) throw error; return { current: data.currentLevel, next: data.nextLevel };
+    },
+    async mfaFactors() {
+      if (!sb) return [];
+      const { data, error } = await sb.auth.mfa.listFactors();
+      if (error) throw error; return (data.all || []).filter(f => f.factor_type === "totp");
+    },
+    async mfaEnroll() {
+      // Yarım kalmış (doğrulanmamış) kayıtları temizle, sonra yenisini başlat
+      for (const f of await Data.mfaFactors()) if (f.status !== "verified") await sb.auth.mfa.unenroll({ factorId: f.id });
+      const { data, error } = await sb.auth.mfa.enroll({ factorType: "totp", friendlyName: "Yönetim paneli " + new Date().toISOString().slice(0, 10) });
+      if (error) throw error; return { id: data.id, qr: data.totp.qr_code, secret: data.totp.secret };
+    },
+    async mfaVerify(factorId, code) {
+      const { error } = await sb.auth.mfa.challengeAndVerify({ factorId, code });
+      if (error) throw error;
+    },
     async listSlots(fromIso) {
       if (sb) {
         const { data, error } = await sb.from("slots").select("*").gte("starts_at", fromIso).order("starts_at").limit(1000);

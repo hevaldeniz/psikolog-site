@@ -130,3 +130,6 @@ assets/js/admin.js     ← yönetim paneli
 supabase/schema.sql    ← veritabanı kurulumu
 supabase/functions/submit-assessment/index.ts  ← form kaydı + e-posta gönderimi
 ```
+
+## Önbellek notu
+HTML dosyalarındaki `style.css?v=...` ve `.js?v=...` sürüm etiketleri, ziyaretçilerin tarayıcısının eski dosyaları kullanmasını engeller. CSS veya JS dosyalarını değiştirdiğinizde HTML dosyalarındaki `v=` değerini değiştirin (ör. `v=20261101`).

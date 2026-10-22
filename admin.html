@@ -7,10 +7,12 @@
 <meta name="claude:viewport-fit-sides" content="cover">
 <script>try{var t=localStorage.getItem("psk_theme");if(t==="dark")document.documentElement.setAttribute("data-theme","dark");}catch(e){}</script>
 <meta name="robots" content="noindex, nofollow">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.jsdelivr.net 'sha256-O4kHzkc4w1inY3e7NnDButGxYJ4QFo/THsS13WoXfRU='; connect-src 'self' https://etqlcpukpiayywozxqmu.supabase.co wss://etqlcpukpiayywozxqmu.supabase.co; img-src 'self' data:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; base-uri 'none'; form-action 'none'; object-src 'none'">
+<meta name="referrer" content="no-referrer">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,500;0,7..72,600;1,7..72,400;1,7..72,500&display=swap">
-<link rel="stylesheet" href="assets/css/style.css">
+<link rel="stylesheet" href="assets/css/style.css?v=20261022c">
 </head>
 <body>
 
@@ -31,6 +33,23 @@
       <div class="field"><label for="l-pass">Şifre</label><input id="l-pass" type="password" autocomplete="current-password" required></div>
       <div id="login-msg" hidden></div>
       <button class="btn" type="submit">Giriş yap</button>
+    </form>
+  </div>
+
+  <!-- İki adımlı doğrulama -->
+  <div class="card login" id="mfa-view" hidden>
+    <form class="form" id="mfa-form" novalidate>
+      <h2 style="font-size: 1.5rem" id="mfa-title">Doğrulama kodu</h2>
+      <div id="mfa-setup" class="stack" hidden>
+        <p class="small">Panel yalnızca iki adımlı doğrulamayla açılır. Telefonunuzda <b>Google Authenticator</b> veya <b>Microsoft Authenticator</b> uygulamasını açın, aşağıdaki kodu taratın.</p>
+        <img id="mfa-qr" alt="Doğrulama uygulaması için QR kod" width="200" height="200" style="background:#fff;padding:8px;border-radius:10px;justify-self:center">
+        <p class="small muted">Taratamıyorsanız uygulamaya bu anahtarı elle girin:<br><b id="mfa-secret" style="user-select:all;overflow-wrap:anywhere;font-variant-numeric:tabular-nums"></b></p>
+      </div>
+      <p class="small muted" id="mfa-hint">Doğrulama uygulamanızdaki 6 haneli kodu girin.</p>
+      <div class="field"><label for="mfa-code">6 haneli kod</label><input id="mfa-code" inputmode="numeric" autocomplete="one-time-code" maxlength="6" pattern="[0-9]{6}" required></div>
+      <div id="mfa-msg" hidden></div>
+      <button class="btn" type="submit">Doğrula ve gir</button>
+      <button class="btn ghost small" type="button" id="mfa-cancel">Çıkış yap</button>
     </form>
   </div>
 
@@ -117,9 +136,9 @@
 </main>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
-<script src="assets/js/config.js"></script>
-<script src="assets/js/data.js"></script>
-<script src="assets/js/main.js"></script>
-<script src="assets/js/admin.js"></script>
+<script src="assets/js/config.js?v=20261022c"></script>
+<script src="assets/js/data.js?v=20261022c"></script>
+<script src="assets/js/main.js?v=20261022c"></script>
+<script src="assets/js/admin.js?v=20261022c"></script>
 </body>
 </html>

@@ -56,7 +56,8 @@
   window.gtag = window.gtag || gtag;
   gtag("consent", "default", { ad_storage: "denied", ad_user_data: "denied", ad_personalization: "denied", analytics_storage: "denied" });
 
-  if (C.googleAdsId) {
+  const isAdmin = /admin\.html$/.test(location.pathname);
+  if (C.googleAdsId && !isAdmin) {
     const s = document.createElement("script");
     s.async = true; s.src = `https://www.googletagmanager.com/gtag/js?id=${C.googleAdsId}`;
     document.head.appendChild(s);
@@ -70,7 +71,7 @@
     gtag("consent", "update", { ad_storage: g, ad_user_data: g, ad_personalization: g, analytics_storage: g });
   }
   if (consent) applyConsent(consent);
-  else if (C.googleAdsId) {
+  else if (C.googleAdsId && !isAdmin) {
     const bar = document.createElement("div");
     bar.className = "cookie";
     bar.innerHTML = `<div class="wrap"><p>Sitemizde, reklamlarımızın etkisini ölçmek için çerezler kullanıyoruz. Detaylar <a href="kvkk.html">KVKK ve Çerez Aydınlatma Metni</a>'nde.</p>
