@@ -1,6 +1,6 @@
 /* Layout: sakin bir "antetli kâğıt" düzeni — solda başlık, sağda canlı "sıradaki seanslar" kartı;
    bölümler tek sütunlu okuma genişliğinde, mavi tonlar yalnızca vurgu ve seans türleri için. */
-/* Tema: varsayılan KOYU; ziyaretçi menüdeki düğmeyle beyaz zeminli AÇIK temaya geçebilir (data-theme="light"). */
+/* Tema: varsayılan AÇIK (beyaz zemin); ziyaretçi menüdeki düğmeyle KOYU temaya geçebilir (data-theme="dark"). */
 :root {
   --sky: #add7f6;
   --mist: #87bfff;
@@ -8,22 +8,6 @@
   --cobalt: #2667ff;
   --indigo: #3b28cc;
 
-  --bg: #0d1222; --surface: #141b31; --surface-2: #1a2340; --line: #283457;
-  --fg: #e8edf9; --muted: #9aa6c4; --accent: #87bfff; --accent-ink: #0d1222;
-  --online: #87bfff; --online-bg: #18294a; --inperson: #b3a8ff; --inperson-bg: #231d4d;
-  --ok: #7fd6a6; --ok-bg: #12301f; --warn: #f3c178; --warn-bg: #3a2a10;
-  --danger: #ff9a8f; --danger-bg: #3d1714;
-  --em: var(--mist);
-  --header-bg: rgb(13 18 34 / 88%);
-
-  --display: "Literata", Georgia, "Times New Roman", serif;
-  --body: "Figtree", "Segoe UI", system-ui, -apple-system, sans-serif;
-
-  --radius: 14px;
-  --shadow: 0 1px 2px rgb(0 0 0 / 30%), 0 8px 24px rgb(0 0 0 / 25%);
-  color-scheme: dark;
-}
-:root[data-theme="light"] {
   --bg: #ffffff; --surface: #ffffff; --surface-2: #f2f6fd; --line: #dde5f1;
   --fg: #141a2e; --muted: #56607a; --accent: var(--cobalt); --accent-ink: #ffffff;
   --online: #2a72e0; --online-bg: #e3efff; --inperson: var(--indigo); --inperson-bg: #ebe8fb;
@@ -31,8 +15,24 @@
   --danger: #b42318; --danger-bg: #fde8e6;
   --em: var(--indigo);
   --header-bg: rgb(255 255 255 / 90%);
+
+  --display: "Literata", Georgia, "Times New Roman", serif;
+  --body: "Figtree", "Segoe UI", system-ui, -apple-system, sans-serif;
+
+  --radius: 14px;
   --shadow: 0 1px 2px rgb(20 26 46 / 6%), 0 8px 24px rgb(38 103 255 / 8%);
   color-scheme: light;
+}
+:root[data-theme="dark"] {
+  --bg: #0d1222; --surface: #141b31; --surface-2: #1a2340; --line: #283457;
+  --fg: #e8edf9; --muted: #9aa6c4; --accent: #87bfff; --accent-ink: #0d1222;
+  --online: #87bfff; --online-bg: #18294a; --inperson: #b3a8ff; --inperson-bg: #231d4d;
+  --ok: #7fd6a6; --ok-bg: #12301f; --warn: #f3c178; --warn-bg: #3a2a10;
+  --danger: #ff9a8f; --danger-bg: #3d1714;
+  --em: var(--mist);
+  --header-bg: rgb(13 18 34 / 88%);
+  --shadow: 0 1px 2px rgb(0 0 0 / 30%), 0 8px 24px rgb(0 0 0 / 25%);
+  color-scheme: dark;
 }
 
 *, *::before, *::after { box-sizing: border-box; }
@@ -345,3 +345,7 @@ tr:last-child td { border-bottom: none; }
 .chip-radio { display: inline-flex; align-items: center; gap: 8px; border: 1px solid var(--line); border-radius: 999px; padding: 6px 12px 6px 10px; cursor: pointer; background: var(--bg); }
 .chip-radio input { width: 16px; height: 16px; margin: 0; accent-color: var(--cobalt); }
 .chip-radio:has(input:checked) { border-color: var(--accent); }
+
+/* Toplu silme */
+.cal-tools { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 14px; border: 1px solid var(--line); border-radius: 12px; background: var(--surface); }
+.cal-tools .confirm-inline { flex-wrap: wrap; }

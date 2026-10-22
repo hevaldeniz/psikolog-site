@@ -118,6 +118,9 @@
   function renderCalendar() {
     const now = new Date().toISOString();
     const upcoming = slots.filter(s => s.starts_at > now);
+    const openCount = upcoming.filter(s => s.status === "available").length, bookedCount = upcoming.length - openCount;
+    $("cal-count").textContent = `${openCount} boş saat` + (bookedCount ? ` · ${bookedCount} dolu saat (silinmez)` : "");
+    resetBulk(openCount);
     const cal = $("cal");
     if (!upcoming.length) { cal.innerHTML = '<div class="empty">Henüz açılmış saat yok. "Saat ekle" sekmesinden ekleyin.</div>'; return; }
     const groups = new Map();
@@ -148,6 +151,26 @@
       else await Data.updateSlot(id, { type: ({ online: "yuzyuze", yuzyuze: "ikisi", ikisi: "online" })[s.type] || "online" });
       await refresh();
     } catch (err) { btn.textContent = "!"; }
+  });
+
+  /* ---------- Toplu silme ---------- */
+  function resetBulk(openCount) {
+    $("bulk-wrap").innerHTML = `<button class="btn danger small" type="button" id="bulk-del" ${openCount ? "" : "disabled"}>Tüm boş saatleri sil</button>`;
+  }
+  $("bulk-wrap").addEventListener("click", async e => {
+    const btn = e.target.closest("button"); if (!btn) return;
+    const open = slots.filter(s => s.status === "available" && s.starts_at > new Date().toISOString()).length;
+    if (btn.id === "bulk-del") {
+      $("bulk-wrap").innerHTML = `<span class="confirm-inline"><span class="small">${open} boş saatin hepsi silinecek. Dolu saatler ve randevular kalır. Emin misiniz?</span>
+        <button class="btn danger small" type="button" id="bulk-yes">Evet, hepsini sil</button><button class="btn ghost small" type="button" id="bulk-no">Vazgeç</button></span>`;
+      return;
+    }
+    if (btn.id === "bulk-no") return resetBulk(open);
+    if (btn.id === "bulk-yes") {
+      btn.disabled = true; btn.textContent = "Siliniyor…";
+      try { const n = await Data.deleteAllAvailableSlots(); await refresh(); $("cal-count").textContent = `${n} boş saat silindi.`; }
+      catch (err) { btn.disabled = false; btn.textContent = "Silinemedi, tekrar dene"; }
+    }
   });
 
   /* ---------- Saat ekle ---------- */

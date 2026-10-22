@@ -121,6 +121,17 @@
       if (sb) { const { error } = await sb.from("slots").update(patch).in("id", ids).eq("status", "available"); if (error) throw error; return; }
       demoLoad().slots.forEach(x => { if (ids.includes(x.id) && x.status === "available") Object.assign(x, patch); }); demoSave();
     },
+    // Gelecekteki tüm BOŞ saatleri siler; dolu (randevulu) saatlere dokunmaz. Silinen sayıyı döndürür.
+    async deleteAllAvailableSlots() {
+      const nowIso = new Date().toISOString();
+      if (sb) {
+        const { data, error } = await sb.from("slots").delete().eq("status", "available").gt("starts_at", nowIso).select("id");
+        if (error) throw error; return (data || []).length;
+      }
+      const db = demoLoad(), before = db.slots.length;
+      db.slots = db.slots.filter(x => !(x.status === "available" && x.starts_at > nowIso)); demoSave();
+      return before - db.slots.length;
+    },
     async deleteSlot(id) {
       if (sb) { const { error } = await sb.from("slots").delete().eq("id", id).neq("status", "booked"); if (error) throw error; return; }
       const db = demoLoad(); db.slots = db.slots.filter(x => !(x.id === id && x.status !== "booked")); demoSave();

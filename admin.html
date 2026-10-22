@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Yönetim Paneli · Psk. Heval Deniz Özdemir</title>
 <meta name="claude:viewport-fit-sides" content="cover">
-<script>try{var t=localStorage.getItem("psk_theme");if(t==="light")document.documentElement.setAttribute("data-theme","light");}catch(e){}</script>
+<script>try{var t=localStorage.getItem("psk_theme");if(t==="dark")document.documentElement.setAttribute("data-theme","dark");}catch(e){}</script>
 <meta name="robots" content="noindex, nofollow">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -69,6 +69,10 @@
     <!-- Takvim -->
     <div role="tabpanel" id="p-calendar" class="stack" hidden>
       <p class="muted small">Boş bir saatin türüne tıkladıkça Online → Yüz yüze → Online / Yüz yüze arasında değişir. "Online / Yüz yüze" saatlerde danışan türü kendisi seçer ve saat dolunca iki tür birden kapanır. Dolu saatler silinemez; önce randevuyu iptal edin.</p>
+      <div class="cal-tools" id="cal-tools">
+        <span class="small muted" id="cal-count">—</span>
+        <span id="bulk-wrap"><button class="btn danger small" type="button" id="bulk-del">Tüm boş saatleri sil</button></span>
+      </div>
       <div class="stack" id="cal"></div>
     </div>
 
