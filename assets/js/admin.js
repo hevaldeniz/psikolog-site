@@ -94,7 +94,7 @@
         <a class="btn ghost" id="sync-google" href="${esc(google)}" target="_blank" rel="noopener noreferrer">Google Takvim'e ekle</a>
         <button class="btn ghost" type="button" id="sync-copy">Bağlantıyı kopyala</button>
       </div>
-      <label class="check small"><input type="checkbox" id="sync-names" ${feed.show_names ? "checked" : ""}> Takvimde danışan adı, telefonu ve notunu göster <span class="muted">(kapalıyken yalnızca "Seans (Online / Yüz yüze)" görünür)</span></label>
+      <label class="check small"><input type="checkbox" id="sync-names" ${feed.show_names ? "checked" : ""}><span>Takvimde danışan adı, telefonu ve notunu göster <span class="muted">(kapalıyken yalnızca "Seans (Online / Yüz yüze)" görünür)</span></span></label>
       <details class="small">
         <summary>Elle ekleme ve ipuçları</summary>
         <ul class="sync-tips">
@@ -226,12 +226,14 @@
             ${booked
               ? `<span class="pill ${F.typeClass(b ? b.type : s.type)}">${F.typeLabel(b ? b.type : s.type)}</span><span class="small">${esc(b ? b.name : "Dolu")}</span>`
               : `<button class="icon-btn" data-act="toggle" title="Türü değiştir"><span class="pill ${F.typeClass(s.type)}">${F.typeLabel(s.type)}</span></button>
+                 <button class="icon-btn" data-act="book" title="Bu saate randevu ver">+ Randevu</button>
                  <button class="icon-btn" data-act="del" aria-label="Saati sil" title="Sil">✕</button>`}
           </span>`; }).join("")}</div></div>`).join("");
   }
   $("cal").addEventListener("click", async e => {
     const btn = e.target.closest("[data-act]"); if (!btn) return;
     const item = btn.closest("[data-id]"), id = item.dataset.id, s = slots.find(x => x.id === id);
+    if (btn.dataset.act === "book") return openNewBooking(s);
     if (btn.dataset.act === "del" && !item.dataset.confirm) {
       item.dataset.confirm = "1"; btn.textContent = "Sil?"; btn.style.color = "var(--danger)";
       setTimeout(() => { if (item.isConnected) { delete item.dataset.confirm; btn.textContent = "✕"; btn.style.color = ""; } }, 3000);
@@ -312,9 +314,63 @@
     finally { btn.disabled = false; }
   });
 
+  /* ---------- Randevu ekle (elle) ---------- */
+  const nbIds = ["nb-date", "nb-time", "nb-len", "nb-type", "nb-email", "nb-repeat", "nb-notify"];
+  function nbStart() { const d = $("nb-date").value, t = $("nb-time").value; return d && t ? new Date(`${d}T${t}:00+03:00`) : null; }
+  function nbPreview() {
+    const st = nbStart(), weeks = +$("nb-repeat").value, mail = $("nb-email").value.trim();
+    $("nb-notify").disabled = !mail;
+    if (!st || isNaN(st)) { $("nb-preview").textContent = "Tarih ve saat seçin."; return; }
+    const len = +$("nb-len").value || 50, en = new Date(st.getTime() + len * 60000);
+    let txt = `${F.dateLong(st.toISOString())}, ${F.time(st.toISOString())}–${F.time(en.toISOString())} · ${$("nb-type").value === "online" ? "Online" : "Yüz yüze"}`;
+    if (weeks > 1) { const last = new Date(st.getTime() + (weeks - 1) * 7 * 86400000); txt += ` · ${weeks} hafta boyunca her hafta (son seans ${F.dateShort(last.toISOString())})`; }
+    if (en <= new Date()) txt += " · Geçmiş bir tarih: seans 'Tamamlandı' olarak kaydedilir, e-posta gitmez.";
+    else txt += mail && $("nb-notify").checked ? " · Danışana onay e-postası gidecek." : " · Danışana e-posta gitmeyecek.";
+    $("nb-preview").textContent = txt;
+  }
+  nbIds.forEach(id => $(id).addEventListener("input", nbPreview));
+  function openNewBooking(slot) {
+    selectTab("t-new");
+    if (slot) {
+      $("nb-date").value = F.dayKey(slot.starts_at); $("nb-time").value = F.time(slot.starts_at);
+      $("nb-len").value = Math.round((new Date(slot.ends_at) - new Date(slot.starts_at)) / 60000) || 50;
+      if (slot.type !== "ikisi") $("nb-type").value = slot.type;
+    }
+    nbPreview(); $("nb-name").focus();
+  }
+  const NB_ERR = {
+    name_required: "Danışanın adını yazın.", phone_required: "Geçerli bir telefon numarası yazın.", email_invalid: "E-posta adresi geçersiz.",
+    duration_invalid: "Süre 15–240 dakika arasında olmalı.", type_required: "Seans türünü seçin.", not_admin: "Yönetici yetkisi doğrulanamadı; çıkış yapıp tekrar girin.",
+  };
+  $("nb-form").addEventListener("submit", async e => {
+    e.preventDefault(); note($("nb-msg"), "");
+    const st = nbStart(); if (!st || isNaN(st)) return note($("nb-msg"), "Tarih ve saat seçin.");
+    const f = { starts: st.toISOString(), minutes: +$("nb-len").value, type: $("nb-type").value, name: $("nb-name").value.trim(),
+      phone: $("nb-phone").value.trim(), email: $("nb-email").value.trim(), note: $("nb-note").value.trim(),
+      weeks: +$("nb-repeat").value, notify: $("nb-notify").checked };
+    if (f.name.length < 2) return note($("nb-msg"), NB_ERR.name_required);
+    if (f.phone.replace(/\D/g, "").length < 7) return note($("nb-msg"), NB_ERR.phone_required);
+    const btn = $("nb-submit"); btn.disabled = true;
+    try {
+      const n = await Data.adminCreateBooking(f);
+      await refresh();
+      $("nb-form").reset(); $("nb-len").value = 50; $("nb-time").value = "10:00"; nbPreview();
+      note($("nb-msg"), `${n > 1 ? `${n} seans` : "Randevu"} eklendi.${f.email && f.notify && st > new Date() ? " Danışana onay e-postası gönderiliyor." : ""}`, "ok");
+    } catch (err) {
+      const m = String(err && err.message || "");
+      const code = m.split(":")[0].trim(), at = m.includes(":") ? m.slice(m.indexOf(":") + 1).trim() : "";
+      note($("nb-msg"), code === "slot_taken" ? `${at} saatinde zaten bir randevu var.`
+        : code === "overlap" ? `${at} saati başka bir seansla çakışıyor. Takvimden kontrol edin.`
+        : m === "demo" ? "Demo modunda elle randevu eklenemez."
+        : NB_ERR[code] || "Randevu eklenemedi. Bağlantınızı kontrol edip tekrar deneyin.");
+    } finally { btn.disabled = false; }
+  });
+
   /* ---------- Sekmeler ---------- */
-  const tabs = [["t-bookings", "p-bookings"], ["t-calendar", "p-calendar"], ["t-add", "p-add"], ["t-tests", "p-tests"]];
-  tabs.forEach(([t]) => $(t).onclick = () => tabs.forEach(([tt, pp]) => { const on = tt === t; $(tt).setAttribute("aria-selected", on); $(pp).hidden = !on; if (on && pp === "p-add") preview(); }));
+  const tabs = [["t-bookings", "p-bookings"], ["t-new", "p-new"], ["t-calendar", "p-calendar"], ["t-add", "p-add"], ["t-tests", "p-tests"]];
+  function selectTab(t) { tabs.forEach(([tt, pp]) => { const on = tt === t; $(tt).setAttribute("aria-selected", on); $(pp).hidden = !on; if (on && pp === "p-add") preview(); if (on && pp === "p-new") nbPreview(); }); }
+  tabs.forEach(([t]) => $(t).onclick = () => selectTab(t));
+  if (!$("nb-date").value) $("nb-date").value = F.todayKey();
 
   boot();
 })();

@@ -173,6 +173,13 @@
       }
       return [...demoLoad().bookings].sort((a, b) => a.starts_at.localeCompare(b.starts_at));
     },
+    async adminCreateBooking(f) {
+      if (!sb) throw new Error("demo");
+      const { data, error } = await sb.rpc("admin_create_booking", {
+        p_starts: f.starts, p_minutes: f.minutes, p_type: f.type, p_name: f.name, p_phone: f.phone,
+        p_email: f.email || null, p_note: f.note || null, p_notify: !!f.notify, p_weeks: f.weeks || 1 });
+      if (error) throw error; return data;
+    },
     async setBookingStatus(id, status) {
       if (sb) {
         const { error } = await sb.rpc("admin_set_booking_status", { p_booking: id, p_status: status });

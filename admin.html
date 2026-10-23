@@ -12,7 +12,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,500;0,7..72,600;1,7..72,400;1,7..72,500&display=swap">
-<link rel="stylesheet" href="assets/css/style.css?v=20261023s">
+<link rel="stylesheet" href="assets/css/style.css?v=20261023t">
 </head>
 <body>
 
@@ -59,6 +59,7 @@
 
     <div class="tabs" role="tablist">
       <button class="tab" role="tab" id="t-bookings" aria-selected="true" aria-controls="p-bookings">Randevular</button>
+      <button class="tab" role="tab" id="t-new" aria-selected="false" aria-controls="p-new">Randevu ekle</button>
       <button class="tab" role="tab" id="t-calendar" aria-selected="false" aria-controls="p-calendar">Takvim</button>
       <button class="tab" role="tab" id="t-add" aria-selected="false" aria-controls="p-add">Saat ekle</button>
       <button class="tab" role="tab" id="t-tests" aria-selected="false" aria-controls="p-tests">Testler</button>
@@ -83,6 +84,39 @@
           <tbody id="b-rows"></tbody>
         </table>
       </div>
+    </div>
+
+    <!-- Randevu ekle (elle) -->
+    <div role="tabpanel" id="p-new" hidden>
+      <form class="card form" id="nb-form" style="max-width: 720px" novalidate>
+        <h3>Danışana randevu ekle</h3>
+        <p class="small muted">Telefonla, yüz yüze ya da mesajla anlaştığınız randevuları buradan ekleyin. Seçtiğiniz saat takvimde dolu olarak işaretlenir; o saatte açık bir boş saat varsa kullanılır, yoksa yeni oluşturulur.</p>
+        <div class="row">
+          <div class="field"><label for="nb-date">Tarih</label><input id="nb-date" type="date" required></div>
+          <div class="field"><label for="nb-time">Saat</label><input id="nb-time" type="time" step="300" value="10:00" required></div>
+        </div>
+        <div class="row">
+          <div class="field"><label for="nb-len">Süre (dk)</label><input id="nb-len" type="number" min="15" max="240" value="50" required></div>
+          <div class="field"><label for="nb-type">Tür</label>
+            <select id="nb-type"><option value="yuzyuze">Yüz yüze</option><option value="online">Online</option></select></div>
+        </div>
+        <div class="row">
+          <div class="field"><label for="nb-name">Ad soyad</label><input id="nb-name" type="text" maxlength="120" autocomplete="off" required></div>
+          <div class="field"><label for="nb-phone">Telefon</label><input id="nb-phone" type="tel" maxlength="30" autocomplete="off" required></div>
+        </div>
+        <div class="field"><label for="nb-email">E-posta <span class="muted">(isteğe bağlı)</span></label><input id="nb-email" type="email" maxlength="160" autocomplete="off"></div>
+        <div class="field"><label for="nb-note">Not <span class="muted">(isteğe bağlı, yalnızca sizin göreceğiniz)</span></label><textarea id="nb-note" maxlength="600" rows="2"></textarea></div>
+        <div class="field"><label for="nb-repeat">Tekrar</label>
+          <select id="nb-repeat">
+            <option value="1">Tek seans</option><option value="4">Her hafta aynı saatte · 4 hafta</option>
+            <option value="8">Her hafta aynı saatte · 8 hafta</option><option value="12">Her hafta aynı saatte · 12 hafta</option>
+            <option value="26">Her hafta aynı saatte · 26 hafta</option>
+          </select></div>
+        <label class="check"><input type="checkbox" id="nb-notify" checked><span>Danışana onay e-postası ve seans hatırlatmaları gönder <span class="muted">(e-posta yazılıysa; tekrarlı randevularda onay yalnızca ilk seans için gider)</span></span></label>
+        <div class="notice info" id="nb-preview">—</div>
+        <div id="nb-msg" hidden></div>
+        <button class="btn" type="submit" id="nb-submit">Randevuyu ekle</button>
+      </form>
     </div>
 
     <!-- Takvim -->
@@ -145,9 +179,9 @@
 </main>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
-<script src="assets/js/config.js?v=20261023s"></script>
-<script src="assets/js/data.js?v=20261023s"></script>
-<script src="assets/js/main.js?v=20261023s"></script>
-<script src="assets/js/admin.js?v=20261023s"></script>
+<script src="assets/js/config.js?v=20261023t"></script>
+<script src="assets/js/data.js?v=20261023t"></script>
+<script src="assets/js/main.js?v=20261023t"></script>
+<script src="assets/js/admin.js?v=20261023t"></script>
 </body>
 </html>

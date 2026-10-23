@@ -81,9 +81,9 @@ async function onInsert(id: string) {
     : (OFFICE_ADDRESS ? `Adres: ${OFFICE_ADDRESS}` : "Ofis adresi size ayrıca iletilecek.");
   const first = String(b.name).split(" ")[0];
 
-  // Psikoloğa
+  // Psikoloğa (panelden elle eklenen randevularda gönderilmez; kayıt zaten sizde)
   const digits = String(b.phone || "").replace(/\D/g, "").replace(/^0/, "90");
-  await send(PSYCHOLOGIST_EMAIL, `Yeni randevu: ${b.name} · ${fmtDate(b.starts_at)} ${fmtTime(b.starts_at)} · ${b.type === "online" ? "Online" : "Yüz yüze"}`,
+  if (b.source !== "panel") await send(PSYCHOLOGIST_EMAIL, `Yeni randevu: ${b.name} · ${fmtDate(b.starts_at)} ${fmtTime(b.starts_at)} · ${b.type === "online" ? "Online" : "Yüz yüze"}`,
     wrap(`<h2 style="margin:0 0 12px">Yeni randevu</h2>
       <table style="border-collapse:collapse;font-size:15px">
         ${row("Danışan", esc(b.name))}${row("Tarih", esc(when))}${row("Tür", esc(typeLabel(b.type)))}
