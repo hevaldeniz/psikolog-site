@@ -402,6 +402,245 @@
       "group": "test"
     },
     {
+      "id": "pcl5",
+      "title": "Travma Sonrası Stres Belirti Ölçeği (PCL-5)",
+      "group": "test",
+      "short": "Yaşadığınız çok stresli bir olayın ardından son bir ayda yaşadığınız belirtileri değerlendiren 20 soru.",
+      "minutes": 5,
+      "kind": "scale",
+      "instructions": "Aşağıda, insanların çok stresli bir yaşantının ardından bazen yaşadığı sorunların bir listesi yer alıyor. Yaşadığınız en kötü olayı aklınızda tutarak her maddeyi dikkatlice okuyun ve son bir ay içinde bu sorunun sizi ne kadar rahatsız ettiğini işaretleyin.",
+      "options": [
+        {
+          "label": "Hiç",
+          "value": 0
+        },
+        {
+          "label": "Biraz",
+          "value": 1
+        },
+        {
+          "label": "Orta derecede",
+          "value": 2
+        },
+        {
+          "label": "Oldukça",
+          "value": 3
+        },
+        {
+          "label": "Aşırı derecede",
+          "value": 4
+        }
+      ],
+      "items": [
+        "Stresli yaşantıya ilişkin tekrarlayan, rahatsız edici ve istenmeyen anılar",
+        "Stresli yaşantıyla ilgili tekrarlayan, rahatsız edici rüyalar",
+        "Stresli yaşantı sanki şu an yeniden oluyormuş gibi aniden hissetmek ya da davranmak (sanki o ana geri dönmüş ve yeniden yaşıyormuş gibi)",
+        "Bir şey size stresli yaşantıyı hatırlattığında çok üzülmek",
+        "Bir şey size stresli yaşantıyı hatırlattığında güçlü bedensel tepkiler göstermek (örneğin kalp çarpıntısı, nefes almada güçlük, terleme)",
+        "Stresli yaşantıyla ilgili anılardan, düşüncelerden ya da duygulardan kaçınmak",
+        "Stresli yaşantıyı hatırlatan dış uyaranlardan kaçınmak (örneğin kişiler, yerler, konuşmalar, etkinlikler, nesneler ya da durumlar)",
+        "Stresli yaşantının önemli kısımlarını hatırlamakta güçlük çekmek",
+        "Kendiniz, diğer insanlar ya da dünya hakkında güçlü olumsuz inançlara sahip olmak (örneğin “Ben kötüyüm”, “Bende ciddi bir sorun var”, “Kimseye güvenilmez”, “Dünya tamamen tehlikeli” gibi düşünceler)",
+        "Stresli yaşantı ya da sonrasında olanlar için kendinizi ya da başka birini suçlamak",
+        "Korku, dehşet, öfke, suçluluk ya da utanç gibi güçlü olumsuz duygular yaşamak",
+        "Eskiden keyif aldığınız etkinliklere ilginin azalması",
+        "Diğer insanlardan uzaklaşmış ya da kopmuş hissetmek",
+        "Olumlu duyguları yaşamakta güçlük çekmek (örneğin mutlu olamamak ya da yakınlarınıza sevgi duyamamak)",
+        "Huzursuz davranışlar, öfke patlamaları ya da saldırgan davranmak",
+        "Çok fazla risk almak ya da size zarar verebilecek şeyler yapmak",
+        "Aşırı tetikte, gözü kulağı sürekli etrafta ya da diken üstünde olmak",
+        "Ürkek olmak ya da kolayca irkilmek",
+        "Dikkatini toplamakta güçlük çekmek",
+        "Uykuya dalmakta ya da uykuyu sürdürmekte güçlük çekmek"
+      ],
+      "scoring": {
+        "bands": [
+          {
+            "max": 30,
+            "label": "Tarama eşiğinin altında",
+            "desc": "Toplam puan önerilen 31–33 tarama eşiğinin altında; olası TSSB lehine güçlü bir bulgu yok. Belirgin tek tek belirtiler yine de değerlendirilmelidir."
+          },
+          {
+            "max": 80,
+            "label": "Olası TSSB (tarama eşiğinin üzerinde)",
+            "desc": "Toplam puan önerilen 31–33 tarama eşiğinin üzerinde; olası TSSB açısından klinik görüşmeyle (ör. CAPS-5) ayrıntılı değerlendirme önerilir."
+          }
+        ],
+        "subscales": [
+          {
+            "label": "B – Yeniden yaşantılama",
+            "items": [
+              1,
+              2,
+              3,
+              4,
+              5
+            ]
+          },
+          {
+            "label": "C – Kaçınma",
+            "items": [
+              6,
+              7
+            ]
+          },
+          {
+            "label": "D – Biliş ve duygudurumda olumsuz değişiklikler",
+            "items": [
+              8,
+              9,
+              10,
+              11,
+              12,
+              13,
+              14
+            ]
+          },
+          {
+            "label": "E – Aşırı uyarılmışlık",
+            "items": [
+              15,
+              16,
+              17,
+              18,
+              19,
+              20
+            ]
+          }
+        ],
+        "flags": [
+          {
+            "item": 16,
+            "min": 3,
+            "label": "16. madde (aşırı risk alma / kendine zarar verebilecek davranışlar) yüksek işaretlendi"
+          }
+        ]
+      },
+      "interpret": {
+        "about": "PCL-5, DSM-5 travma sonrası stres bozukluğu (TSSB) belirtilerini son bir ay için ölçen 20 maddelik öz bildirim ölçeğidir. Toplam puan 0–80 arasındadır; 31–33 ve üzeri puan olası TSSB için önerilen tarama eşiğidir. Maddeler DSM-5'in dört belirti kümesine karşılık gelir: B yeniden yaşantılama (1–5), C kaçınma (6–7), D biliş ve duygudurumda olumsuz değişiklikler (8–14), E aşırı uyarılmışlık (15–20). Geçici bir DSM-5 örüntüsü için 'Orta derecede' ve üzeri yanıtların en az 1 B, 1 C, 2 D ve 2 E maddesinde görülmesi aranır. İzlemde 10–20 puanlık değişim klinik olarak anlamlı kabul edilir.",
+        "highlight": {
+          "min": 3,
+          "title": "'Oldukça' ya da 'Aşırı derecede' işaretlenen belirtiler"
+        },
+        "notes": [
+          "Ölçek, travmatik olayın kendisini sormaz; olayın Kriter A'yı karşılayıp karşılamadığı görüşmede değerlendirilmelidir.",
+          "Bu ölçek tanı koymaz; sonuçlar klinik görüşme ve öyküyle birlikte değerlendirilmelidir."
+        ]
+      },
+      "credit": "PCL-5: Weathers, Litz, Keane, Palmieri, Marx ve Schnurr (2013), ABD Ulusal TSSB Merkezi (National Center for PTSD); izin gerektirmeden kullanılabilir. Türkçe ifadeler bu site için hazırlanmıştır."
+    },
+    {
+      "id": "sosyal-kaygi",
+      "title": "Sosyal Kaygı Şiddet Ölçeği",
+      "group": "test",
+      "short": "Son bir haftada sosyal ortamlarda yaşadığınız kaygı, bedensel belirtiler ve kaçınmayı değerlendiren 10 soru.",
+      "minutes": 3,
+      "kind": "scale",
+      "instructions": "Aşağıdaki sorular son 7 gün içinde sosyal ortamlardaki düşünceleriniz, duygularınız ve davranışlarınızla ilgilidir. Sosyal ortamlar; topluluk önünde konuşma, toplantılar, davetler, tanışmalar, sohbetler, iltifat alma, bir şey isteme, başkalarının önünde yemek yeme ya da yazı yazma gibi durumları kapsar. Son 7 gün içinde şunları ne sıklıkla yaşadınız?",
+      "options": [
+        {
+          "label": "Hiçbir zaman",
+          "value": 0
+        },
+        {
+          "label": "Ara sıra",
+          "value": 1
+        },
+        {
+          "label": "Zamanın yarısında",
+          "value": 2
+        },
+        {
+          "label": "Çoğu zaman",
+          "value": 3
+        },
+        {
+          "label": "Her zaman",
+          "value": 4
+        }
+      ],
+      "items": [
+        "Sosyal ortamlarda ani dehşet, korku ya da ürperti anları yaşadım.",
+        "Sosyal ortamlarla ilgili kaygılı, endişeli ya da gergin hissettim.",
+        "Reddedileceğim, aşağılanacağım, utandırılacağım, alay konusu olacağım ya da başkalarını kıracağımla ilgili düşüncelerim oldu.",
+        "Sosyal ortamlarda kalp çarpıntısı, terleme, nefes almada güçlük, bayılacak gibi olma ya da titreme yaşadım.",
+        "Sosyal ortamlarda kaslarım gerildi, kendimi diken üstünde ya da huzursuz hissettim veya rahatlamakta güçlük çektim.",
+        "Sosyal ortamlardan kaçındım ya da bu ortamlara girmedim.",
+        "Sosyal ortamlardan erken ayrıldım ya da yalnızca çok az katıldım (ör. az konuştum, göz temasından kaçındım).",
+        "Sosyal ortamlarda ne söyleyeceğime ya da nasıl davranacağıma hazırlanmak için çok zaman harcadım.",
+        "Sosyal ortamları düşünmemek için dikkatimi başka şeylere verdim.",
+        "Sosyal ortamlarla baş etmek için yardıma ihtiyaç duydum (ör. alkol ya da ilaç, uğur getirdiğine inandığım nesneler)."
+      ],
+      "scoring": {
+        "bands": [
+          {
+            "max": 4,
+            "label": "Yok",
+            "desc": "Ortalama madde puanı 0 düzeyinde; belirgin sosyal kaygı bildirilmiyor."
+          },
+          {
+            "max": 14,
+            "label": "Hafif",
+            "desc": "Ortalama madde puanı 1 düzeyinde; hafif sosyal kaygı."
+          },
+          {
+            "max": 24,
+            "label": "Orta",
+            "desc": "Ortalama madde puanı 2 düzeyinde; orta düzeyde sosyal kaygı, işlevsellik ve kaçınma açısından değerlendirme önerilir."
+          },
+          {
+            "max": 34,
+            "label": "Şiddetli",
+            "desc": "Ortalama madde puanı 3 düzeyinde; şiddetli sosyal kaygı, sosyal kaygı bozukluğu açısından ayrıntılı değerlendirme önerilir."
+          },
+          {
+            "max": 40,
+            "label": "Aşırı",
+            "desc": "Ortalama madde puanı 4 düzeyinde; aşırı düzeyde sosyal kaygı."
+          }
+        ]
+      },
+      "interpret": {
+        "about": "Bu ölçek, Amerikan Psikiyatri Birliği'nin DSM-5 için geliştirdiği Sosyal Kaygı Bozukluğu Şiddet Ölçeği'dir. 10 madde 0–4 puanlanır; toplam puan 0–40 arasındadır. Toplam puan 10'a bölünerek ortalama puan bulunur ve 0 yok, 1 hafif, 2 orta, 3 şiddetli, 4 aşırı olarak yorumlanır. Maddeler korku ve kaygıyı (1–3), bedensel belirtileri (4–5) ve kaçınma ile güvenlik davranışlarını (6–10) kapsar.",
+        "groups": [
+          {
+            "label": "Korku ve kaygı düşünceleri (1–3)",
+            "items": [
+              1,
+              2,
+              3
+            ]
+          },
+          {
+            "label": "Bedensel belirtiler (4–5)",
+            "items": [
+              4,
+              5
+            ]
+          },
+          {
+            "label": "Kaçınma ve güvenlik davranışları (6–10)",
+            "items": [
+              6,
+              7,
+              8,
+              9,
+              10
+            ]
+          }
+        ],
+        "highlight": {
+          "min": 3,
+          "title": "Çoğu zaman ya da her zaman yaşananlar"
+        },
+        "notes": [
+          "Ölçek tanı amacıyla değil, şiddeti belirlemek ve tedavi sürecinde izlemek için kullanılır.",
+          "Bu ölçek tanı koymaz; sonuçlar klinik görüşme ve öyküyle birlikte değerlendirilmelidir."
+        ]
+      },
+      "credit": "Severity Measure for Social Anxiety Disorder—Adult © 2013 American Psychiatric Association; klinisyenlerin kendi danışanlarıyla kullanımı için izinsiz çoğaltılabilir. Türkçe ifadeler bu site için hazırlanmıştır."
+    },
+    {
       "id": "asrs",
       "title": "Yetişkin Dikkat Eksikliği Tarama Ölçeği (ASRS v1.1)",
       "short": "Yetişkinlerde dikkat eksikliği ve hiperaktivite belirtilerini tarayan 6 soru.",
@@ -1100,6 +1339,185 @@
         ]
       },
       "group": "test"
+    },
+    {
+      "id": "ders16",
+      "title": "Duygu Düzenleme Güçlüğü Ölçeği (DERS-16)",
+      "group": "test",
+      "short": "Duygularınızı anlama, kabul etme ve yönetmede yaşadığınız güçlükleri değerlendiren 16 soru.",
+      "minutes": 4,
+      "kind": "scale",
+      "instructions": "Aşağıdaki ifadelerin sizin için ne sıklıkla geçerli olduğunu işaretleyin.",
+      "options": [
+        {
+          "label": "Neredeyse hiç",
+          "value": 1
+        },
+        {
+          "label": "Bazen",
+          "value": 2
+        },
+        {
+          "label": "Zamanın yaklaşık yarısında",
+          "value": 3
+        },
+        {
+          "label": "Çoğu zaman",
+          "value": 4
+        },
+        {
+          "label": "Neredeyse her zaman",
+          "value": 5
+        }
+      ],
+      "items": [
+        "Duygularımı anlamlandırmakta güçlük çekerim.",
+        "Ne hissettiğim konusunda kafam karışıktır.",
+        "Üzgün/sıkıntılı olduğumda işlerimi yapmakta güçlük çekerim.",
+        "Üzgün/sıkıntılı olduğumda kontrolden çıkarım.",
+        "Üzgün/sıkıntılı olduğumda uzun süre böyle kalacağıma inanırım.",
+        "Üzgün/sıkıntılı olduğumda sonunda kendimi çok depresif hissedeceğime inanırım.",
+        "Üzgün/sıkıntılı olduğumda başka şeylere odaklanmakta güçlük çekerim.",
+        "Üzgün/sıkıntılı olduğumda kontrolü kaybettiğimi hissederim.",
+        "Üzgün/sıkıntılı olduğumda böyle hissettiğim için kendimden utanırım.",
+        "Üzgün/sıkıntılı olduğumda kendimi zayıf biri gibi hissederim.",
+        "Üzgün/sıkıntılı olduğumda davranışlarımı kontrol etmekte güçlük çekerim.",
+        "Üzgün/sıkıntılı olduğumda kendimi daha iyi hissetmek için yapabileceğim hiçbir şey olmadığına inanırım.",
+        "Üzgün/sıkıntılı olduğumda böyle hissettiğim için kendime kızarım.",
+        "Üzgün/sıkıntılı olduğumda kendimle ilgili çok kötü hissetmeye başlarım.",
+        "Üzgün/sıkıntılı olduğumda başka bir şey düşünmekte güçlük çekerim.",
+        "Üzgün/sıkıntılı olduğumda duygularım bana baş edilemeyecek kadar yoğun gelir."
+      ],
+      "scoring": {
+        "subscales": [
+          {
+            "label": "Netlik (duyguları anlama)",
+            "items": [
+              1,
+              2
+            ]
+          },
+          {
+            "label": "Amaçlar (amaca yönelik davranış)",
+            "items": [
+              3,
+              7,
+              15
+            ]
+          },
+          {
+            "label": "Dürtü kontrolü",
+            "items": [
+              4,
+              8,
+              11
+            ]
+          },
+          {
+            "label": "Stratejiler (düzenleme stratejilerine erişim)",
+            "items": [
+              5,
+              6,
+              12,
+              14,
+              16
+            ]
+          },
+          {
+            "label": "Kabul etmeme (duygusal tepkileri kabul etmeme)",
+            "items": [
+              9,
+              10,
+              13
+            ]
+          }
+        ]
+      },
+      "interpret": {
+        "about": "DERS-16, 36 maddelik Duygu Düzenleme Güçlüğü Ölçeği'nin (Gratz ve Roemer, 2004) kısa formudur (Bjureberg ve ark., 2016). Toplam puan 16–80 arasındadır; yüksek puan duygu düzenlemede daha fazla güçlüğe işaret eder. Kesin bir kesme puanı yoktur; puanlar en çok alt boyutlar arası karşılaştırma ve tedavi sürecinde izlem için kullanılır. Duygu düzenleme güçlükleri sınırda kişilik örüntüleri, öfke sorunları, kendine zarar verme, yeme sorunları ve kaygı-depresyon tablolarında sık görülür.",
+        "highlight": {
+          "min": 4,
+          "title": "Çoğu zaman ya da neredeyse her zaman yaşanan güçlükler"
+        },
+        "notes": [
+          "Alt boyutların madde sayısı farklıdır: Netlik 2–10, Amaçlar ve Dürtü kontrolü 3–15, Stratejiler 5–25, Kabul etmeme 3–15 arasında puan alır; karşılaştırırken madde ortalamasına (puan ÷ madde sayısı) bakmak daha doğrudur.",
+          "Bu ölçek tanı koymaz; sonuçlar klinik görüşme ve öyküyle birlikte değerlendirilmelidir."
+        ]
+      },
+      "credit": "DERS-16: Bjureberg ve ark. (2016); özgün DERS: Gratz ve Roemer (2004). Ücretsiz kullanılabilir. Türkçe ifadeler bu site için hazırlanmıştır."
+    },
+    {
+      "id": "rosenberg",
+      "title": "Rosenberg Benlik Saygısı Ölçeği",
+      "group": "test",
+      "short": "Kendinize yönelik genel tutumunuzu ve benlik saygınızı değerlendiren 10 soru.",
+      "minutes": 2,
+      "kind": "scale",
+      "instructions": "Aşağıda kendinize ilişkin genel duygularınızı yansıtan ifadeler yer alıyor. Her ifadeye ne ölçüde katıldığınızı işaretleyin.",
+      "options": [
+        {
+          "label": "Kesinlikle katılmıyorum",
+          "value": 0
+        },
+        {
+          "label": "Katılmıyorum",
+          "value": 1
+        },
+        {
+          "label": "Katılıyorum",
+          "value": 2
+        },
+        {
+          "label": "Kesinlikle katılıyorum",
+          "value": 3
+        }
+      ],
+      "items": [
+        "Genel olarak kendimden memnunum.",
+        "Zaman zaman hiç de iyi biri olmadığımı düşünürüm.",
+        "Birçok iyi özelliğim olduğunu düşünüyorum.",
+        "Birçok insanın yapabildiği kadar iyi işler yapabilirim.",
+        "Gurur duyacak pek bir şeyim olmadığını hissediyorum.",
+        "Bazen kesinlikle işe yaramaz biri olduğumu hissediyorum.",
+        "En azından diğer insanlar kadar değerli biri olduğumu hissediyorum.",
+        "Kendime daha fazla saygı duyabilmeyi isterdim.",
+        "Genel olarak kendimi başarısız biri olarak görme eğilimindeyim.",
+        "Kendime karşı olumlu bir tutum içindeyim."
+      ],
+      "scoring": {
+        "reverse": [
+          2,
+          5,
+          6,
+          8,
+          9
+        ],
+        "bands": [
+          {
+            "max": 14,
+            "label": "Düşük benlik saygısı",
+            "desc": "Puan, yaygın kullanılan 15 puan sınırının altında; kendine yönelik olumsuz tutum belirgin. Depresif belirtiler, öz eleştiri ve değersizlik şemaları açısından değerlendirme yararlı olabilir."
+          },
+          {
+            "max": 25,
+            "label": "Normal aralıkta benlik saygısı",
+            "desc": "Puan, genel olarak kabul edilen 15–25 normal aralığında."
+          },
+          {
+            "max": 30,
+            "label": "Yüksek benlik saygısı",
+            "desc": "Puan normal aralığın üzerinde; kendine yönelik belirgin olumlu tutum."
+          }
+        ]
+      },
+      "interpret": {
+        "about": "Rosenberg Benlik Saygısı Ölçeği, kişinin kendine yönelik genel değer duygusunu ölçen 10 maddelik bir ölçektir. Maddeler 0–3 arası puanlanır; 2, 5, 6, 8 ve 9. maddeler ters puanlanır. Toplam puan 0–30 arasındadır; yaygın kullanıma göre 15–25 normal aralık, 15'in altı düşük benlik saygısı olarak değerlendirilir.",
+        "notes": [
+          "Ters maddelerde 'Katılıyorum' ya da 'Kesinlikle katılıyorum' yanıtları (ör. 'Bazen kesinlikle işe yaramaz biri olduğumu hissediyorum') seansta ayrıca ele alınabilir.",
+          "Bu ölçek tanı koymaz; sonuçlar klinik görüşme ve öyküyle birlikte değerlendirilmelidir."
+        ]
+      },
+      "credit": "Rosenberg, M. (1965). Society and the Adolescent Self-Image. Princeton University Press. Kamu malıdır. Türkçe ifadeler bu site için hazırlanmıştır."
     },
     {
       "id": "bes-faktor",
