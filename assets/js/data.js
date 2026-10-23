@@ -101,6 +101,15 @@
       if (sb) { await sb.auth.signOut(); return; }
       try { sessionStorage.removeItem("psk_demo_admin"); } catch (e) {} if (mem) mem._admin = false;
     },
+    /* ---- Danışanın e-postadaki bağlantıyla iptali ---- */
+    async bookingByToken(token) {
+      if (sb) { const { data, error } = await sb.rpc("booking_by_token", { p_token: token }); if (error) throw error; return (data || [])[0] || null; }
+      return null;
+    },
+    async cancelByToken(token) {
+      if (sb) { const { data, error } = await sb.rpc("cancel_booking_by_token", { p_token: token }); if (error) throw error; return data; }
+      return "not_found";
+    },
     /* ---- İki adımlı doğrulama (TOTP) ---- */
     async aal() {
       if (!sb) return { current: "aal2", next: "aal2" };

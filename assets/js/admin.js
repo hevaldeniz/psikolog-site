@@ -129,7 +129,9 @@
     const tb = $("b-rows");
     if (!list.length) { tb.innerHTML = `<tr><td colspan="8" class="muted" style="text-align:center;padding:28px">Bu listede randevu yok.</td></tr>`; return; }
     tb.innerHTML = list.map(b => {
-      const st = STATUS[b.status] || [b.status, "ok"], digits = (b.phone || "").replace(/\D/g, "").replace(/^0/, "90");
+      const st0 = STATUS[b.status] || [b.status, "ok"];
+      const st = b.status === "iptal" && b.cancelled_by ? [`İptal · ${b.cancelled_by === "danisan" ? "danışan" : "siz"}`, "cancel"] : st0;
+      const digits = (b.phone || "").replace(/\D/g, "").replace(/^0/, "90");
       const actions = b.status === "onayli"
         ? `<span class="actions" data-id="${b.id}">
              ${b.starts_at <= now ? `<button class="btn ghost small" data-act="done">Tamamlandı</button>` : ""}
@@ -150,7 +152,7 @@
     const btn = e.target.closest("[data-act]"); if (!btn) return;
     const wrap = btn.closest("[data-id]"), id = wrap.dataset.id, act = btn.dataset.act;
     if (act === "ask-cancel") {
-      wrap.innerHTML = `<span class="confirm-inline"><span class="small">Emin misiniz?</span>
+      wrap.innerHTML = `<span class="confirm-inline"><span class="small">Randevu iptal edilecek ve danışana iptal e-postası gidecek. Emin misiniz?</span>
         <button class="btn danger small" data-act="cancel">Evet, iptal et</button><button class="btn ghost small" data-act="back">Vazgeç</button></span>`;
       return;
     }
