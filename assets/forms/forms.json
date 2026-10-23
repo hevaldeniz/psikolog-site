@@ -1328,6 +1328,178 @@
         }
       },
       "group": "test"
+    },
+    {
+      "id": "duygusal-zeka",
+      "title": "Duygusal Zekâ Testi",
+      "group": "test",
+      "short": "Duygularınızı tanıma, yönetme, kendinizi motive etme, empati ve ilişki becerilerinizi değerlendiren 30 soru.",
+      "minutes": 8,
+      "kind": "scale",
+      "instructions": "Bu testin amacı, duygusal zekânın çeşitli öğelerini içeren beceri ve eğilimlerinizi ölçmektir. İfadeleri okuyup size en uygun olduğunu düşündüğünüz seçeneği işaretleyin.",
+      "options": [
+        {
+          "label": "Kesinlikle katılmıyorum",
+          "value": 1
+        },
+        {
+          "label": "Katılmıyorum",
+          "value": 2
+        },
+        {
+          "label": "Kısmen katılmıyorum",
+          "value": 3
+        },
+        {
+          "label": "Kısmen katılıyorum",
+          "value": 4
+        },
+        {
+          "label": "Katılıyorum",
+          "value": 5
+        },
+        {
+          "label": "Kesinlikle katılıyorum",
+          "value": 6
+        }
+      ],
+      "items": [
+        "Hayatımı sürdürebilmek için, bilginin bir kaynağı olarak hem olumlu hem de olumsuz duygularımı kullanabilirim.",
+        "Olumsuz duygularım, hayatımda değiştirmem gereken şeyler hakkında bana yardımcı olur.",
+        "Baskı altında bile sakin kalabilirim.",
+        "Andan ana değişen duygularımı yönlendirebilirim.",
+        "Zor bir durumla karşılaştığımda, hayatın isteklerine odaklanabilir ve sakinliğimi koruyabilirim.",
+        "Zor bir durumla karşılaştığımda, eğlence, mizah, mücadele ruhu gibi olumlu özelliklerimi bir araya getirerek kullanabilirim.",
+        "Hissettiğim duyguların sorumluluğunu bilirim.",
+        "Bir şeyler beni üzdükten sonra, hemen kendime gelirim.",
+        "Diğer insanların problemlerini dinlemede etkinimdir.",
+        "Olumsuz duyguların etrafında dönüp durmam.",
+        "Diğer insanların duygusal ihtiyaçlarına karşı hassasımdır.",
+        "Diğer insanlar üzerinde sakinleştirici bir etkim vardır.",
+        "Aksiliklerle karşılaştığımda, tekrar ve tekrar kendimi motive edebilirim.",
+        "Hayatın zorluklarına karşı yaratıcı olmaya çalışırım.",
+        "Diğer insanların, motivasyonları, istekleri ve durumlarına uygun cevaplar veririm.",
+        "İhtiyaç olduğunda, sakinlik, uyanıklık ve duruma odaklanmayı kolayca sağlayabilirim.",
+        "Zamanı geldiğinde, olumsuz duygularımla yüzleşebilirim ve duruma uygun olarak çalışabilirim.",
+        "Üzücü bir olaydan sonra kendimi yatıştırabilirim.",
+        "İyilik halimi sürdürebilmek için, doğru duygularımı tanımanın çok önemli olduğunu düşünüyorum.",
+        "İnsanlar duygularını açıkça söylemediklerinde bile, onların duygularını anlayabilirim.",
+        "İnsanların duygularını onların yüz ifadelerinden anlayabilirim.",
+        "Bir görev için çağrıldığımda, olumsuz duygularımı bir yana bırakabilirim.",
+        "İnsanların ihtiyaçlarını gösteren sosyal sinyalleri (işaretleri) hemen fark ederim.",
+        "İnsanlar beni diğer insanların duyguları için, etkin bir danışman olarak görürler.",
+        "Kendi doğru duygularının farkında olan insanlar, hayatlarını daha iyi idare ederler.",
+        "Sık sık diğerlerinin durumlarını (morallerini) geliştirmeye çalışırım.",
+        "İlişkileri yürütmek için, iyi tavsiyelerde bulunabilirim.",
+        "İnsanların duygularına kolayca uyum sağlayabilirim.",
+        "İnsanların, motivasyonlarını sağlamada ve amaçlarına ulaşmalarında yardım ederim.",
+        "Olumsuz duygularımdan hemencecik silkinebilirim (kurtulabilirim)."
+      ],
+      "scoring": {
+        "total": false,
+        "subscales": [
+          {
+            "label": "Duyguların farkında olma",
+            "items": [
+              1,
+              2,
+              4,
+              17,
+              19,
+              25
+            ]
+          },
+          {
+            "label": "Duyguları yönetme",
+            "items": [
+              3,
+              7,
+              8,
+              10,
+              18,
+              30
+            ]
+          },
+          {
+            "label": "Kendini motive etme",
+            "items": [
+              5,
+              6,
+              13,
+              14,
+              16,
+              22
+            ]
+          },
+          {
+            "label": "Empati",
+            "items": [
+              9,
+              11,
+              20,
+              21,
+              23,
+              28
+            ]
+          },
+          {
+            "label": "İlişkileri yönetme",
+            "items": [
+              12,
+              15,
+              24,
+              26,
+              27,
+              29
+            ]
+          }
+        ]
+      },
+      "interpret": {
+        "about": "Bu test, Hall'un duygusal zekâ anketinin Türkçe formudur ve Goleman'ın modelindeki beş alanı ölçer. Her alan 6 maddeden oluşur ve 6–36 arası puan alır. Hall'un yorum aralıklarına göre 35 ve üzeri güçlü bir alan, 18–34 orta düzey (geliştirilebilir), 17 ve altı öncelikli gelişim alanı olarak değerlendirilir. Türkçe norm verisi bulunmayan, öz bildirime dayalı bir ölçektir; klinik tanı aracı değildir ve en çok kişinin kendi profilindeki güçlü ve zayıf yönleri görmek için kullanılmalıdır.",
+        "levels": [
+          {
+            "max": 17,
+            "label": "Düşük"
+          },
+          {
+            "max": 34,
+            "label": "Orta"
+          },
+          {
+            "max": 36,
+            "label": "Yüksek"
+          }
+        ],
+        "traits": {
+          "Duyguların farkında olma": {
+            "Yüksek": "Duygularını anlık olarak tanıyabiliyor ve bunları bilgi kaynağı olarak kullanabiliyor.",
+            "Orta": "Duygularını çoğu zaman fark ediyor; özellikle yoğun anlarda tanıma becerisi geliştirilebilir.",
+            "Düşük": "Duygularını tanımakta ve adlandırmakta güçlük çekiyor; duygu farkındalığı çalışması öncelikli olabilir."
+          },
+          "Duyguları yönetme": {
+            "Yüksek": "Olumsuz duygulardan sonra kendini toparlayabiliyor, stres altında sakin kalabiliyor.",
+            "Orta": "Duygularını çoğu durumda düzenleyebiliyor; yoğun stres altında zorlanabiliyor.",
+            "Düşük": "Olumsuz duygular uzun süre etkili olabiliyor; duygu düzenleme becerileri öncelikli çalışma alanı."
+          },
+          "Kendini motive etme": {
+            "Yüksek": "Aksilikler karşısında motivasyonunu ve odağını koruyabiliyor.",
+            "Orta": "Motivasyonu duruma göre değişkenlik gösteriyor.",
+            "Düşük": "Zorluklar karşısında motivasyonu kolayca düşebiliyor; hedef ve motivasyon üzerine çalışmak yararlı olabilir."
+          },
+          "Empati": {
+            "Yüksek": "Başkalarının duygularını ve ihtiyaçlarını sözsüz işaretlerden de kolayca fark ediyor.",
+            "Orta": "Başkalarının duygularını genellikle anlıyor; açıkça ifade edilmeyen duyguları fark etmekte zaman zaman zorlanabiliyor.",
+            "Düşük": "Başkalarının duygularını okumakta güçlük çekiyor; empati becerileri üzerinde çalışmak yararlı olabilir."
+          },
+          "İlişkileri yönetme": {
+            "Yüksek": "İlişkilerde destekleyici, yatıştırıcı ve yönlendirici bir rol üstlenebiliyor.",
+            "Orta": "İlişki becerileri yeterli; zorlayıcı ilişkisel durumlarda geliştirilebilir.",
+            "Düşük": "İlişkileri yürütmekte ve başkalarını desteklemekte zorlanıyor; sosyal beceri çalışması öncelikli olabilir."
+          }
+        }
+      },
+      "credit": "Hall'un Duygusal Zekâ Anketi'nin Türkçe formu (30 madde, 5 alt boyut). Puanlama ve yorum aralıkları Hall'un anahtarına göredir."
     }
   ]
 }
