@@ -1,6 +1,8 @@
 // Supabase Edge Function: randevu e-postaları.
 //  - Yeni randevu (INSERT): danışana onay (iptal butonlu), psikoloğa bildirim. Tek gönderim: notified_at.
 //  - İptal (UPDATE → status 'iptal'): danışana ve psikoloğa iptal bildirimi. Tek gönderim: cancel_notified_at.
+//  - Hatırlatma ({type:"REMINDERS"}, saatlik pg_cron görevi): seanstan 3 gün ve 1 gün önce danışana, iptal butonlu.
+//    Tek gönderim: claim_reminders() reminder3_sent_at / reminder1_sent_at alanlarını atomik işaretler.
 // Tetikleyiciler: randevu_bildirimi (INSERT), randevu_iptal_bildirimi (UPDATE). Gelen veriye güvenilmez;
 // kayıt her seferinde veritabanından yeniden okunur.
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.45.4";
@@ -55,6 +57,10 @@ async function send(to: string, subject: string, html: string, replyTo: string, 
 }
 
 const db = () => createClient(Deno.env.get("SUPABASE_URL")!, Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!);
+const cancelBlock = (token: string) => `
+  <p>Randevunuza katılamayacaksanız lütfen seanstan en az 24 saat önce iptal edin. Aşağıdaki buton seanstan 12 saat öncesine kadar çalışır; seansa 24 saatten az kala yapılan iptaller geç iptal olarak kaydedilir.</p>
+  <p style="margin:18px 0"><a href="${esc(`${SITE_URL}/iptal.html?t=${token}`)}" style="display:inline-block;background:#ffffff;color:#b42318;border:1px solid #b42318;padding:10px 18px;border-radius:999px;text-decoration:none;font-weight:bold">Randevumu iptal et</a></p>
+  <p style="color:#56607a;font-size:13px">Seansa 12 saatten az kaldıysa ya da randevunuzu değiştirmek istiyorsanız${CONTACT_PHONE ? ` <b>${esc(CONTACT_PHONE)}</b> numarasından ya da` : ""} bu e-postayı yanıtlayarak haber verin.</p>`;
 const row = (k: string, v: string) => `<tr><td style="padding:6px 12px 6px 0;color:#56607a">${k}</td><td style="padding:6px 0"><b>${v}</b></td></tr>`;
 
 async function onInsert(id: string) {
@@ -74,7 +80,6 @@ async function onInsert(id: string) {
     ? "Görüntülü görüşme bağlantısı seanstan önce size ayrıca iletilecek."
     : (OFFICE_ADDRESS ? `Adres: ${OFFICE_ADDRESS}` : "Ofis adresi size ayrıca iletilecek.");
   const first = String(b.name).split(" ")[0];
-  const cancelUrl = `${SITE_URL}/iptal.html?t=${b.cancel_token}`;
 
   // Psikoloğa
   const digits = String(b.phone || "").replace(/\D/g, "").replace(/^0/, "90");
@@ -96,9 +101,7 @@ async function onInsert(id: string) {
         <p style="background:#f2f6fd;padding:14px 16px;border-radius:10px">
           <b>${esc(when)}</b><br>${esc(typeLabel(b.type))}<br><span style="color:#56607a">${esc(where)}</span></p>
         <p>Ekteki dosyayı açarak randevuyu takviminize ekleyebilirsiniz.</p>
-        <p>Randevunuza katılamayacaksanız seanstan en az 24 saat önce aşağıdaki butonla iptal edebilirsiniz.</p>
-        <p style="margin:18px 0"><a href="${esc(cancelUrl)}" style="display:inline-block;background:#ffffff;color:#b42318;border:1px solid #b42318;padding:10px 18px;border-radius:999px;text-decoration:none;font-weight:bold">Randevumu iptal et</a></p>
-        <p style="color:#56607a;font-size:13px">Seansa 24 saatten az kaldıysa ya da randevunuzu değiştirmek istiyorsanız${CONTACT_PHONE ? ` <b>${esc(CONTACT_PHONE)}</b> numarasından ya da` : ""} bu e-postayı yanıtlayarak haber verin.</p>
+        ${cancelBlock(b.cancel_token)}
         <p style="color:#56607a;font-size:13px">Kendinize ya da bir başkasına zarar verme riski olan acil durumlarda lütfen beklemeden 112'yi arayın.</p>`),
       PSYCHOLOGIST_EMAIL,
       ics(b, endIso, "Psk. Heval Deniz Özdemir ile seans", where));
@@ -120,15 +123,16 @@ async function onCancel(id: string) {
   const when = `${fmtDate(b.starts_at)}, ${fmtTime(b.starts_at)}–${fmtTime(endIso)}`;
   const byClient = b.cancelled_by === "danisan";
   const who = byClient ? "danışan tarafından" : "sizin tarafınızdan (yönetim paneli)";
+  const late = byClient && b.late_cancel;
   const first = String(b.name).split(" ")[0];
   const future = new Date(b.starts_at).getTime() > Date.now();
 
   // Psikoloğa
-  await send(PSYCHOLOGIST_EMAIL, `Randevu iptal edildi: ${b.name} · ${fmtDate(b.starts_at)} ${fmtTime(b.starts_at)}`,
-    wrap(`<h2 style="margin:0 0 12px;color:#b42318">Randevu iptal edildi</h2>
+  await send(PSYCHOLOGIST_EMAIL, `${late ? "Geç iptal" : "Randevu iptal edildi"}: ${b.name} · ${fmtDate(b.starts_at)} ${fmtTime(b.starts_at)}`,
+    wrap(`<h2 style="margin:0 0 12px;color:#b42318">${late ? "Geç iptal (seansa 24 saatten az kala)" : "Randevu iptal edildi"}</h2>
       <table style="border-collapse:collapse;font-size:15px">
         ${row("Danışan", esc(b.name))}${row("Tarih", esc(when))}${row("Tür", esc(typeLabel(b.type)))}
-        ${row("İptal eden", esc(who))}${row("Telefon", esc(b.phone))}${b.email ? row("E-posta", esc(b.email)) : ""}
+        ${row("İptal eden", esc(who))}${late ? row("Not", "Seansa 24 saatten az kala iptal edildi") : ""}${row("Telefon", esc(b.phone))}${b.email ? row("E-posta", esc(b.email)) : ""}
       </table>
       <p>${future ? "Bu saat randevu sayfasında yeniden açıldı." : ""} <a href="${esc(SITE_URL)}/admin.html">Yönetim panelini aç</a></p>`),
     b.email || PSYCHOLOGIST_EMAIL,
@@ -142,6 +146,7 @@ async function onCancel(id: string) {
     await send(b.email, `Randevunuz iptal edildi · ${fmtDate(b.starts_at)} ${fmtTime(b.starts_at)}`,
       wrap(`<p>Merhaba ${esc(first)},</p>
         <p>${esc(reason)}</p>
+        ${late ? `<p style="color:#56607a;font-size:13px">İptaliniz seansa 24 saatten az kala yapıldığı için geç iptal olarak kaydedildi.</p>` : ""}
         <p style="background:#fde8e6;padding:14px 16px;border-radius:10px"><b>${esc(when)}</b><br>${esc(typeLabel(b.type))}<br><span style="color:#b42318">İptal edildi</span></p>
         <p>Yeni bir randevu almak isterseniz <a href="${esc(SITE_URL)}/randevu.html">randevu sayfasından</a> size uygun saati seçebilirsiniz.${CONTACT_PHONE ? ` Sorularınız için: <b>${esc(CONTACT_PHONE)}</b>` : ""}</p>
         <p style="color:#56607a;font-size:13px">Ekteki dosyayı açarak randevuyu takviminizden kaldırabilirsiniz.</p>`),
@@ -151,10 +156,44 @@ async function onCancel(id: string) {
   return new Response("ok", { status: 200 });
 }
 
+async function onReminders() {
+  const db0 = db();
+  let sent = 0;
+  for (const kind of ["3gun", "1gun"] as const) {
+    const { data, error } = await db0.rpc("claim_reminders", { p_kind: kind });
+    if (error) { console.error("claim_reminders", kind, error.message); continue; }
+    const list: any[] = data || [];
+    if (!list.length) continue;
+    const { data: slots } = await db0.from("slots").select("id, ends_at").in("id", list.map(b => b.slot_id));
+    const endOf = new Map((slots || []).map((s: any) => [s.id, s.ends_at]));
+    for (const b of list) {
+      const endIso = endOf.get(b.slot_id) || new Date(new Date(b.starts_at).getTime() + 50 * 60_000).toISOString();
+      const when = `${fmtDate(b.starts_at)}, ${fmtTime(b.starts_at)}–${fmtTime(endIso)}`;
+      const where = b.type === "online"
+        ? "Görüntülü görüşme bağlantısı seanstan önce size ayrıca iletilecek."
+        : (OFFICE_ADDRESS ? `Adres: ${OFFICE_ADDRESS}` : "Ofis adresi size ayrıca iletilecek.");
+      const first = String(b.name).split(" ")[0];
+      const lead = kind === "3gun" ? "3 gün sonra" : "yarın";
+      const ok = await send(b.email, `Hatırlatma: seansınız ${lead} · ${fmtDate(b.starts_at)} ${fmtTime(b.starts_at)}`,
+        wrap(`<p>Merhaba ${esc(first)},</p>
+          <p>Psk. Heval Deniz Özdemir ile seansınızın ${esc(lead)} olduğunu hatırlatmak isteriz.</p>
+          <p style="background:#f2f6fd;padding:14px 16px;border-radius:10px">
+            <b>${esc(when)}</b><br>${esc(typeLabel(b.type))}<br><span style="color:#56607a">${esc(where)}</span></p>
+          ${cancelBlock(b.cancel_token)}
+          <p style="color:#56607a;font-size:13px">Kendinize ya da bir başkasına zarar verme riski olan acil durumlarda lütfen beklemeden 112'yi arayın.</p>`),
+        PSYCHOLOGIST_EMAIL,
+        ics(b, endIso, "Psk. Heval Deniz Özdemir ile seans", where));
+      if (ok) sent++;
+    }
+  }
+  return new Response(`reminders ${sent}`, { status: 200 });
+}
+
 Deno.serve(async (req) => {
   if (req.method !== "POST") return new Response("method", { status: 405 });
   let body: any;
   try { body = await req.json(); } catch { return new Response("bad json", { status: 400 }); }
+  if (body?.type === "REMINDERS") return onReminders();
   const id = body?.record?.id;
   if (!id || body?.table !== "bookings") return new Response("ignored", { status: 200 });
   if (body.type === "UPDATE") return onCancel(id);

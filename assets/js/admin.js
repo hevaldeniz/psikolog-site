@@ -130,7 +130,7 @@
     if (!list.length) { tb.innerHTML = `<tr><td colspan="8" class="muted" style="text-align:center;padding:28px">Bu listede randevu yok.</td></tr>`; return; }
     tb.innerHTML = list.map(b => {
       const st0 = STATUS[b.status] || [b.status, "ok"];
-      const st = b.status === "iptal" && b.cancelled_by ? [`İptal · ${b.cancelled_by === "danisan" ? "danışan" : "siz"}`, "cancel"] : st0;
+      const st = b.status === "iptal" && b.cancelled_by ? [`İptal · ${b.cancelled_by === "danisan" ? "danışan" : "siz"}${b.late_cancel ? " · geç" : ""}`, "cancel"] : st0;
       const digits = (b.phone || "").replace(/\D/g, "").replace(/^0/, "90");
       const actions = b.status === "onayli"
         ? `<span class="actions" data-id="${b.id}">
