@@ -76,7 +76,50 @@
       $("stats").innerHTML = '<div class="notice err" style="grid-column:1/-1">Veriler yüklenemedi. Bu hesabın <b>admins</b> tablosunda kayıtlı olduğundan emin olun (README, adım 2).</div>';
       return;
     }
-    renderStats(); renderBookings(); renderCalendar(); renderTests();
+    renderStats(); renderBookings(); renderCalendar(); renderTests(); renderSync();
+  }
+
+  /* ---------- Takvim aboneliği ---------- */
+  async function renderSync() {
+    const box = $("sync-body");
+    let feed;
+    try { feed = await Data.calendarFeed(); }
+    catch (e) { box.innerHTML = '<p class="notice err">Takvim bağlantısı yüklenemedi. Veritabanı güncellemesi (supabase/migration-takvim.sql) uygulanmış olmalı.</p>'; return; }
+    if (!feed) { box.innerHTML = '<p class="small muted">Demo modunda takvim bağlantısı yok.</p>'; return; }
+    const https = Data.calendarFeedUrl(feed.token), webcal = https.replace(/^https:/, "webcal:");
+    const google = `https://calendar.google.com/calendar/r?cid=${encodeURIComponent(webcal)}`;
+    box.innerHTML = `
+      <div class="sync-actions">
+        <a class="btn primary" id="sync-apple" href="${esc(webcal)}">Apple Takvim'e ekle</a>
+        <a class="btn ghost" id="sync-google" href="${esc(google)}" target="_blank" rel="noopener noreferrer">Google Takvim'e ekle</a>
+        <button class="btn ghost" type="button" id="sync-copy">Bağlantıyı kopyala</button>
+      </div>
+      <label class="check small"><input type="checkbox" id="sync-names" ${feed.show_names ? "checked" : ""}> Takvimde danışan adı, telefonu ve notunu göster <span class="muted">(kapalıyken yalnızca "Seans (Online / Yüz yüze)" görünür)</span></label>
+      <details class="small">
+        <summary>Elle ekleme ve ipuçları</summary>
+        <ul class="sync-tips">
+          <li><b>iPhone:</b> Ayarlar → Takvim → Hesaplar → Hesap Ekle → Diğer → Abone Olunan Takvim Ekle → bağlantıyı yapıştırın. Mac'te: Takvim → Dosya → Yeni Takvim Aboneliği. "Otomatik yenile"yi <b>Her 5 dakikada</b> ya da <b>Her 15 dakikada</b> olarak seçin.</li>
+          <li><b>Google Takvim (bilgisayar):</b> Sol menüde "Diğer takvimler" yanındaki + → "URL ile" → bağlantıyı yapıştırın. Telefondaki Google Takvim uygulamasında da otomatik görünür.</li>
+          <li>Google abone olunan takvimleri kendi belirlediği aralıklarla (genellikle birkaç saatte bir) yeniler; anlık güncelleme için Apple Takvim daha hızlıdır. Yeni randevu e-postasındaki takvim dosyası anında eklemek için kullanılabilir.</li>
+          <li>Bağlantı başka birinin eline geçtiyse aşağıdan yenileyin; eski bağlantı hemen çalışmaz hâle gelir ve takvimlere yeni bağlantıyı tekrar eklemeniz gerekir.</li>
+        </ul>
+        <p><code class="sync-url" id="sync-url">${esc(https)}</code></p>
+        <button class="btn danger small" type="button" id="sync-rotate">Bağlantıyı yenile</button>
+      </details>
+      <p class="notice ok" id="sync-msg" hidden></p>`;
+    $("sync-copy").onclick = async () => {
+      try { await navigator.clipboard.writeText(https); note($("sync-msg"), "Bağlantı kopyalandı.", "ok"); }
+      catch (e) { note($("sync-msg"), "Kopyalanamadı; 'Elle ekleme' bölümündeki bağlantıyı seçip kopyalayın.", "err"); }
+    };
+    $("sync-names").onchange = async e => {
+      try { await Data.setCalendarNames(e.target.checked); note($("sync-msg"), e.target.checked ? "Danışan bilgileri takvimde gösterilecek." : "Takvimde yalnızca seans türü gösterilecek.", "ok"); }
+      catch (err) { e.target.checked = !e.target.checked; note($("sync-msg"), "Ayar kaydedilemedi.", "err"); }
+    };
+    $("sync-rotate").onclick = async () => {
+      if (!confirm("Eski bağlantı çalışmayı durduracak ve takvimlerinize yeni bağlantıyı yeniden eklemeniz gerekecek. Devam edilsin mi?")) return;
+      try { await Data.rotateCalendarToken(); await renderSync(); note($("sync-msg"), "Yeni bağlantı oluşturuldu. Takvimlerinizdeki eski aboneliği silip yenisini ekleyin.", "ok"); }
+      catch (e) { note($("sync-msg"), "Bağlantı yenilenemedi.", "err"); }
+    };
   }
 
   /* ---------- Testler ---------- */

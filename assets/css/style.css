@@ -439,3 +439,13 @@ tr:last-child td { border-bottom: none; }
 .req { color: var(--danger); font-weight: 700; }
 
 @media (max-width: 480px) { .creds li { grid-template-columns: 1fr; gap: 2px; } }
+
+/* Takvim aboneliği kartı (panel) */
+.sync-card { display: grid; gap: 14px; }
+.sync-card h3 { margin: 0 0 4px; font-size: 1.1rem; }
+.sync-actions { display: flex; flex-wrap: wrap; gap: 10px; }
+.sync-card .check { display: flex; gap: 10px; align-items: flex-start; }
+.sync-card .check input { margin-top: 3px; }
+.sync-card details summary { cursor: pointer; font-weight: 600; }
+.sync-tips { padding-left: 18px; display: grid; gap: 8px; margin: 10px 0; }
+.sync-url { display: block; overflow-wrap: anywhere; padding: 8px 10px; border-radius: 8px; background: var(--surface-2, rgb(0 0 0 / 5%)); font-size: .8rem; user-select: all; }

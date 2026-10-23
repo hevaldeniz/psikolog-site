@@ -12,7 +12,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,500;0,7..72,600;1,7..72,400;1,7..72,500&display=swap">
-<link rel="stylesheet" href="assets/css/style.css?v=20261023r">
+<link rel="stylesheet" href="assets/css/style.css?v=20261023s">
 </head>
 <body>
 
@@ -87,6 +87,15 @@
 
     <!-- Takvim -->
     <div role="tabpanel" id="p-calendar" class="stack" hidden>
+      <section class="card sync-card" aria-labelledby="sync-title">
+        <div class="sync-head">
+          <div>
+            <h3 id="sync-title">Telefon takvimine bağla</h3>
+            <p class="small muted">Randevularınız Apple Takvim ve Google Takvim'de ayrı bir "Danışan seansları" takvimi olarak görünür; yeni randevu ve iptaller otomatik yansır. Bu bağlantı size özeldir, kimseyle paylaşmayın.</p>
+          </div>
+        </div>
+        <div id="sync-body" class="stack"><p class="small muted">Yükleniyor…</p></div>
+      </section>
       <p class="muted small">Boş bir saatin türüne tıkladıkça Online → Yüz yüze → Online / Yüz yüze arasında değişir. "Online / Yüz yüze" saatlerde danışan türü kendisi seçer ve saat dolunca iki tür birden kapanır. Dolu saatler silinemez; önce randevuyu iptal edin.</p>
       <div class="cal-tools" id="cal-tools">
         <span class="small muted" id="cal-count">—</span>
@@ -136,9 +145,9 @@
 </main>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
-<script src="assets/js/config.js?v=20261023r"></script>
-<script src="assets/js/data.js?v=20261023r"></script>
-<script src="assets/js/main.js?v=20261023r"></script>
-<script src="assets/js/admin.js?v=20261023r"></script>
+<script src="assets/js/config.js?v=20261023s"></script>
+<script src="assets/js/data.js?v=20261023s"></script>
+<script src="assets/js/main.js?v=20261023s"></script>
+<script src="assets/js/admin.js?v=20261023s"></script>
 </body>
 </html>

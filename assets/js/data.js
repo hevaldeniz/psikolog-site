@@ -186,6 +186,24 @@
     },
     resetDemo() { mem = demoSeed(); demoSave(); },
 
+    /* ---- Takvim aboneliği (Apple / Google Takvim) ---- */
+    async calendarFeed() {
+      if (!sb) return null;
+      const { data, error } = await sb.from("calendar_feed").select("token, show_names").eq("id", 1).maybeSingle();
+      if (error) throw error; return data;
+    },
+    async setCalendarNames(on) {
+      if (!sb) return;
+      const { error } = await sb.from("calendar_feed").update({ show_names: !!on }).eq("id", 1);
+      if (error) throw error;
+    },
+    async rotateCalendarToken() {
+      if (!sb) return null;
+      const { data, error } = await sb.rpc("admin_rotate_calendar_token");
+      if (error) throw error; return data;
+    },
+    calendarFeedUrl(token) { return `${C.supabaseUrl}/functions/v1/calendar-feed?t=${encodeURIComponent(token)}`; },
+
     /* ---- Testler / envanterler ---- */
     async loadForms() {
       const r = await fetch("assets/forms/forms.json", { cache: "no-cache" });
