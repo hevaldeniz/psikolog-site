@@ -191,7 +191,7 @@ section { padding-block: clamp(56px, 8vw, 96px); }
 .contact-grid > * { min-width: 0; }
 .contact-list { list-style: none; padding: 0; margin: 0; display: grid; gap: 14px; }
 .contact-list li { display: grid; gap: 2px; padding-bottom: 14px; border-bottom: 1px solid var(--line); }
-.contact-list li span { font-size: 0.8rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; }
+.contact-list li > span:first-child { font-size: 0.8rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; }
 .contact-list li b { font-weight: 600; overflow-wrap: anywhere; user-select: all; }
 @media (max-width: 760px) { .contact-grid { grid-template-columns: 1fr; } }
 
