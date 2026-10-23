@@ -11,13 +11,10 @@ window.SITE_CONFIG = {
   whatsapp: "905321595726",           // başında + olmadan, boşluksuz
   email: "pskdenizozdemir@gmail.com",
   address: "Caddebostan Mah. Ethem Efendi Cad. Çapçı Apt. No:14 D:12, Kadıköy / İstanbul",
-  mapsUrl: "https://www.google.com/maps/search/?api=1&query=Ethem%20Efendi%20Caddesi%20No%3A14%2C%20Caddebostan%2C%20Kad%C4%B1k%C3%B6y%2C%20%C4%B0stanbul",
+  mapsUrl: "https://www.google.com/maps/search/?api=1&query=Klinik%20Psikolog%20Heval%20Deniz%20%C3%96zdemir",
   instagram: "pskhevaldenizozdemir",
-  // Ana sayfada oynatılabilen Instagram videoları: video bağlantısındaki kod
-  // (ör. instagram.com/reel/DeMgDqONkqn/ → "DeMgDqONkqn"). Sıra = sitedeki sıra.
-  instagramVideos: ["DeMgDqONkqn", "DeFJ5zVtm2r"],
   // Haritada gösterilecek konum (Google Haritalar'daki işletme adı ya da adres)
-  mapsEmbedQuery: "Ethem Efendi Caddesi No:14, Caddebostan, Kadıköy, İstanbul",
+  mapsEmbedQuery: "Klinik Psikolog Heval Deniz Özdemir",
   linkedin: "https://tr.linkedin.com/in/heval-deniz-%C3%B6zdemir-a3a6351a3",
 
   // Seans bilgisi (sitede gösterilir)

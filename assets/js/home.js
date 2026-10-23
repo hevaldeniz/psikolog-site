@@ -81,7 +81,7 @@
 
   init();
 
-  // Instagram: profil penceresi + oynatılabilir videolar (config.js → instagram, instagramVideos)
+  // Instagram: tek profil penceresi (config.js → instagram)
   const C = window.SITE_CONFIG, ig = $("ig-grid");
   if (ig && C.instagram) {
     const frame = (src, title, cls) => {
@@ -92,8 +92,6 @@
     };
     const user = encodeURIComponent(C.instagram);
     frame(`https://www.instagram.com/${user}/embed/`, "Instagram profili", "ig-profile");
-    (C.instagramVideos || []).filter(id => /^[A-Za-z0-9_-]{5,20}$/.test(id))
-      .forEach((id, n) => frame(`https://www.instagram.com/p/${id}/embed/captioned/`, `Instagram videosu ${n + 1}`));
   }
 
   // Harita (config.js → mapsEmbedQuery ya da address)
