@@ -81,10 +81,10 @@ async function onInsert(id: string) {
     : (OFFICE_ADDRESS ? `Adres: ${OFFICE_ADDRESS}` : "Ofis adresi size ayrıca iletilecek.");
   const first = String(b.name).split(" ")[0];
 
-  // Psikoloğa (panelden elle eklenen randevularda gönderilmez; kayıt zaten sizde)
+  // Psikoloğa (siteden ve panelden eklenen tüm randevularda)
   const digits = String(b.phone || "").replace(/\D/g, "").replace(/^0/, "90");
-  if (b.source !== "panel") await send(PSYCHOLOGIST_EMAIL, `Yeni randevu: ${b.name} · ${fmtDate(b.starts_at)} ${fmtTime(b.starts_at)} · ${b.type === "online" ? "Online" : "Yüz yüze"}`,
-    wrap(`<h2 style="margin:0 0 12px">Yeni randevu</h2>
+  await send(PSYCHOLOGIST_EMAIL, `${b.source === "panel" ? "Randevu eklendi (panel)" : "Yeni randevu"}: ${b.name} · ${fmtDate(b.starts_at)} ${fmtTime(b.starts_at)} · ${b.type === "online" ? "Online" : "Yüz yüze"}`,
+    wrap(`<h2 style="margin:0 0 12px">${b.source === "panel" ? "Panelden eklenen randevu" : "Yeni randevu"}</h2>
       <table style="border-collapse:collapse;font-size:15px">
         ${row("Danışan", esc(b.name))}${row("Tarih", esc(when))}${row("Tür", esc(typeLabel(b.type)))}
         ${row("Telefon", esc(b.phone))}${b.email ? row("E-posta", esc(b.email)) : ""}${b.note ? row("Not", esc(b.note)) : ""}
@@ -93,8 +93,8 @@ async function onInsert(id: string) {
     b.email || PSYCHOLOGIST_EMAIL,
     ics(b, endIso, `Seans: ${b.name} (${b.type === "online" ? "Online" : "Yüz yüze"})`, `Telefon: ${b.phone}${b.note ? "\nNot: " + b.note : ""}`));
 
-  // Danışana
-  if (b.email) {
+  // Danışana (panelden eklenip "e-posta gönder" seçilmediyse gönderilmez)
+  if (b.email && b.notify_client !== false) {
     await send(b.email, `Randevunuz onaylandı · ${fmtDate(b.starts_at)} ${fmtTime(b.starts_at)}`,
       wrap(`<p>Merhaba ${esc(first)},</p>
         <p>Psk. Heval Deniz Özdemir ile randevunuz oluşturuldu.</p>
@@ -138,8 +138,8 @@ async function onCancel(id: string) {
     b.email || PSYCHOLOGIST_EMAIL,
     ics(b, endIso, `Seans: ${b.name}`, "İptal edildi", true), "iptal.ics");
 
-  // Danışana
-  if (b.email) {
+  // Danışana (panelden eklenip "e-posta gönder" seçilmediyse gönderilmez)
+  if (b.email && b.notify_client !== false) {
     const reason = byClient
       ? "İptal talebiniz alındı ve randevunuz iptal edildi."
       : "Randevunuz psikoloğunuz tarafından iptal edildi. Yeni bir saat belirlemek için sizinle iletişime geçilecektir.";
