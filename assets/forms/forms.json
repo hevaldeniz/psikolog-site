@@ -316,6 +316,92 @@
       "group": "on"
     },
     {
+      "id": "phq9",
+      "title": "PHQ-9 Hasta Sağlığı Anketi",
+      "short": "Son iki haftadaki duygudurumunuzla ilgili 9 soru.",
+      "minutes": 3,
+      "kind": "scale",
+      "instructions": "Son 2 hafta içinde, aşağıdaki sorunlardan herhangi biri sizi ne sıklıkta rahatsız etti?",
+      "options": [
+        {
+          "label": "Hiç",
+          "value": 0
+        },
+        {
+          "label": "Birkaç gün",
+          "value": 1
+        },
+        {
+          "label": "Günlerin yarısından fazlasında",
+          "value": 2
+        },
+        {
+          "label": "Hemen hemen her gün",
+          "value": 3
+        }
+      ],
+      "items": [
+        "Bir şeyler yapmaya karşı ilgi veya zevk duymama",
+        "Kendini çökkün, depresif ya da umutsuz hissetme",
+        "Uykuya dalmada veya uykuyu sürdürmede güçlük ya da çok fazla uyuma",
+        "Kendini yorgun hissetme ya da enerjinin az olması",
+        "İştahsızlık ya da aşırı yeme",
+        "Kendini kötü hissetme, başarısız biri olduğunu düşünme ya da kendini veya aileni hayal kırıklığına uğrattığını düşünme",
+        "Gazete okumak ya da televizyon izlemek gibi şeylere dikkatini vermede güçlük",
+        "Başkalarının fark edebileceği kadar yavaş hareket etme veya konuşma ya da tam tersine, her zamankinden çok daha huzursuz olma",
+        "Ölmüş olmanın daha iyi olacağını ya da kendine bir şekilde zarar verme düşünceleri"
+      ],
+      "scoring": {
+        "multiplier": 1,
+        "bands": [
+          {
+            "max": 4,
+            "label": "Minimal",
+            "desc": "Klinik açıdan anlamlı depresif belirti saptanmadı."
+          },
+          {
+            "max": 9,
+            "label": "Hafif",
+            "desc": "Hafif düzeyde depresif belirtiler. İzlem önerilir; belirtilerin süresi ve işlevselliğe etkisi birlikte değerlendirilmelidir."
+          },
+          {
+            "max": 14,
+            "label": "Orta",
+            "desc": "Orta düzeyde depresif belirtiler; majör depresyon tarama eşiğinin üzerinde. Tanısal değerlendirme ve tedavi planı önerilir."
+          },
+          {
+            "max": 19,
+            "label": "Orta-ağır",
+            "desc": "Orta-ağır düzeyde depresif belirtiler. Aktif tedavi (psikoterapi, gerekirse psikiyatrik değerlendirme) önerilir."
+          },
+          {
+            "max": 27,
+            "label": "Ağır",
+            "desc": "Ağır düzeyde depresif belirtiler. Psikiyatrik değerlendirme ve yakın izlem önerilir."
+          }
+        ],
+        "flags": [
+          {
+            "item": 9,
+            "min": 1,
+            "label": "9. madde (kendine zarar verme düşünceleri) işaretlendi"
+          }
+        ]
+      },
+      "interpret": {
+        "about": "PHQ-9, DSM depresyon ölçütlerine dayanan 9 maddelik bir tarama aracıdır. Toplam puan 0–27 arasındadır; 5, 10, 15 ve 20 puan sırasıyla hafif, orta, orta-ağır ve ağır depresif belirti düzeylerinin kesme noktalarıdır. 10 ve üzeri puan, majör depresyon için en yaygın kullanılan tarama eşiğidir.",
+        "highlight": {
+          "min": 2,
+          "title": "Günlerin yarısından fazlasında ya da her gün yaşanan belirtiler"
+        },
+        "notes": [
+          "9. madde (ölüm ya da kendine zarar verme düşünceleri) toplam puandan bağımsız değerlendirilmelidir; 1 ve üzeri yanıt risk değerlendirmesi gerektirir.",
+          "Bu ölçek tanı koymaz; sonuçlar klinik görüşme ve öyküyle birlikte değerlendirilmelidir."
+        ]
+      },
+      "group": "test"
+    },
+    {
       "id": "asrs",
       "title": "Yetişkin Dikkat Eksikliği Tarama Ölçeği (ASRS v1.1)",
       "short": "Yetişkinlerde dikkat eksikliği ve hiperaktivite belirtilerini tarayan 6 soru.",
@@ -1242,93 +1328,6 @@
         }
       },
       "group": "test"
-    },
-    {
-      "id": "phq9",
-      "title": "PHQ-9 Hasta Sağlığı Anketi",
-      "short": "Son iki haftadaki duygudurumunuzla ilgili 9 soru.",
-      "minutes": 3,
-      "kind": "scale",
-      "instructions": "Son 2 hafta içinde, aşağıdaki sorunlardan herhangi biri sizi ne sıklıkta rahatsız etti?",
-      "options": [
-        {
-          "label": "Hiç",
-          "value": 0
-        },
-        {
-          "label": "Birkaç gün",
-          "value": 1
-        },
-        {
-          "label": "Günlerin yarısından fazlasında",
-          "value": 2
-        },
-        {
-          "label": "Hemen hemen her gün",
-          "value": 3
-        }
-      ],
-      "items": [
-        "Bir şeyler yapmaya karşı ilgi veya zevk duymama",
-        "Kendini çökkün, depresif ya da umutsuz hissetme",
-        "Uykuya dalmada veya uykuyu sürdürmede güçlük ya da çok fazla uyuma",
-        "Kendini yorgun hissetme ya da enerjinin az olması",
-        "İştahsızlık ya da aşırı yeme",
-        "Kendini kötü hissetme, başarısız biri olduğunu düşünme ya da kendini veya aileni hayal kırıklığına uğrattığını düşünme",
-        "Gazete okumak ya da televizyon izlemek gibi şeylere dikkatini vermede güçlük",
-        "Başkalarının fark edebileceği kadar yavaş hareket etme veya konuşma ya da tam tersine, her zamankinden çok daha huzursuz olma",
-        "Ölmüş olmanın daha iyi olacağını ya da kendine bir şekilde zarar verme düşünceleri"
-      ],
-      "scoring": {
-        "multiplier": 1,
-        "bands": [
-          {
-            "max": 4,
-            "label": "Minimal",
-            "desc": "Klinik açıdan anlamlı depresif belirti saptanmadı."
-          },
-          {
-            "max": 9,
-            "label": "Hafif",
-            "desc": "Hafif düzeyde depresif belirtiler. İzlem önerilir; belirtilerin süresi ve işlevselliğe etkisi birlikte değerlendirilmelidir."
-          },
-          {
-            "max": 14,
-            "label": "Orta",
-            "desc": "Orta düzeyde depresif belirtiler; majör depresyon tarama eşiğinin üzerinde. Tanısal değerlendirme ve tedavi planı önerilir."
-          },
-          {
-            "max": 19,
-            "label": "Orta-ağır",
-            "desc": "Orta-ağır düzeyde depresif belirtiler. Aktif tedavi (psikoterapi, gerekirse psikiyatrik değerlendirme) önerilir."
-          },
-          {
-            "max": 27,
-            "label": "Ağır",
-            "desc": "Ağır düzeyde depresif belirtiler. Psikiyatrik değerlendirme ve yakın izlem önerilir."
-          }
-        ],
-        "flags": [
-          {
-            "item": 9,
-            "min": 1,
-            "label": "9. madde (kendine zarar verme düşünceleri) işaretlendi"
-          }
-        ]
-      },
-      "interpret": {
-        "about": "PHQ-9, DSM depresyon ölçütlerine dayanan 9 maddelik bir tarama aracıdır. Toplam puan 0–27 arasındadır; 5, 10, 15 ve 20 puan sırasıyla hafif, orta, orta-ağır ve ağır depresif belirti düzeylerinin kesme noktalarıdır. 10 ve üzeri puan, majör depresyon için en yaygın kullanılan tarama eşiğidir.",
-        "highlight": {
-          "min": 2,
-          "title": "Günlerin yarısından fazlasında ya da her gün yaşanan belirtiler"
-        },
-        "notes": [
-          "9. madde (ölüm ya da kendine zarar verme düşünceleri) toplam puandan bağımsız değerlendirilmelidir; 1 ve üzeri yanıt risk değerlendirmesi gerektirir.",
-          "Bu ölçek tanı koymaz; sonuçlar klinik görüşme ve öyküyle birlikte değerlendirilmelidir."
-        ]
-      },
-      "group": "test",
-      "hidden": true
     }
   ]
 }
