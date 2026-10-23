@@ -86,7 +86,7 @@
     let list;
     try { forms = forms || await Data.loadForms(); list = await Data.listAssessments(); }
     catch (e) { box.innerHTML = '<div class="notice err">Test sonuçları yüklenemedi.</div>'; return; }
-    if (!list.length) { box.innerHTML = '<div class="empty">Henüz doldurulmuş form yok. Danışanlarınız test.html sayfasından doldurdukça burada görünür.</div>'; return; }
+    if (!list.length) { box.innerHTML = '<div class="empty">Henüz doldurulmuş form yok. Danışanlarınız Ön değerlendirme ve Testler sayfalarından doldurdukça burada görünür.</div>'; return; }
     box.innerHTML = list.map(a => {
       const f = forms.find(x => x.id === a.form_id), flagged = a.flags && a.flags.length;
       let rows = "";

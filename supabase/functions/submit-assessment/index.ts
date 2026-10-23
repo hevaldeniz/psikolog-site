@@ -132,7 +132,7 @@ Deno.serve(async (req) => {
   const phone = String(body.phone || "").trim().slice(0, 30);
   if (name.length < 2 || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return json({ ok: false, error: "invalid" });
 
-  const formsRes = await fetch(`${SITE_URL}/assets/forms/forms.json`);
+  const formsRes = await fetch(`${SITE_URL}/assets/forms/forms.json?m=${Math.floor(Date.now() / 60000)}`); // dakikalık önbellek kırıcı: düzenlemeler hemen geçerli olur
   if (!formsRes.ok) return json({ ok: false, error: "forms_unavailable" });
   const form = (await formsRes.json()).forms.find((f: any) => f.id === body.form_id);
   if (!form) return json({ ok: false, error: "unknown_form" });

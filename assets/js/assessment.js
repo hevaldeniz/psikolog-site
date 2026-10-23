@@ -2,6 +2,10 @@
 (function () {
   const $ = id => document.getElementById(id);
   let forms = [], form = null;
+  // Sayfa grubu: test.html → "on" (ön değerlendirme), testler.html → "test" (testler)
+  const GROUP = document.body.dataset.group || "on";
+  const PAGE = GROUP === "test" ? "testler.html" : "test.html";
+  const pageOf = f => f.group === "test" ? "testler.html" : "test.html";
 
   function esc(s) { const d = document.createElement("div"); d.textContent = s == null ? "" : String(s); return d.innerHTML; }
   function msg(text, kind) { const m = $("t-msg"); m.hidden = !text; m.className = `notice ${kind || "err"}`; m.textContent = text || ""; }
@@ -13,16 +17,21 @@
   }
 
   async function boot() {
-    try { forms = await Data.loadForms(); }
+    let all;
+    try { all = await Data.loadForms(); }
     catch (e) { $("form-cards").innerHTML = '<div class="empty">Formlar yüklenemedi. Sayfayı yenileyin.</div>'; return; }
-    renderList();
     const id = requestedId();
+    // Başka sayfanın formuna gelen eski bağlantıları doğru sayfaya yönlendir
+    const other = id && all.find(f => f.id === id && !f.hidden && (f.group || "on") !== GROUP);
+    if (other) { location.replace(`${pageOf(other)}?form=${encodeURIComponent(id)}`); return; }
+    forms = all.filter(f => !f.hidden && (f.group || "on") === GROUP);
+    renderList();
     if (id && forms.some(f => f.id === id)) open(id);
   }
 
   function renderList() {
     $("form-cards").innerHTML = forms.map(f => `
-      <a class="form-card" href="test.html?form=${f.id}" data-id="${f.id}">
+      <a class="form-card" href="${PAGE}?form=${f.id}" data-id="${f.id}">
         <h3>${esc(f.title)}</h3>
         <p class="muted">${esc(f.short)}</p>
         <span class="meta"><span>Yaklaşık ${f.minutes} dk</span><span>${f.kind === "scale" ? f.items.length + " soru" : f.fields.length + " soru"}</span></span>

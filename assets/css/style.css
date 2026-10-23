@@ -75,11 +75,13 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-a
 .brand { display: flex; flex-direction: column; text-decoration: none; color: var(--fg); line-height: 1.2; }
 .brand strong { font-family: var(--display); font-weight: 600; font-size: 1.15rem; }
 .brand span { font-size: 0.78rem; color: var(--muted); letter-spacing: 0.06em; text-transform: uppercase; }
-.nav-links { display: flex; align-items: center; gap: 22px; }
+.nav-links { display: flex; align-items: center; gap: 16px; }
+.nav { gap: 12px; }
+.nav-links a, .brand strong, .theme-btn { white-space: nowrap; }
 .nav-links a { color: var(--fg); text-decoration: none; font-size: 0.95rem; }
 .nav-links a:hover { color: var(--accent); }
 .nav-toggle { display: none; background: none; border: 1px solid var(--line); border-radius: 10px; padding: 8px 12px; color: var(--fg); font: inherit; cursor: pointer; }
-@media (max-width: 860px) {
+@media (max-width: 1180px) {
   .nav-toggle { display: block; }
   .nav-links { display: none; position: absolute; left: 0; right: 0; top: 100%; flex-direction: column; align-items: stretch; gap: 0;
     background: var(--surface); border-bottom: 1px solid var(--line);

@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Testler · Psk. Heval Deniz Özdemir</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<script>try{var t=localStorage.getItem("psk_theme");if(t==="dark")document.documentElement.setAttribute("data-theme","dark");}catch(e){}</script>
+<meta name="description" content="Psikolojik tarama testleri: depresyon, dikkat eksikliği, obsesif-kompulsif belirtiler ve kişilik. Üyelik gerekmez; yanıtlarınız psikoloğunuza ve size e-postayla iletilir.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,500;0,7..72,600;1,7..72,400;1,7..72,500&display=swap">
+<link rel="stylesheet" href="assets/css/style.css?v=20261023n">
+</head>
+<body data-group="test">
+
+<header class="site-header">
+  <nav class="wrap nav" aria-label="Ana menü">
+    <a class="brand" href="index.html"><strong>Heval Deniz Özdemir</strong><span>Klinik Psikolog</span></a>
+    <div class="nav-end"><button class="theme-btn" type="button" data-theme-toggle aria-label="Temayı değiştir"></button><button class="nav-toggle" type="button" aria-expanded="false" aria-controls="nav-links">Menü</button></div>
+    <div class="nav-links" id="nav-links">
+      <a href="index.html#hakkimda">Hakkımda</a>
+      <a href="test.html">Ön değerlendirme</a>
+      <a href="testler.html">Testler</a>
+      <a href="index.html#iletisim">İletişim</a>
+      <a class="btn small" href="randevu.html">Randevu al</a>
+    </div>
+  </nav>
+</header>
+
+<main>
+  <section style="padding-block: 40px 72px">
+    <div class="wrap">
+
+      <!-- Form listesi -->
+      <div id="list-view" class="stack" style="gap: 28px">
+        <div class="section-head" style="margin-bottom: 0">
+          <p class="eyebrow">Testler</p>
+          <h1 style="font-size: clamp(1.9rem, 4vw, 2.8rem)">Psikolojik testler</h1>
+          <p class="muted">Üyelik gerekmez. Testi doldurduğunuzda yanıtlarınız psikoloğunuza iletilir, bir kopyası da yazdığınız e-posta adresine gönderilir. Bu testler tanı koymaz; sonuçları seansta birlikte değerlendiririz.</p>
+        </div>
+        <div class="form-cards" id="form-cards"><div class="empty">Formlar yükleniyor…</div></div>
+      </div>
+
+      <!-- Tek form -->
+      <div id="form-view" class="test-layout" hidden>
+        <a href="testler.html" class="small" id="back-link">← Tüm testler</a>
+        <div class="stack" style="gap: 10px">
+          <p class="eyebrow" id="f-eyebrow"></p>
+          <h1 style="font-size: clamp(1.7rem, 3.6vw, 2.4rem)" id="f-title"></h1>
+          <p class="muted" id="f-instr"></p>
+        </div>
+
+        <form class="form" id="t-form" novalidate>
+          <div class="card form">
+            <h3>Bilgileriniz</h3>
+            <div class="field"><label for="t-name">Ad soyad</label><input id="t-name" autocomplete="name" required maxlength="120"></div>
+            <div class="row">
+              <div class="field"><label for="t-email">E-posta <span class="muted">(yanıtlarınızın kopyası buraya gelir)</span></label><input id="t-email" type="email" autocomplete="email" required maxlength="160"></div>
+              <div class="field"><label for="t-phone">Telefon <span class="muted">(isteğe bağlı)</span></label><input id="t-phone" type="tel" autocomplete="tel" inputmode="tel" maxlength="30"></div>
+            </div>
+          </div>
+
+          <div class="progress" id="progress" hidden><span class="small muted" id="p-text"></span><div class="bar"><i id="p-bar"></i></div></div>
+          <div class="stack" id="questions" style="gap: 12px"></div>
+
+          <div class="hp" aria-hidden="true"><label for="t-website">Web siteniz</label><input id="t-website" tabindex="-1" autocomplete="off"></div>
+
+          <div class="card form">
+            <label class="check"><input id="t-consent" type="checkbox" required><span>Bu formda paylaştığım sağlık verisi niteliğindeki bilgilerin, psikolojik değerlendirme amacıyla işlenmesine ve tarafıma e-postayla gönderilmesine <a href="kvkk.html" target="_blank" rel="noopener">KVKK Aydınlatma Metni</a> kapsamında açık rıza veriyorum.</span></label>
+            <div id="t-msg" hidden></div>
+            <button class="btn" id="t-submit" type="submit">Gönder</button>
+          </div>
+        </form>
+      </div>
+
+      <!-- Teşekkür -->
+      <div id="done-view" class="test-layout" hidden>
+        <div class="crisis-box" id="crisis" hidden>
+          <b>Şu an kendinizi güvende hissetmiyorsanız lütfen beklemeyin.</b>
+          <span>Hemen <b>112</b>'yi arayın ya da en yakın hastanenin acil servisine başvurun. Yanıtlarınız psikoloğunuza iletildi; ancak e-postalar anlık takip edilmeyebilir, bu yüzden acil durumlarda bu formu beklemek yerine 112'ye ulaşın.</span>
+        </div>
+        <div class="card stack">
+          <span class="pill ok" style="justify-self:start">Formunuz iletildi</span>
+          <h2 style="font-size: 1.6rem" id="d-title"></h2>
+          <p class="muted" id="d-text"></p>
+          <div class="hero-actions">
+            <a class="btn" href="randevu.html">Randevu al</a>
+            <a class="btn ghost" href="testler.html">Başka bir test doldur</a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="foot-grid">
+      <span>© <span data-year></span> Psk. Heval Deniz Özdemir</span>
+      <span><a href="kvkk.html">KVKK Aydınlatma Metni</a></span>
+    </div>
+    <p class="crisis">Bu site acil destek hizmeti vermez. Kendinize ya da bir başkasına zarar verme riski varsa lütfen hemen <b>112</b>'yi arayın.</p>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script src="assets/js/config.js?v=20261023n"></script>
+<script src="assets/js/data.js?v=20261023n"></script>
+<script src="assets/js/main.js?v=20261023n"></script>
+<script src="assets/js/assessment.js?v=20261023n"></script>
+</body>
+</html>
