@@ -13,6 +13,11 @@ window.SITE_CONFIG = {
   address: "Caddebostan Mah. Ethem Efendi Cad. Çapçı Apt. No:14 D:12, Kadıköy / İstanbul",
   mapsUrl: "https://www.google.com/maps/search/?api=1&query=Ethem%20Efendi%20Caddesi%20No%3A14%2C%20Caddebostan%2C%20Kad%C4%B1k%C3%B6y%2C%20%C4%B0stanbul",
   instagram: "pskhevaldenizozdemir",
+  // Ana sayfada oynatılabilen Instagram videoları: video bağlantısındaki kod
+  // (ör. instagram.com/reel/DeMgDqONkqn/ → "DeMgDqONkqn"). Sıra = sitedeki sıra.
+  instagramVideos: ["DeMgDqONkqn", "DeFJ5zVtm2r"],
+  // Haritada gösterilecek konum (Google Haritalar'daki işletme adı ya da adres)
+  mapsEmbedQuery: "Ethem Efendi Caddesi No:14, Caddebostan, Kadıköy, İstanbul",
   linkedin: "https://tr.linkedin.com/in/heval-deniz-%C3%B6zdemir-a3a6351a3",
 
   // Seans bilgisi (sitede gösterilir)

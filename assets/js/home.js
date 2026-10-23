@@ -80,4 +80,23 @@
   }
 
   init();
+
+  // Instagram: profil penceresi + oynatılabilir videolar (config.js → instagram, instagramVideos)
+  const C = window.SITE_CONFIG, ig = $("ig-grid");
+  if (ig && C.instagram) {
+    const frame = (src, title, cls) => {
+      const f = document.createElement("figure"); f.className = `ig-frame ${cls || ""}`;
+      const i = document.createElement("iframe");
+      i.src = src; i.title = title; i.loading = "lazy"; i.setAttribute("allowtransparency", "true"); i.setAttribute("scrolling", "yes");
+      f.appendChild(i); ig.appendChild(f);
+    };
+    const user = encodeURIComponent(C.instagram);
+    frame(`https://www.instagram.com/${user}/embed/`, "Instagram profili", "ig-profile");
+    (C.instagramVideos || []).filter(id => /^[A-Za-z0-9_-]{5,20}$/.test(id))
+      .forEach((id, n) => frame(`https://www.instagram.com/p/${id}/embed/captioned/`, `Instagram videosu ${n + 1}`));
+  }
+
+  // Harita (config.js → mapsEmbedQuery ya da address)
+  const map = $("map");
+  if (map) map.src = `https://www.google.com/maps?q=${encodeURIComponent(C.mapsEmbedQuery || C.address)}&hl=tr&z=16&output=embed`;
 })();

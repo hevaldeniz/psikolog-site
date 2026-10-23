@@ -11,7 +11,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,500;0,7..72,600;1,7..72,400;1,7..72,500&display=swap">
-<link rel="stylesheet" href="assets/css/style.css?v=20261023i">
+<link rel="stylesheet" href="assets/css/style.css?v=20261023j">
 </head>
 <body>
 
@@ -182,7 +182,19 @@
     </div>
   </section>
 
-  <section id="iletisim">
+  <section id="instagram">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow" lang="en">Instagram</p>
+        <h2>Videolarım ve paylaşımlarım</h2>
+        <p class="muted">Psikoloji üzerine kısa videolar ve paylaşımlar. Videoları buradan izleyebilir, tamamı için Instagram hesabıma göz atabilirsiniz.</p>
+      </div>
+      <div class="ig-grid" id="ig-grid"></div>
+      <div class="hero-actions"><a class="btn ghost" data-href="instagram" href="#" target="_blank" rel="noopener">Instagram'da takip et · @<span data-c="instagram"></span></a></div>
+    </div>
+  </section>
+
+  <section id="iletisim" class="band">
     <div class="wrap contact-grid">
       <div class="stack">
         <p class="eyebrow">İletişim</p>
@@ -194,12 +206,13 @@
         </div>
       </div>
       <ul class="contact-list">
-        <li><span>Telefon</span><b data-c="phone">—</b></li>
-        <li><span>E-posta</span><b data-c="email">—</b></li>
+        <li><span>Telefon</span><a class="contact-link" data-href="phone" data-track="contact" href="#"><b data-c="phone">—</b></a></li>
+        <li><span>E-posta</span><a class="contact-link" data-href="email" href="#"><b data-c="email">—</b></a></li>
         <li><span>Adres</span><b data-c="address">—</b><a class="small" data-href="maps" href="#" target="_blank" rel="noopener">Haritada aç</a></li>
         <li><span lang="en">Instagram</span><a data-href="instagram" href="#" target="_blank" rel="noopener">@<span data-c="instagram">—</span></a></li>
         <li><span lang="en">LinkedIn</span><a data-href="linkedin" href="#" target="_blank" rel="noopener">Heval Deniz Özdemir</a></li>
       </ul>
+      <div class="map-card"><iframe id="map" title="Ofis konumu haritası" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe></div>
     </div>
   </section>
 </main>
@@ -217,9 +230,9 @@
 <a class="wa" data-href="whatsapp" data-track="contact" href="#" target="_blank" rel="noopener">WhatsApp</a>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
-<script src="assets/js/config.js?v=20261023i"></script>
-<script src="assets/js/data.js?v=20261023i"></script>
-<script src="assets/js/main.js?v=20261023i"></script>
-<script src="assets/js/home.js?v=20261023i"></script>
+<script src="assets/js/config.js?v=20261023j"></script>
+<script src="assets/js/data.js?v=20261023j"></script>
+<script src="assets/js/main.js?v=20261023j"></script>
+<script src="assets/js/home.js?v=20261023j"></script>
 </body>
 </html>
