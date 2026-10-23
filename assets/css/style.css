@@ -373,6 +373,12 @@ tr:last-child td { border-bottom: none; }
 .opts label { display: inline-flex; align-items: center; gap: 8px; border: 1px solid var(--line); border-radius: 999px; padding: 8px 14px; font-size: 0.9rem; cursor: pointer; background: var(--bg); }
 .opts input { width: 16px; height: 16px; margin: 0; accent-color: var(--cobalt); }
 .opts label:has(input:checked) { border-color: var(--accent); background: var(--online-bg); }
+.opts.stacked { flex-direction: column; align-items: stretch; }
+.opts.stacked label { border-radius: 12px; }
+.q-section { margin-top: 18px; padding: 18px 20px; border-radius: var(--radius); background: var(--surface-2); border: 1px solid var(--line); display: grid; gap: 8px; }
+.q-section h3 { font-size: 1.1rem; color: var(--accent); }
+.q-section ul { margin: 0; padding-left: 1.2em; color: var(--muted); font-size: 0.93rem; display: grid; gap: 4px; }
+.form-credit { margin-top: 8px; }
 .progress { position: sticky; top: calc(env(safe-area-inset-top, 0px) + 66px); z-index: 5; background: var(--bg); padding-block: 8px; display: grid; gap: 6px; }
 .progress .bar { height: 6px; border-radius: 99px; background: var(--surface-2); overflow: hidden; }
 .progress .bar i { display: block; height: 100%; width: 0; background: var(--accent); transition: width .2s; }

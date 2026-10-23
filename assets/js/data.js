@@ -192,13 +192,19 @@
       if (!r.ok) throw new Error("forms"); return (await r.json()).forms;
     },
     // Puanlama: ölçekler için toplam × çarpan, şiddet bandı ve uyarı bayrakları
+    itemText(it) { return typeof it === "string" ? it : it.text; },
+    itemOptions(form, i) { return (typeof form.items[i] === "object" && form.items[i].options) || form.options; },
     scoreForm(form, answers) {
       if (form.kind !== "scale") return { score: null, severity: null, flags: [] };
-      const raw = answers.reduce((a, v) => a + (+v || 0), 0);
-      const sc = form.scoring || {}, score = raw * (sc.multiplier || 1);
-      const band = (sc.bands || []).find(b => score <= b.max);
+      const sc = form.scoring || {}, mult = sc.multiplier || 1, rev = new Set(sc.reverse || []);
+      const vals = i => Data.itemOptions(form, i).map(o => o.value);
+      const v = answers.map((a, i) => rev.has(i + 1) ? Math.min(...vals(i)) + Math.max(...vals(i)) - a : +a);
       const flags = (sc.flags || []).filter(f => (+answers[f.item - 1] || 0) >= f.min).map(f => f.label);
-      return { score, max: form.items.length * Math.max(...form.options.map(o => o.value)) * (sc.multiplier || 1), severity: band ? band.label : null, flags };
+      const details = (sc.subscales || []).map(s => `${s.label}: ${s.items.reduce((a, n) => a + v[n - 1], 0)} / ${s.items.reduce((a, n) => a + Math.max(...vals(n - 1)), 0)}`);
+      if (sc.screen) { const n = sc.screen.thresholds.filter((t, i) => answers[i] >= t).length; return { score: n, max: answers.length, severity: n >= sc.screen.cutoff ? sc.screen.positive : sc.screen.negative, flags }; }
+      if (sc.total === false) return { score: null, severity: details.join(" · ") || null, flags };
+      const score = v.reduce((a, x) => a + x, 0) * mult, band = (sc.bands || []).find(b => score <= b.max);
+      return { score, max: form.items.reduce((a, _, i) => a + Math.max(...vals(i)), 0) * mult, severity: band ? band.label : (details.join(" · ") || null), flags };
     },
     async submitAssessment(payload) {
       if (sb) {

@@ -39,11 +39,20 @@
     $("t-submit").textContent = `${form.title} formunu gönder`;
     const q = $("questions");
     if (form.kind === "scale") {
-      q.innerHTML = form.items.map((it, i) => `
+      q.innerHTML = form.items.map((it, i) => {
+        const sec = typeof it === "object" && it.section ? `
+        <div class="q-section">
+          <h3>${esc(it.section.title)}</h3>
+          ${it.section.examples ? `<p class="small muted">Örnekler:</p><ul>${it.section.examples.map(x => `<li>${esc(x)}</li>`).join("")}</ul>` : ""}
+          ${it.section.text ? `<p>${esc(it.section.text)}</p>` : ""}
+        </div>` : "";
+        const opts = Data.itemOptions(form, i), long = opts.some(o => o.label.length > 24);
+        return `${sec}
         <fieldset class="q" data-q="${i}">
-          <legend><span class="n">${i + 1}.</span><span>${esc(it)}</span></legend>
-          <div class="opts">${form.options.map(o => `<label><input type="radio" name="q${i}" value="${o.value}">${esc(o.label)}</label>`).join("")}</div>
-        </fieldset>`).join("");
+          <legend><span class="n">${i + 1}.</span><span>${esc(Data.itemText(it))}</span></legend>
+          <div class="opts${long ? " stacked" : ""}">${opts.map(o => `<label><input type="radio" name="q${i}" value="${o.value}">${esc(o.label)}</label>`).join("")}</div>
+        </fieldset>`;
+      }).join("") + (form.credit ? `<p class="small muted form-credit">${esc(form.credit)}</p>` : "");
       $("progress").hidden = false;
     } else {
       q.innerHTML = `<div class="card form">${form.fields.map(fl => {

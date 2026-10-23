@@ -90,7 +90,7 @@
     box.innerHTML = list.map(a => {
       const f = forms.find(x => x.id === a.form_id), flagged = a.flags && a.flags.length;
       let rows = "";
-      if (f && f.kind === "scale") rows = f.items.map((it, i) => { const o = f.options.find(x => x.value === a.answers[i]); return `<div><dt>${i + 1}. ${esc(it)}</dt><dd>${esc(o ? o.label : a.answers[i])} (${esc(a.answers[i])})</dd></div>`; }).join("");
+      if (f && f.kind === "scale") rows = f.items.map((it, i) => { const o = Data.itemOptions(f, i).find(x => x.value === a.answers[i]); return `<div><dt>${i + 1}. ${esc(Data.itemText(it))}</dt><dd>${esc(o ? o.label : a.answers[i])} (${esc(a.answers[i])})</dd></div>`; }).join("");
       else if (f) rows = f.fields.map(fl => `<div><dt>${esc(fl.label)}</dt><dd>${esc(a.answers[fl.id]) || "—"}</dd></div>`).join("");
       return `<details>
         <summary><span>${esc(a.name)} · ${esc(a.form_title)}${a.score != null ? ` · <b style="font-variant-numeric:tabular-nums">${a.score}</b> ${esc(a.severity)}` : ""}

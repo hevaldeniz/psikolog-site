@@ -17,21 +17,40 @@ const json = (b: unknown, status = 200) =>
   new Response(JSON.stringify(b), { status, headers: { ...cors, "Content-Type": "application/json" } });
 const esc = (s: unknown) => String(s ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]!));
 
+// Maddeler düz metin ya da { text, options, section } olabilir; seçenekler maddeye özel olabilir
+const itemText = (it: any) => typeof it === "string" ? it : it.text;
+const itemOpts = (form: any, i: number) => (typeof form.items[i] === "object" && form.items[i].options) || form.options;
+const vals = (form: any, i: number) => itemOpts(form, i).map((o: any) => o.value);
+
+// Puanlama: toplam + şiddet bandı, ters maddeler, alt ölçekler, tarama eşikleri (ASRS) ve uyarı bayrakları
 function score(form: any, answers: number[]) {
-  if (form.kind !== "scale") return { score: null, severity: null, flags: [] as string[], max: null };
-  const sc = form.scoring || {}, mult = sc.multiplier || 1;
-  const total = answers.reduce((a, v) => a + v, 0) * mult;
-  const band = (sc.bands || []).find((b: any) => total <= b.max);
+  const none = { score: null as number | null, severity: null as string | null, flags: [] as string[], max: null as number | null, details: [] as string[] };
+  if (form.kind !== "scale") return none;
+  const sc = form.scoring || {}, mult = sc.multiplier || 1, rev = new Set(sc.reverse || []);
+  const v = answers.map((a, i) => rev.has(i + 1) ? Math.min(...vals(form, i)) + Math.max(...vals(form, i)) - a : a);
   const flags = (sc.flags || []).filter((f: any) => (answers[f.item - 1] ?? 0) >= f.min).map((f: any) => f.label);
-  const max = form.items.length * Math.max(...form.options.map((o: any) => o.value)) * mult;
-  return { score: total, severity: band?.label ?? null, flags, max };
+  const details = (sc.subscales || []).map((s: any) => {
+    const sum = s.items.reduce((a: number, n: number) => a + v[n - 1], 0);
+    const max = s.items.reduce((a: number, n: number) => a + Math.max(...vals(form, n - 1)), 0);
+    return `${s.label}: ${sum} / ${max}`;
+  });
+  if (sc.screen) {
+    const n = sc.screen.thresholds.filter((t: number, i: number) => answers[i] >= t).length;
+    return { score: n, max: answers.length, severity: n >= sc.screen.cutoff ? sc.screen.positive : sc.screen.negative, flags, details };
+  }
+  if (sc.total === false) return { ...none, severity: details.join(" · ") || null, flags, details };
+  const total = v.reduce((a, x) => a + x, 0) * mult;
+  const band = (sc.bands || []).find((b: any) => total <= b.max);
+  const max = form.items.reduce((a: number, _: any, i: number) => a + Math.max(...vals(form, i)), 0) * mult;
+  return { score: total, severity: band?.label ?? (details.join(" · ") || null), flags, max, details };
 }
 
 function answerRows(form: any, answers: any) {
   if (form.kind === "scale") {
-    return form.items.map((it: string, i: number) => {
-      const o = form.options.find((x: any) => x.value === answers[i]);
-      return `<tr><td style="padding:8px;border-bottom:1px solid #e3e8f2">${i + 1}. ${esc(it)}</td><td style="padding:8px;border-bottom:1px solid #e3e8f2;white-space:nowrap"><b>${esc(o?.label)}</b> (${esc(answers[i])})</td></tr>`;
+    return form.items.map((it: any, i: number) => {
+      const sec = typeof it === "object" && it.section ? `<tr><td colspan="2" style="padding:12px 8px 4px;font-weight:bold;color:#2667ff">${esc(it.section.title)}</td></tr>` : "";
+      const o = itemOpts(form, i).find((x: any) => x.value === answers[i]);
+      return `${sec}<tr><td style="padding:8px;border-bottom:1px solid #e3e8f2">${i + 1}. ${esc(itemText(it))}</td><td style="padding:8px;border-bottom:1px solid #e3e8f2"><b>${esc(o?.label)}</b> (${esc(answers[i])})</td></tr>`;
     }).join("");
   }
   return form.fields.map((f: any) =>
@@ -74,8 +93,7 @@ Deno.serve(async (req) => {
   // Yanıt doğrulama
   let answers: any;
   if (form.kind === "scale") {
-    const allowed = new Set(form.options.map((o: any) => o.value));
-    if (!Array.isArray(body.answers) || body.answers.length !== form.items.length || !body.answers.every((v: any) => allowed.has(v)))
+    if (!Array.isArray(body.answers) || body.answers.length !== form.items.length || !body.answers.every((v: any, i: number) => vals(form, i).includes(v)))
       return json({ ok: false, error: "invalid_answers" });
     answers = body.answers;
   } else {
@@ -103,7 +121,9 @@ Deno.serve(async (req) => {
 
   const flagged = r.flags.length > 0;
   const rows = answerRows(form, answers);
-  const scoreLine = r.score !== null ? `<p style="font-size:18px"><b>Puan: ${r.score} / ${r.max}</b> — ${esc(r.severity)}</p>` : "";
+  const sev = r.severity && r.severity !== r.details.join(" · ") ? ` — ${esc(r.severity)}` : "";
+  const scoreLine = (r.score !== null ? `<p style="font-size:18px"><b>Puan: ${r.score} / ${r.max}</b>${sev}</p>` : "")
+    + (r.details.length ? `<p style="background:#f2f6fd;padding:12px 14px;border-radius:8px">${r.details.map(esc).join("<br>")}</p>` : "");
   const flagHtml = flagged ? `<p style="background:#fde8e6;color:#b42318;padding:12px;border-radius:8px"><b>DİKKAT:</b> ${r.flags.map(esc).join("<br>")}</p>` : "";
 
   // Psikoloğa

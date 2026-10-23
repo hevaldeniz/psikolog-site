@@ -8,14 +8,67 @@
       "minutes": 5,
       "kind": "intake",
       "fields": [
-        { "id": "yas", "label": "Yaşınız", "type": "number", "required": true },
-        { "id": "meslek", "label": "Mesleğiniz / uğraşınız", "type": "text" },
-        { "id": "neden", "label": "Sizi terapiye getiren konu nedir?", "type": "textarea", "required": true },
-        { "id": "ne_zamandir", "label": "Bu konu ne zamandır hayatınızda?", "type": "select", "options": ["Birkaç hafta", "Birkaç ay", "1 yıldan uzun", "Yıllardır"], "required": true },
-        { "id": "onceki_terapi", "label": "Daha önce psikolojik destek aldınız mı?", "type": "select", "options": ["Hayır", "Evet, tamamlandı", "Evet, yarım kaldı", "Şu an devam ediyor"], "required": true },
-        { "id": "ilac", "label": "Şu an psikiyatrik ilaç kullanıyor musunuz? Kullanıyorsanız adını yazabilirsiniz.", "type": "text" },
-        { "id": "tercih", "label": "Seans tercihiniz", "type": "select", "options": ["Online", "Yüz yüze", "Fark etmez"] },
-        { "id": "beklenti", "label": "Terapiden beklentileriniz neler?", "type": "textarea" }
+        {
+          "id": "yas",
+          "label": "Yaşınız",
+          "type": "number",
+          "required": true
+        },
+        {
+          "id": "meslek",
+          "label": "Mesleğiniz / uğraşınız",
+          "type": "text"
+        },
+        {
+          "id": "neden",
+          "label": "Sizi terapiye getiren konu nedir?",
+          "type": "textarea",
+          "required": true
+        },
+        {
+          "id": "ne_zamandir",
+          "label": "Bu konu ne zamandır hayatınızda?",
+          "type": "select",
+          "options": [
+            "Birkaç hafta",
+            "Birkaç ay",
+            "1 yıldan uzun",
+            "Yıllardır"
+          ],
+          "required": true
+        },
+        {
+          "id": "onceki_terapi",
+          "label": "Daha önce psikolojik destek aldınız mı?",
+          "type": "select",
+          "options": [
+            "Hayır",
+            "Evet, tamamlandı",
+            "Evet, yarım kaldı",
+            "Şu an devam ediyor"
+          ],
+          "required": true
+        },
+        {
+          "id": "ilac",
+          "label": "Şu an psikiyatrik ilaç kullanıyor musunuz? Kullanıyorsanız adını yazabilirsiniz.",
+          "type": "text"
+        },
+        {
+          "id": "tercih",
+          "label": "Seans tercihiniz",
+          "type": "select",
+          "options": [
+            "Online",
+            "Yüz yüze",
+            "Fark etmez"
+          ]
+        },
+        {
+          "id": "beklenti",
+          "label": "Terapiden beklentileriniz neler?",
+          "type": "textarea"
+        }
       ]
     },
     {
@@ -26,10 +79,22 @@
       "kind": "scale",
       "instructions": "Son 2 hafta içinde, aşağıdaki sorunlardan herhangi biri sizi ne sıklıkta rahatsız etti?",
       "options": [
-        { "label": "Hiç", "value": 0 },
-        { "label": "Birkaç gün", "value": 1 },
-        { "label": "Günlerin yarısından fazlasında", "value": 2 },
-        { "label": "Hemen hemen her gün", "value": 3 }
+        {
+          "label": "Hiç",
+          "value": 0
+        },
+        {
+          "label": "Birkaç gün",
+          "value": 1
+        },
+        {
+          "label": "Günlerin yarısından fazlasında",
+          "value": 2
+        },
+        {
+          "label": "Hemen hemen her gün",
+          "value": 3
+        }
       ],
       "items": [
         "Bir şeyler yapmaya karşı ilgi veya zevk duymama",
@@ -45,13 +110,34 @@
       "scoring": {
         "multiplier": 1,
         "bands": [
-          { "max": 4, "label": "Minimal" },
-          { "max": 9, "label": "Hafif" },
-          { "max": 14, "label": "Orta" },
-          { "max": 19, "label": "Orta-ağır" },
-          { "max": 27, "label": "Ağır" }
+          {
+            "max": 4,
+            "label": "Minimal"
+          },
+          {
+            "max": 9,
+            "label": "Hafif"
+          },
+          {
+            "max": 14,
+            "label": "Orta"
+          },
+          {
+            "max": 19,
+            "label": "Orta-ağır"
+          },
+          {
+            "max": 27,
+            "label": "Ağır"
+          }
         ],
-        "flags": [ { "item": 9, "min": 1, "label": "9. madde (kendine zarar verme düşünceleri) işaretlendi" } ]
+        "flags": [
+          {
+            "item": 9,
+            "min": 1,
+            "label": "9. madde (kendine zarar verme düşünceleri) işaretlendi"
+          }
+        ]
       }
     },
     {
@@ -62,10 +148,22 @@
       "kind": "scale",
       "instructions": "Son 2 hafta içinde, aşağıdaki sorunlardan herhangi biri sizi ne sıklıkta rahatsız etti?",
       "options": [
-        { "label": "Hiç", "value": 0 },
-        { "label": "Birkaç gün", "value": 1 },
-        { "label": "Günlerin yarısından fazlasında", "value": 2 },
-        { "label": "Hemen hemen her gün", "value": 3 }
+        {
+          "label": "Hiç",
+          "value": 0
+        },
+        {
+          "label": "Birkaç gün",
+          "value": 1
+        },
+        {
+          "label": "Günlerin yarısından fazlasında",
+          "value": 2
+        },
+        {
+          "label": "Hemen hemen her gün",
+          "value": 3
+        }
       ],
       "items": [
         "Sinirli, kaygılı ya da diken üstünde hissetme",
@@ -79,10 +177,22 @@
       "scoring": {
         "multiplier": 1,
         "bands": [
-          { "max": 4, "label": "Minimal" },
-          { "max": 9, "label": "Hafif" },
-          { "max": 14, "label": "Orta" },
-          { "max": 21, "label": "Ağır" }
+          {
+            "max": 4,
+            "label": "Minimal"
+          },
+          {
+            "max": 9,
+            "label": "Hafif"
+          },
+          {
+            "max": 14,
+            "label": "Orta"
+          },
+          {
+            "max": 21,
+            "label": "Ağır"
+          }
         ]
       }
     },
@@ -94,12 +204,30 @@
       "kind": "scale",
       "instructions": "Son 2 hafta içinde kendinizi nasıl hissettiğinize en yakın seçeneği işaretleyin.",
       "options": [
-        { "label": "Hiçbir zaman", "value": 0 },
-        { "label": "Ara sıra", "value": 1 },
-        { "label": "Zamanın yarısından azında", "value": 2 },
-        { "label": "Zamanın yarısından fazlasında", "value": 3 },
-        { "label": "Çoğu zaman", "value": 4 },
-        { "label": "Her zaman", "value": 5 }
+        {
+          "label": "Hiçbir zaman",
+          "value": 0
+        },
+        {
+          "label": "Ara sıra",
+          "value": 1
+        },
+        {
+          "label": "Zamanın yarısından azında",
+          "value": 2
+        },
+        {
+          "label": "Zamanın yarısından fazlasında",
+          "value": 3
+        },
+        {
+          "label": "Çoğu zaman",
+          "value": 4
+        },
+        {
+          "label": "Her zaman",
+          "value": 5
+        }
       ],
       "items": [
         "Kendimi neşeli ve keyifli hissettim",
@@ -111,11 +239,947 @@
       "scoring": {
         "multiplier": 4,
         "bands": [
-          { "max": 28, "label": "Düşük iyi oluş (ayrıntılı değerlendirme önerilir)" },
-          { "max": 50, "label": "Düşük iyi oluş" },
-          { "max": 100, "label": "Yeterli iyi oluş" }
+          {
+            "max": 28,
+            "label": "Düşük iyi oluş (ayrıntılı değerlendirme önerilir)"
+          },
+          {
+            "max": 50,
+            "label": "Düşük iyi oluş"
+          },
+          {
+            "max": 100,
+            "label": "Yeterli iyi oluş"
+          }
         ]
       }
+    },
+    {
+      "id": "k10",
+      "title": "Kessler Psikolojik Sıkıntı Ölçeği (K10)",
+      "short": "Son bir aydaki genel psikolojik sıkıntı düzeyinizi tarayan 10 soru.",
+      "minutes": 3,
+      "kind": "scale",
+      "instructions": "Aşağıdaki sorular son 30 gün içinde nasıl hissettiğinizle ilgilidir. Her soru için size en uygun seçeneği işaretleyin.",
+      "options": [
+        {
+          "label": "Hiçbir zaman",
+          "value": 1
+        },
+        {
+          "label": "Nadiren",
+          "value": 2
+        },
+        {
+          "label": "Bazen",
+          "value": 3
+        },
+        {
+          "label": "Çoğu zaman",
+          "value": 4
+        },
+        {
+          "label": "Her zaman",
+          "value": 5
+        }
+      ],
+      "items": [
+        "Son 30 gün içinde, belirgin bir neden yokken kendinizi ne sıklıkla yorgun hissettiniz?",
+        "Son 30 gün içinde, kendinizi ne sıklıkla gergin hissettiniz?",
+        "Son 30 gün içinde, hiçbir şeyin sizi sakinleştiremeyeceği kadar gergin olduğunuzu ne sıklıkla hissettiniz?",
+        "Son 30 gün içinde, kendinizi ne sıklıkla umutsuz hissettiniz?",
+        "Son 30 gün içinde, kendinizi ne sıklıkla huzursuz ya da yerinde duramaz hissettiniz?",
+        "Son 30 gün içinde, oturamayacak kadar huzursuz olduğunuzu ne sıklıkla hissettiniz?",
+        "Son 30 gün içinde, kendinizi ne sıklıkla çökkün ya da depresif hissettiniz?",
+        "Son 30 gün içinde, her şeyin size büyük çaba gerektirdiğini ne sıklıkla hissettiniz?",
+        "Son 30 gün içinde, hiçbir şeyin sizi neşelendiremeyeceği kadar üzgün olduğunuzu ne sıklıkla hissettiniz?",
+        "Son 30 gün içinde, kendinizi ne sıklıkla değersiz hissettiniz?"
+      ],
+      "scoring": {
+        "bands": [
+          {
+            "max": 15,
+            "label": "Düşük düzeyde sıkıntı"
+          },
+          {
+            "max": 21,
+            "label": "Orta düzeyde sıkıntı"
+          },
+          {
+            "max": 29,
+            "label": "Yüksek düzeyde sıkıntı"
+          },
+          {
+            "max": 50,
+            "label": "Çok yüksek düzeyde sıkıntı"
+          }
+        ]
+      },
+      "credit": "K10 © Ronald C. Kessler. Kaynak: Kessler ve ark. (2003), Archives of General Psychiatry. Türkçe ifadeler bu site için hazırlanmıştır."
+    },
+    {
+      "id": "asrs",
+      "title": "Yetişkin Dikkat Eksikliği Tarama Ölçeği (ASRS v1.1)",
+      "short": "Yetişkinlerde dikkat eksikliği ve hiperaktivite belirtilerini tarayan 6 soru.",
+      "minutes": 2,
+      "kind": "scale",
+      "instructions": "Son 6 ay içinde kendinizi nasıl hissettiğinizi ve nasıl davrandığınızı en iyi tanımlayan seçeneği işaretleyin.",
+      "options": [
+        {
+          "label": "Hiçbir zaman",
+          "value": 0
+        },
+        {
+          "label": "Nadiren",
+          "value": 1
+        },
+        {
+          "label": "Bazen",
+          "value": 2
+        },
+        {
+          "label": "Sık sık",
+          "value": 3
+        },
+        {
+          "label": "Çok sık",
+          "value": 4
+        }
+      ],
+      "items": [
+        "Bir işin zorlayıcı kısımlarını bitirdikten sonra son ayrıntıları tamamlamakta ne sıklıkla zorlanırsınız?",
+        "Düzen gerektiren bir işi yapmanız gerektiğinde, işleri sıraya koymakta ne sıklıkla güçlük çekersiniz?",
+        "Randevularınızı ya da yükümlülüklerinizi hatırlamakta ne sıklıkla sorun yaşarsınız?",
+        "Çok düşünmeyi gerektiren bir işiniz olduğunda, işe başlamaktan ne sıklıkla kaçınır ya da başlamayı ertelersiniz?",
+        "Uzun süre oturmanız gerektiğinde ellerinizi ya da ayaklarınızı ne sıklıkla kıpırdatır, yerinizde duramazsınız?",
+        "Sanki bir motorla çalışıyormuş gibi kendinizi ne sıklıkla aşırı hareketli ve bir şeyler yapmak zorunda hissedersiniz?"
+      ],
+      "scoring": {
+        "screen": {
+          "thresholds": [
+            2,
+            2,
+            2,
+            3,
+            3,
+            3
+          ],
+          "cutoff": 4,
+          "positive": "Tarama olumlu: belirtiler yetişkin DEHB ile uyumlu olabilir, ayrıntılı değerlendirme önerilir",
+          "negative": "Tarama olumsuz"
+        }
+      },
+      "credit": "ASRS v1.1 Tarama Formu © 2003 Dünya Sağlık Örgütü (WHO); New York University ve President and Fellows of Harvard College. Kaynak: Kessler ve ark. (2005), Psychological Medicine. Türkçe ifadeler bu site için hazırlanmıştır."
+    },
+    {
+      "id": "docs",
+      "title": "Boyutsal Obsesif Kompulsif Bozukluk Ölçeği (DOCS)",
+      "short": "Obsesif-kompulsif belirtileri 4 alanda değerlendiren 20 soru.",
+      "minutes": 8,
+      "kind": "scale",
+      "instructions": "Bu ölçekte yaşadığınız ya da yaşamadığınız 4 farklı alandaki endişelerinize yönelik sorular yer almaktadır. Her bir alan içerisinde, o alana özgü örnekler vardır. Bu örnekler; istenmeyen ve rahatsız eden düşünceleri, bu düşüncelerin getirdiği endişeyi azaltmak için yapılan tekrarlayıcı davranışları ve zihinsel eylemleri kapsamaktadır. Ardından bu düşünceler, davranışlar ve zihinsel eylemler ile ilgili yaşantılarınıza dair 5 soru yer almaktadır. Lütfen her bir örneği dikkatlice okuyun. Her alana yönelik soruları son bir ay içerisindeki yaşantılarınıza dayanarak cevaplayın.",
+      "options": [
+        {
+          "label": "Hiç",
+          "value": 0
+        },
+        {
+          "label": "Her gün 1 saatten az",
+          "value": 1
+        },
+        {
+          "label": "Her gün 1-3 saat arası",
+          "value": 2
+        },
+        {
+          "label": "Her gün 3-8 saat arası",
+          "value": 3
+        },
+        {
+          "label": "Her gün 8 saat ya da daha fazla",
+          "value": 4
+        }
+      ],
+      "items": [
+        {
+          "text": "Her gün zamanınızın yaklaşık ne kadarını kirlenmeyle ilgili düşünerek ve kirlenme endişesiyle temizleme davranışlarında (yıkama, banyo yapma, toz alma, vb.) bulunarak geçirdiniz?",
+          "options": [
+            {
+              "label": "Hiç",
+              "value": 0
+            },
+            {
+              "label": "Her gün 1 saatten az",
+              "value": 1
+            },
+            {
+              "label": "Her gün 1-3 saat arası",
+              "value": 2
+            },
+            {
+              "label": "Her gün 3-8 saat arası",
+              "value": 3
+            },
+            {
+              "label": "Her gün 8 saat ya da daha fazla",
+              "value": 4
+            }
+          ],
+          "section": {
+            "title": "Alan 1: Mikroplar ve Kirlenme ile İlgili Endişeler",
+            "examples": [
+              "Belirli bir eşya veya kişiyle temas ettiğinizde ya da onların yakınında bulunduğunuzda kirlendiğinize dair düşünceler ya da hisler",
+              "Belirli bir yerde (banyo gibi) bulunmanız nedeniyle kirlenmiş olma hissi",
+              "Kirliliğin yayılma olasılığı, mikroplar ya da hastalık ile ilgili düşünceler",
+              "Kirlenme endişesiyle el yıkama, el dezenfektanı kullanma, banyo yapma, kıyafet değiştirme ya da eşyaları temizleme gibi davranışlar",
+              "Kirlenme endişesiyle belirli bir düşünce veya davranış düzenini takip etme (banyodayken, giyinirken, vb.)",
+              "Kirlenme endişesiyle belirli kişilerden, eşyalardan ya da yerlerden uzak durma"
+            ],
+            "text": "Aşağıdaki sorularda, son 1 ay içerisinde deneyimlediğiniz kirlenme ile ilgili düşünceleriniz ve davranışlarınız sorulmaktadır. Yaşadıklarınızın, yukarıda verilen örneklerden farklı olabileceğini unutmayın."
+          }
+        },
+        {
+          "text": "Kirlenmeyle ilgili endişelerinizi önlemek için ya da temizleme davranışlarıyla zaman harcamamak için yukarıdaki durumlardan ne derecede kaçındınız?",
+          "options": [
+            {
+              "label": "Hiç kaçınmadım",
+              "value": 0
+            },
+            {
+              "label": "Biraz kaçındım",
+              "value": 1
+            },
+            {
+              "label": "Orta derecede kaçındım",
+              "value": 2
+            },
+            {
+              "label": "Çok kaçındım",
+              "value": 3
+            },
+            {
+              "label": "Neredeyse her şeyden aşırı derecede kaçındım",
+              "value": 4
+            }
+          ]
+        },
+        {
+          "text": "Kirlenmeyle ilgili düşünceleriniz olduğunda, temizleme davranışlarında bulunamadıysanız ne kadar endişeli hissettiniz?",
+          "options": [
+            {
+              "label": "Hiç endişeli hissetmedim",
+              "value": 0
+            },
+            {
+              "label": "Biraz endişeli hissettim",
+              "value": 1
+            },
+            {
+              "label": "Orta derecede endişeli hissettim",
+              "value": 2
+            },
+            {
+              "label": "Çok endişeli hissettim",
+              "value": 3
+            },
+            {
+              "label": "Aşırı derecede endişeli hissettim",
+              "value": 4
+            }
+          ]
+        },
+        {
+          "text": "Kirlenme endişelerinden, aşırı derecede temizleme ya da kaçınma davranışlarından dolayı günlük rutininiz (iş, okul, kişisel bakım, sosyal hayat vb.) ne derecede bozuldu?",
+          "options": [
+            {
+              "label": "Hiç bozulmadı",
+              "value": 0
+            },
+            {
+              "label": "Biraz bozuldu fakat çoğunlukla görevlerimi yaptım",
+              "value": 1
+            },
+            {
+              "label": "Birçok şey bozuldu fakat yine de idare edebildim",
+              "value": 2
+            },
+            {
+              "label": "Hayatım birçok yönde bozuldu ve hayatımı idare etmekte zorlandım",
+              "value": 3
+            },
+            {
+              "label": "Hayatım tamamen bozuldu ve görevlerimi hiç yerine getiremedim",
+              "value": 4
+            }
+          ]
+        },
+        {
+          "text": "Kirlenmeyle ilgili düşünceleri kontrol edememek ve temizleme davranışlarından kaçınmaya çalışmak ne kadar zordu?",
+          "options": [
+            {
+              "label": "Hiç zor değildi",
+              "value": 0
+            },
+            {
+              "label": "Biraz zordu",
+              "value": 1
+            },
+            {
+              "label": "Orta derecede zordu",
+              "value": 2
+            },
+            {
+              "label": "Çok zordu",
+              "value": 3
+            },
+            {
+              "label": "Aşırı derecede zordu",
+              "value": 4
+            }
+          ]
+        },
+        {
+          "text": "Her gün zamanınızın yaklaşık ne kadarını zararın/felaketin gerçekleşme olasılığıyla ilgili düşünerek, bu durumları kontrol ederek ya da bu durumlarla ilgili şüphelerinizi gidermeye çalışarak geçirdiniz?",
+          "options": [
+            {
+              "label": "Hiç",
+              "value": 0
+            },
+            {
+              "label": "Her gün 1 saatten az",
+              "value": 1
+            },
+            {
+              "label": "Her gün 1-3 saat arası",
+              "value": 2
+            },
+            {
+              "label": "Her gün 3-8 saat arası",
+              "value": 3
+            },
+            {
+              "label": "Her gün 8 saat ya da daha fazla",
+              "value": 4
+            }
+          ],
+          "section": {
+            "title": "Alan 2: Zarardan, Yaralanmadan veya Talihsizlikten Sorumlu Olma ile İlgili Endişeler",
+            "examples": [
+              "Zarara neden olacak bir şey yapmış olabileceğinize dair şüphe",
+              "Korkunç bir kaza, felaket, yaralanma ya da başka bir talihsizliğin gerçekleşebileceği ve bunu önlemek için yeteri kadar dikkatli olmadığınız düşüncesi",
+              "Zararı ya da talihsizliği belirli bir sayıya kadar sayarak ya da belirli uğursuz sayı ve kelimelerden kaçınarak önleyebileceğiniz düşüncesi",
+              "Kaybedilmesi pek mümkün olmayan çok önemli şeyleri kaybetme düşüncesi (örn: cüzdan, kimlik, evrak vb.)",
+              "Kilit, elektrik düğmesi, elektronik aletlerin fişi, ocak gibi eşyaları çok sık kontrol etme",
+              "Kötü bir şey olmadığından ya da olmayacağından emin olmak için tekrar tekrar sorma ya da tekrar tekrar kontrol etme",
+              "Yanlış bir şey yapmadığınızdan emin olmak için geçmiş olayları zihinde yeniden canlandırma",
+              "Zararın/felaketin oluşmasını önleyebilmek için belirli bir düşünce veya davranış düzenini takip etme ihtiyacı",
+              "Kötü bir şey olacağı korkusuyla belirli bir sayıya kadar sayma ya da bazı uğursuz sayılardan kaçınma ihtiyacı"
+            ],
+            "text": "Aşağıdaki sorularda, son 1 ay içerisinde deneyimlediğiniz zarar veya felaket ile ilgili düşünceleriniz ve davranışlarınız sorulmaktadır. Yaşadıklarınızın, yukarıda verilen örneklerden farklı olabileceğini unutmayın."
+          }
+        },
+        {
+          "text": "Tehlikeyi kontrol etmemek ya da olası zararın/felaketin gerçekleşmesi hakkında endişelenmemek için yukarıdaki durumlardan ne derecede kaçındınız?",
+          "options": [
+            {
+              "label": "Hiç kaçınmadım",
+              "value": 0
+            },
+            {
+              "label": "Biraz kaçındım",
+              "value": 1
+            },
+            {
+              "label": "Orta derecede kaçındım",
+              "value": 2
+            },
+            {
+              "label": "Çok kaçındım",
+              "value": 3
+            },
+            {
+              "label": "Neredeyse her şeyden aşırı derecede kaçındım",
+              "value": 4
+            }
+          ]
+        },
+        {
+          "text": "Zarara/felakete sebep olacak olayların gerçekleşebileceğini düşündüğünüzde, bu durumları kontrol edemediğinizde ya da bu durumlarla ilgili şüphelerinizi gideremediğinizde ne kadar endişeli hissettiniz?",
+          "options": [
+            {
+              "label": "Hiç endişeli hissetmedim",
+              "value": 0
+            },
+            {
+              "label": "Biraz endişeli hissettim",
+              "value": 1
+            },
+            {
+              "label": "Orta derecede endişeli hissettim",
+              "value": 2
+            },
+            {
+              "label": "Çok endişeli hissettim",
+              "value": 3
+            },
+            {
+              "label": "Aşırı derecede endişeli hissettim",
+              "value": 4
+            }
+          ]
+        },
+        {
+          "text": "Zarar/felaket ile ilgili düşüncelerden, bu düşünceleri aşırı derecede kontrol etmekten ya da bu konuda şüphelerinizi gidermeye çalışmanızdan dolayı günlük rutininiz (iş, okul, kişisel bakım, sosyal hayat) ne derecede bozuldu?",
+          "options": [
+            {
+              "label": "Hiç bozulmadı",
+              "value": 0
+            },
+            {
+              "label": "Biraz bozuldu fakat çoğunlukla görevlerimi yaptım",
+              "value": 1
+            },
+            {
+              "label": "Birçok şey bozuldu fakat yine de idare edebildim",
+              "value": 2
+            },
+            {
+              "label": "Hayatım birçok yönde bozuldu ve hayatımı idare etmekte zorlandım",
+              "value": 3
+            },
+            {
+              "label": "Hayatım tamamen bozuldu ve görevlerimi hiç yerine getiremedim",
+              "value": 4
+            }
+          ]
+        },
+        {
+          "text": "Olası zarar/felaket ile ilgili düşünceleri kontrol edememek ya da şüphe giderme davranışlarından kaçınmaya çalışmak ne kadar zordu?",
+          "options": [
+            {
+              "label": "Hiç zor değildi",
+              "value": 0
+            },
+            {
+              "label": "Biraz zordu",
+              "value": 1
+            },
+            {
+              "label": "Orta derecede zordu",
+              "value": 2
+            },
+            {
+              "label": "Çok zordu",
+              "value": 3
+            },
+            {
+              "label": "Aşırı derecede zordu",
+              "value": 4
+            }
+          ]
+        },
+        {
+          "text": "Her gün zamanınızın yaklaşık ne kadarını istenmeyen/rahatsız eden düşüncelerle ve bunlarla başa çıkmak için yaptığınız davranışsal ya da zihinsel eylemlerle geçirdiniz?",
+          "options": [
+            {
+              "label": "Hiç",
+              "value": 0
+            },
+            {
+              "label": "Her gün 1 saatten az",
+              "value": 1
+            },
+            {
+              "label": "Her gün 1-3 saat arası",
+              "value": 2
+            },
+            {
+              "label": "Her gün 3-8 saat arası",
+              "value": 3
+            },
+            {
+              "label": "Her gün 8 saat ya da daha fazla",
+              "value": 4
+            }
+          ],
+          "section": {
+            "title": "Alan 3: Kabul Edilemez Düşünceler",
+            "examples": [
+              "İstemeden akla gelen cinsellik, ahlaksızlık ya da şiddet ile ilgili rahatsız edici düşünceler",
+              "Gerçekte yapmak istemediğiniz çok kötü, uygunsuz veya utandırıcı şeyler yapma ile ilgili düşünceler",
+              "Kötü bir düşünce nedeniyle bir eylemi tekrarlama ya da belirli bir rutini takip etme",
+              "İstenmeyen/rahatsız eden bir düşünceden kurtulmak için zihinsel olarak bir eylemi gerçekleştirme (yapılan işleri akıldan geçirme, sayı sayma, dua etme vb.)",
+              "İstenmeyen/rahatsız eden düşünceleri tetikleyen belirli şeylerden uzak durma (insan, yer, eşya, durum vb.)"
+            ],
+            "text": "Aşağıdaki sorularda, son 1 ay içerisinde deneyimlediğiniz istemediğiniz halde aklınıza gelen düşünceleriniz ve bu düşüncelerinizle başa çıkmak için gerçekleştirdiğiniz davranışlarınız sorulmaktadır. Yaşadıklarınızın, yukarıda verilen örneklerden farklı olabileceğini unutmayın."
+          }
+        },
+        {
+          "text": "İstenmeyen/rahatsız eden düşünceleri tetikleyen durum, yer, eşya ve diğer anımsatıcılardan (örn: sayılar, insanlar, renkler vb.) ne derecede kaçındınız?",
+          "options": [
+            {
+              "label": "Hiç kaçınmadım",
+              "value": 0
+            },
+            {
+              "label": "Biraz kaçındım",
+              "value": 1
+            },
+            {
+              "label": "Orta derecede kaçındım",
+              "value": 2
+            },
+            {
+              "label": "Çok kaçındım",
+              "value": 3
+            },
+            {
+              "label": "Neredeyse her şeyden aşırı derecede kaçındım",
+              "value": 4
+            }
+          ]
+        },
+        {
+          "text": "İstenmeyen/rahatsız eden düşünceler aklınıza geldiğinde ne kadar endişeli hissettiniz?",
+          "options": [
+            {
+              "label": "Hiç endişeli hissetmedim",
+              "value": 0
+            },
+            {
+              "label": "Biraz endişeli hissettim",
+              "value": 1
+            },
+            {
+              "label": "Orta derecede endişeli hissettim",
+              "value": 2
+            },
+            {
+              "label": "Çok endişeli hissettim",
+              "value": 3
+            },
+            {
+              "label": "Aşırı derecede endişeli hissettim",
+              "value": 4
+            }
+          ]
+        },
+        {
+          "text": "İstenmeyen/rahatsız eden düşüncelerden ve bu düşüncelerle başa çıkma ya da bunlardan kaçınma çabalarından dolayı günlük rutininiz (iş, okul, kişisel bakım, sosyal hayat vb.) ne derecede bozuldu?",
+          "options": [
+            {
+              "label": "Hiç bozulmadı",
+              "value": 0
+            },
+            {
+              "label": "Biraz bozuldu fakat çoğunlukla görevlerimi yaptım",
+              "value": 1
+            },
+            {
+              "label": "Birçok şey bozuldu fakat yine de idare edebildim",
+              "value": 2
+            },
+            {
+              "label": "Hayatım birçok yönde bozuldu ve hayatımı idare etmekte zorlandım",
+              "value": 3
+            },
+            {
+              "label": "Hayatım tamamen bozuldu ve görevlerimi hiç yerine getiremedim",
+              "value": 4
+            }
+          ]
+        },
+        {
+          "text": "İstenmeyen/rahatsız eden düşünceleri kontrol edememek ve bu düşüncelerle başa çıkmak için gerçekleştirdiğiniz davranışlardan ya da zihinsel eylemlerden kaçınmaya çalışmak ne kadar zordu?",
+          "options": [
+            {
+              "label": "Hiç zor değildi",
+              "value": 0
+            },
+            {
+              "label": "Biraz zordu",
+              "value": 1
+            },
+            {
+              "label": "Orta derecede zordu",
+              "value": 2
+            },
+            {
+              "label": "Çok zordu",
+              "value": 3
+            },
+            {
+              "label": "Aşırı derecede zordu",
+              "value": 4
+            }
+          ]
+        },
+        {
+          "text": "Her gün zamanınızın yaklaşık ne kadarını simetri, düzen ve denge ile ilgili istenmeyen düşüncelerle ve bunları sağlamaya yönelik davranışlarla (düzenleme, dengeleme, simetrik hale getirme) geçirdiniz?",
+          "options": [
+            {
+              "label": "Hiç",
+              "value": 0
+            },
+            {
+              "label": "Her gün 1 saatten az",
+              "value": 1
+            },
+            {
+              "label": "Her gün 1-3 saat arası",
+              "value": 2
+            },
+            {
+              "label": "Her gün 3-8 saat arası",
+              "value": 3
+            },
+            {
+              "label": "Her gün 8 saat ya da daha fazla",
+              "value": 4
+            }
+          ],
+          "section": {
+            "title": "Alan 4: Simetri, Eksiksizlik ve Bir Şeylerin Tam Olması İhtiyacı ile İlgili Endişeler",
+            "examples": [
+              "Bir şeylerin simetrik, dengeli, düzenli ve tam olması ihtiyacı",
+              "Bir şeylerin tam olmadığına dair hisler",
+              "Düzenli ya da tam olduğunu hissedene kadar rutin bir eylemi tekrarlama",
+              "Anlamsız şeyleri sayma (örn: yer döşemeleri, kaldırım taşları, cümledeki kelimeler, araba renkleri veya plakaları vb.)",
+              "Düzenli olduğu halde bir şeyleri düzenleme",
+              "Bir şeyin tam olduğunu hissedene kadar tekrar tekrar aynı şekilde söylemek zorunda olma"
+            ],
+            "text": "Aşağıdaki sorularda, son bir ay içerisinde deneyimlediğiniz bir şeyin tam olmadığıyla ilgili hisleriniz, simetri ve düzeni sağlamak için gerçekleştirdiğiniz davranışlarınız sorulmaktadır. Yaşadıklarınızın, yukarıda verilen örneklerden farklı olabileceğini unutmayın."
+          }
+        },
+        {
+          "text": "Bir şeyin simetrik veya tam olmadığını hissettiren durum, yer ya da eşyalardan ne derecede kaçındınız?",
+          "options": [
+            {
+              "label": "Kaçınmadım",
+              "value": 0
+            },
+            {
+              "label": "Biraz kaçındım",
+              "value": 1
+            },
+            {
+              "label": "Orta derecede kaçındım",
+              "value": 2
+            },
+            {
+              "label": "Çok kaçındım",
+              "value": 3
+            },
+            {
+              "label": "Neredeyse her şeyden aşırı derecede kaçındım",
+              "value": 4
+            }
+          ]
+        },
+        {
+          "text": "Bir şeyin tam olmadığını hissettiğinizde ne kadar endişeli hissettiniz?",
+          "options": [
+            {
+              "label": "Hiç endişeli hissetmedim",
+              "value": 0
+            },
+            {
+              "label": "Biraz endişeli hissettim",
+              "value": 1
+            },
+            {
+              "label": "Orta derecede endişeli hissettim",
+              "value": 2
+            },
+            {
+              "label": "Çok endişeli hissettim",
+              "value": 3
+            },
+            {
+              "label": "Aşırı derecede endişeli hissettim",
+              "value": 4
+            }
+          ]
+        },
+        {
+          "text": "Bir şeylerin tam olmadığı hissinden ve bir şeyleri tam yapmaya ya da düzenlemeye çalışmanızdan dolayı günlük rutininiz (iş, okul, kişisel bakım, sosyal hayat vb.) ne derecede bozuldu?",
+          "options": [
+            {
+              "label": "Hiç bozulmadı",
+              "value": 0
+            },
+            {
+              "label": "Biraz bozuldu fakat çoğunlukla görevlerimi yaptım",
+              "value": 1
+            },
+            {
+              "label": "Birçok şey bozuldu fakat yine de idare edebildim",
+              "value": 2
+            },
+            {
+              "label": "Hayatım birçok yönde bozuldu ve hayatımı idare etmekte zorlandım",
+              "value": 3
+            },
+            {
+              "label": "Hayatım tamamen bozuldu ve görevlerimi hiç yerine getiremedim",
+              "value": 4
+            }
+          ]
+        },
+        {
+          "text": "Simetri ya da düzensizlikle ilgili düşünceleri kontrol edememek ve bir şeyleri düzenleme dürtüsüyle belirli davranışları tekrarlamamaya çalışmak ne kadar zordu?",
+          "options": [
+            {
+              "label": "Hiç zor değildi",
+              "value": 0
+            },
+            {
+              "label": "Biraz zordu",
+              "value": 1
+            },
+            {
+              "label": "Orta derecede zordu",
+              "value": 2
+            },
+            {
+              "label": "Çok zordu",
+              "value": 3
+            },
+            {
+              "label": "Aşırı derecede zordu",
+              "value": 4
+            }
+          ]
+        }
+      ],
+      "scoring": {
+        "subscales": [
+          {
+            "label": "Kirlenme",
+            "items": [
+              1,
+              2,
+              3,
+              4,
+              5
+            ]
+          },
+          {
+            "label": "Sorumluluk / zarar",
+            "items": [
+              6,
+              7,
+              8,
+              9,
+              10
+            ]
+          },
+          {
+            "label": "Kabul edilemez düşünceler",
+            "items": [
+              11,
+              12,
+              13,
+              14,
+              15
+            ]
+          },
+          {
+            "label": "Simetri / tamlık",
+            "items": [
+              16,
+              17,
+              18,
+              19,
+              20
+            ]
+          }
+        ]
+      },
+      "credit": "Boyutsal Obsesif Kompulsif Bozukluk Ölçeği (DOCS) © Jonathan S. Abramowitz. Türkçe çeviri: Kli. Psk. Gizem Özge Erinç; editör: Psk. Gizem Baki; proje süpervizörü: Dr. Emel Stroup (2018). Jonathan S. Abramowitz’in izni ile çevrilmiştir."
+    },
+    {
+      "id": "bes-faktor",
+      "title": "Beş Faktör Kişilik Envanteri (IPIP-50)",
+      "short": "Dışadönüklük, uyumluluk, sorumluluk, duygusal denge ve deneyime açıklık boyutlarında kişilik özellikleriniz.",
+      "minutes": 8,
+      "kind": "scale",
+      "instructions": "Aşağıdaki ifadelerin sizi ne kadar doğru tanımladığını işaretleyin. Kendinizi olmak istediğiniz gibi değil, şu anki hâlinizle değerlendirin. Doğru ya da yanlış cevap yoktur.",
+      "options": [
+        {
+          "label": "Hiç doğru değil",
+          "value": 1
+        },
+        {
+          "label": "Pek doğru değil",
+          "value": 2
+        },
+        {
+          "label": "Ne doğru ne yanlış",
+          "value": 3
+        },
+        {
+          "label": "Kısmen doğru",
+          "value": 4
+        },
+        {
+          "label": "Tamamen doğru",
+          "value": 5
+        }
+      ],
+      "items": [
+        "Girdiğim ortamlarda neşe kaynağı olurum.",
+        "Başkalarını pek umursamam.",
+        "Her zaman hazırlıklıyımdır.",
+        "Kolayca strese girerim.",
+        "Kelime dağarcığım zengindir.",
+        "Çok konuşmam.",
+        "İnsanlarla ilgilenirim.",
+        "Eşyalarımı ortada bırakırım.",
+        "Çoğu zaman rahatımdır.",
+        "Soyut fikirleri anlamakta zorlanırım.",
+        "İnsanların arasında kendimi rahat hissederim.",
+        "İnsanlara kırıcı sözler söylerim.",
+        "Ayrıntılara dikkat ederim.",
+        "Bir şeyler için endişelenirim.",
+        "Canlı bir hayal gücüm vardır.",
+        "Geri planda kalırım.",
+        "Başkalarının duygularını anlayışla karşılarım.",
+        "Yaptığım işleri karıştırır, berbat ederim.",
+        "Nadiren kendimi hüzünlü hissederim.",
+        "Soyut fikirlerle ilgilenmem.",
+        "Sohbeti başlatan ben olurum.",
+        "Başkalarının sorunlarıyla ilgilenmem.",
+        "Yapmam gereken işleri hemen hallederim.",
+        "Kolayca huzurum kaçar.",
+        "Çok iyi fikirlerim vardır.",
+        "Söyleyecek pek bir şeyim olmaz.",
+        "Yumuşak kalpliyimdir.",
+        "Eşyaları yerine koymayı sık sık unuturum.",
+        "Kolayca üzülürüm.",
+        "Hayal gücüm pek iyi değildir.",
+        "Davetlerde birçok farklı insanla konuşurum.",
+        "Başkalarıyla pek ilgilenmem.",
+        "Düzeni severim.",
+        "Ruh hâlim sık sık değişir.",
+        "Bir şeyleri çabuk kavrarım.",
+        "Dikkatleri üzerime çekmekten hoşlanmam.",
+        "Başkalarına zaman ayırırım.",
+        "Sorumluluklarımdan kaçarım.",
+        "Sık sık duygusal iniş çıkışlar yaşarım.",
+        "Zor ve karmaşık kelimeler kullanırım.",
+        "İlgi odağı olmak beni rahatsız etmez.",
+        "Başkalarının duygularını hissederim.",
+        "Bir programa göre hareket ederim.",
+        "Kolayca sinirlenirim.",
+        "Bir şeyler üzerine düşünmeye zaman ayırırım.",
+        "Yabancıların yanında sessizimdir.",
+        "İnsanların yanımda rahat hissetmesini sağlarım.",
+        "İşimde titizimdir.",
+        "Sık sık kendimi hüzünlü hissederim.",
+        "Fikirlerle doluyumdur."
+      ],
+      "scoring": {
+        "reverse": [
+          6,
+          16,
+          26,
+          36,
+          46,
+          2,
+          12,
+          22,
+          32,
+          8,
+          18,
+          28,
+          38,
+          9,
+          19,
+          10,
+          20,
+          30
+        ],
+        "total": false,
+        "subscales": [
+          {
+            "label": "Dışadönüklük",
+            "items": [
+              1,
+              6,
+              11,
+              16,
+              21,
+              26,
+              31,
+              36,
+              41,
+              46
+            ]
+          },
+          {
+            "label": "Uyumluluk",
+            "items": [
+              2,
+              7,
+              12,
+              17,
+              22,
+              27,
+              32,
+              37,
+              42,
+              47
+            ]
+          },
+          {
+            "label": "Sorumluluk",
+            "items": [
+              3,
+              8,
+              13,
+              18,
+              23,
+              28,
+              33,
+              38,
+              43,
+              48
+            ]
+          },
+          {
+            "label": "Nevrotiklik (duygusal dalgalanma)",
+            "items": [
+              4,
+              9,
+              14,
+              19,
+              24,
+              29,
+              34,
+              39,
+              44,
+              49
+            ]
+          },
+          {
+            "label": "Deneyime açıklık",
+            "items": [
+              5,
+              10,
+              15,
+              20,
+              25,
+              30,
+              35,
+              40,
+              45,
+              50
+            ]
+          }
+        ]
+      },
+      "credit": "Maddeler kamuya açık Uluslararası Kişilik Madde Havuzu'ndan (IPIP, ipip.ori.org) alınmıştır; Goldberg (1992). Türkçe ifadeler bu site için hazırlanmıştır. MBTI ile ilişkili değildir."
     }
   ]
 }
