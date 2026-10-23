@@ -12,7 +12,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,500;0,7..72,600;1,7..72,400;1,7..72,500&display=swap">
-<link rel="stylesheet" href="assets/css/style.css?v=20261023t">
+<link rel="stylesheet" href="assets/css/style.css?v=20261023u">
 </head>
 <body>
 
@@ -60,6 +60,7 @@
     <div class="tabs" role="tablist">
       <button class="tab" role="tab" id="t-bookings" aria-selected="true" aria-controls="p-bookings">Randevular</button>
       <button class="tab" role="tab" id="t-new" aria-selected="false" aria-controls="p-new">Randevu ekle</button>
+      <button class="tab" role="tab" id="t-clients" aria-selected="false" aria-controls="p-clients">Danışanlar</button>
       <button class="tab" role="tab" id="t-calendar" aria-selected="false" aria-controls="p-calendar">Takvim</button>
       <button class="tab" role="tab" id="t-add" aria-selected="false" aria-controls="p-add">Saat ekle</button>
       <button class="tab" role="tab" id="t-tests" aria-selected="false" aria-controls="p-tests">Testler</button>
@@ -100,6 +101,9 @@
           <div class="field"><label for="nb-type">Tür</label>
             <select id="nb-type"><option value="yuzyuze">Yüz yüze</option><option value="online">Online</option></select></div>
         </div>
+        <div class="field"><label for="nb-client">Kayıtlı danışan <span class="muted">(isteğe bağlı; ad ya da telefonla arayın)</span></label>
+          <input id="nb-client" type="search" list="nb-clients" autocomplete="off" placeholder="Yeni danışan için boş bırakın">
+          <datalist id="nb-clients"></datalist></div>
         <div class="row">
           <div class="field"><label for="nb-name">Ad soyad</label><input id="nb-name" type="text" maxlength="120" autocomplete="off" required></div>
           <div class="field"><label for="nb-phone">Telefon</label><input id="nb-phone" type="tel" maxlength="30" autocomplete="off" required></div>
@@ -117,6 +121,18 @@
         <div id="nb-msg" hidden></div>
         <button class="btn" type="submit" id="nb-submit">Randevuyu ekle</button>
       </form>
+    </div>
+
+    <!-- Danışanlar -->
+    <div role="tabpanel" id="p-clients" class="stack" hidden>
+      <p class="muted small">Randevu alan herkes telefon numarasına göre burada tek profil olarak listelenir (ad, telefon ve e-posta en son randevudaki bilgilerdir). "Randevu ver" ile bu kişi adına hızlıca randevu ekleyebilirsiniz.</p>
+      <div class="field" style="max-width:420px"><label for="cl-q">Ara</label><input id="cl-q" type="search" placeholder="Ad, telefon ya da e-posta" autocomplete="off"></div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Danışan</th><th>İletişim</th><th>Seans</th><th>Son seans</th><th>Sonraki seans</th><th></th></tr></thead>
+          <tbody id="cl-rows"></tbody>
+        </table>
+      </div>
     </div>
 
     <!-- Takvim -->
@@ -179,9 +195,9 @@
 </main>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
-<script src="assets/js/config.js?v=20261023t"></script>
-<script src="assets/js/data.js?v=20261023t"></script>
-<script src="assets/js/main.js?v=20261023t"></script>
-<script src="assets/js/admin.js?v=20261023t"></script>
+<script src="assets/js/config.js?v=20261023u"></script>
+<script src="assets/js/data.js?v=20261023u"></script>
+<script src="assets/js/main.js?v=20261023u"></script>
+<script src="assets/js/admin.js?v=20261023u"></script>
 </body>
 </html>

@@ -76,7 +76,7 @@
       $("stats").innerHTML = '<div class="notice err" style="grid-column:1/-1">Veriler yüklenemedi. Bu hesabın <b>admins</b> tablosunda kayıtlı olduğundan emin olun (README, adım 2).</div>';
       return;
     }
-    renderStats(); renderBookings(); renderCalendar(); renderTests(); renderSync();
+    renderStats(); renderBookings(); renderCalendar(); renderTests(); renderSync(); buildClients();
   }
 
   /* ---------- Takvim aboneliği ---------- */
@@ -314,6 +314,58 @@
     finally { btn.disabled = false; }
   });
 
+  /* ---------- Danışan profilleri (randevu kayıtlarından, telefona göre) ---------- */
+  let clients = [];
+  const phoneKey = p => { const d = String(p || "").replace(/\D/g, ""); return d.length >= 10 ? d.slice(-10) : d; };
+  function buildClients() {
+    const now = new Date().toISOString(), map = new Map();
+    // En eski → en yeni sırayla: son randevudaki ad/e-posta geçerli olur
+    [...bookings].sort((a, b) => (a.created_at || a.starts_at).localeCompare(b.created_at || b.starts_at)).forEach(b => {
+      const k = phoneKey(b.phone); if (!k) return;
+      const c = map.get(k) || { key: k, name: b.name, phone: b.phone, email: null, total: 0, done: 0, last: null, next: null };
+      c.name = b.name; c.phone = b.phone; if (b.email) c.email = b.email;
+      if (b.status !== "iptal") {
+        c.total++;
+        if (b.starts_at <= now) { c.done++; if (!c.last || b.starts_at > c.last) c.last = b.starts_at; }
+        else if (!c.next || b.starts_at < c.next) c.next = b.starts_at;
+      }
+      map.set(k, c);
+    });
+    clients = [...map.values()].sort((a, b) => a.name.localeCompare(b.name, "tr"));
+    $("nb-clients").innerHTML = clients.map(c => `<option value="${esc(`${c.name} · ${c.phone}`)}"></option>`).join("");
+    renderClients();
+  }
+  function renderClients() {
+    const q = $("cl-q").value.trim().toLocaleLowerCase("tr"), qd = q.replace(/\D/g, "");
+    const list = clients.filter(c => !q || c.name.toLocaleLowerCase("tr").includes(q) || (c.email || "").toLowerCase().includes(q) || (qd.length >= 3 && phoneKey(c.phone).includes(qd.replace(/^0/, ""))));
+    const tb = $("cl-rows");
+    if (!list.length) { tb.innerHTML = `<tr><td colspan="6" class="muted" style="text-align:center;padding:28px">${clients.length ? "Aramayla eşleşen danışan yok." : "Henüz randevu alan danışan yok."}</td></tr>`; return; }
+    tb.innerHTML = list.map(c => {
+      const digits = c.phone.replace(/\D/g, "").replace(/^0/, "90");
+      return `<tr>
+        <td><b>${esc(c.name)}</b></td>
+        <td class="num">${esc(c.phone)}${digits ? ` · <a href="https://wa.me/${digits}" target="_blank" rel="noopener">WhatsApp</a>` : ""}${c.email ? `<br><span class="muted small">${esc(c.email)}</span>` : ""}</td>
+        <td class="num">${c.total}${c.done !== c.total ? ` <span class="muted small">(${c.done} geçmiş)</span>` : ""}</td>
+        <td class="num">${c.last ? esc(F.dateShort(c.last)) : "—"}</td>
+        <td class="num">${c.next ? `${esc(F.dateShort(c.next))} ${esc(F.time(c.next))}` : "—"}</td>
+        <td><button class="btn ghost small" type="button" data-client="${esc(c.key)}">Randevu ver</button></td></tr>`;
+    }).join("");
+  }
+  $("cl-q").addEventListener("input", renderClients);
+  $("cl-rows").addEventListener("click", e => {
+    const b = e.target.closest("[data-client]"); if (!b) return;
+    const c = clients.find(x => x.key === b.dataset.client); if (c) { openNewBooking(null); fillClient(c); }
+  });
+  function fillClient(c) {
+    $("nb-client").value = `${c.name} · ${c.phone}`;
+    $("nb-name").value = c.name; $("nb-phone").value = c.phone; $("nb-email").value = c.email || "";
+    nbPreview();
+  }
+  $("nb-client").addEventListener("input", () => {
+    const v = $("nb-client").value, c = clients.find(x => `${x.name} · ${x.phone}` === v);
+    if (c) fillClient(c);
+  });
+
   /* ---------- Randevu ekle (elle) ---------- */
   const nbIds = ["nb-date", "nb-time", "nb-len", "nb-type", "nb-email", "nb-repeat", "nb-notify"];
   function nbStart() { const d = $("nb-date").value, t = $("nb-time").value; return d && t ? new Date(`${d}T${t}:00+03:00`) : null; }
@@ -336,7 +388,7 @@
       $("nb-len").value = Math.round((new Date(slot.ends_at) - new Date(slot.starts_at)) / 60000) || 50;
       if (slot.type !== "ikisi") $("nb-type").value = slot.type;
     }
-    nbPreview(); $("nb-name").focus();
+    nbPreview(); (slot ? $("nb-name") : $("nb-date")).focus();
   }
   const NB_ERR = {
     name_required: "Danışanın adını yazın.", phone_required: "Geçerli bir telefon numarası yazın.", email_invalid: "E-posta adresi geçersiz.",
@@ -367,7 +419,7 @@
   });
 
   /* ---------- Sekmeler ---------- */
-  const tabs = [["t-bookings", "p-bookings"], ["t-new", "p-new"], ["t-calendar", "p-calendar"], ["t-add", "p-add"], ["t-tests", "p-tests"]];
+  const tabs = [["t-bookings", "p-bookings"], ["t-new", "p-new"], ["t-clients", "p-clients"], ["t-calendar", "p-calendar"], ["t-add", "p-add"], ["t-tests", "p-tests"]];
   function selectTab(t) { tabs.forEach(([tt, pp]) => { const on = tt === t; $(tt).setAttribute("aria-selected", on); $(pp).hidden = !on; if (on && pp === "p-add") preview(); if (on && pp === "p-new") nbPreview(); }); }
   tabs.forEach(([t]) => $(t).onclick = () => selectTab(t));
   if (!$("nb-date").value) $("nb-date").value = F.todayKey();
