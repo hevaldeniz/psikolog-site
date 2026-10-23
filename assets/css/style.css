@@ -190,14 +190,15 @@ section { padding-block: clamp(56px, 8vw, 96px); }
 .pill.cancel { background: var(--danger-bg); color: var(--danger); }
 
 /* About */
-.about-grid { display: grid; grid-template-columns: 300px 1fr; gap: clamp(28px, 5vw, 64px); align-items: start; }
+.about-grid { display: grid; grid-template-columns: 340px 1fr; gap: clamp(32px, 5vw, 72px); align-items: start; }
 .about-grid > * { min-width: 0; }
-.portrait {
-  aspect-ratio: 4 / 5; max-width: 100%; border-radius: 20px; overflow: hidden;
-  background: linear-gradient(160deg, var(--sky), var(--mist) 55%, var(--azure));
-  display: grid; place-items: end start; padding: 18px; color: #0d1a3a;
+.portrait { position: relative; margin: 0 14px 14px 0; max-width: 100%; }
+.portrait::before {
+  content: ""; position: absolute; inset: 14px -14px -14px 14px; border-radius: 22px;
+  background: linear-gradient(150deg, var(--sky), var(--azure) 60%, var(--indigo, #3b28cc)); opacity: .55; z-index: 0;
 }
-.portrait small { background: rgb(255 255 255 / 70%); padding: 6px 10px; border-radius: 8px; font-size: 0.8rem; }
+.portrait picture, .portrait img { position: relative; z-index: 1; display: block; width: 100%; height: auto; aspect-ratio: 4 / 5; object-fit: cover; border-radius: 20px; }
+.portrait img { box-shadow: 0 18px 40px -18px rgb(13 26 58 / 45%); outline: 1px solid rgb(255 255 255 / 25%); outline-offset: -1px; }
 .about-text { display: grid; gap: 16px; max-width: 64ch; }
 .creds { list-style: none; padding: 0; margin: 8px 0 0; display: grid; gap: 10px; }
 .creds li { display: grid; grid-template-columns: 132px 1fr; gap: 12px; padding-top: 10px; border-top: 1px solid var(--line); }
