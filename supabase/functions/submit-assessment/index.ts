@@ -42,8 +42,9 @@ function score(form: any, answers: number[]) {
       return { ...d, val, letter: val > sc.jung.cutoff ? d.hi : d.lo };
     });
     const type = dims.map((d: any) => d.letter).join("");
-    const det = dims.map((d: any) => `${d.label}: ${d.val} (${d.letter})`);
-    return { ...none, severity: `Tip: ${type}`, flags, details: det, subs: [], type, dims };
+    const typeName = sc.jung.names?.[type] ?? type;
+    const det = dims.map((d: any) => `${d.label}: ${d.val} (${d.letter === d.hi ? d.hiName : d.loName})`);
+    return { ...none, severity: `${sc.jung.prefix ?? "Tip"}: ${typeName}`, flags, details: det, subs: [], type, typeName, dims, cutoff: sc.jung.cutoff };
   }
   if (sc.screen) {
     const n = sc.screen.thresholds.filter((t: number, i: number) => answers[i] >= t).length;
@@ -76,15 +77,22 @@ function interpretHtml(form: any, answers: number[], r: any) {
     return `<li>${esc(g.label)}: <b>${sum} / ${max}</b></li>`;
   }).join("")}</ul>`);
   if (it.types && r.type) {
-    P.push(`<p style="font-size:18px;margin:10px 0"><b>Tip: ${esc(r.type)}</b>${it.types[r.type] ? ` — ${esc(it.types[r.type])}` : ""}</p>`);
-    P.push(`<ul>${r.dims.map((d: any) => `<li>${esc(d.label)}: <b>${d.val}</b> → ${esc(d.letter === d.hi ? d.hiName : d.loName)} (${d.letter}; eşik 24, eşikten uzaklık ${Math.abs(d.val - 24)})</li>`).join("")}</ul>`);
+    P.push(`<p style="font-size:18px;margin:10px 0"><b>${esc(sc.jung?.prefix ?? "Tip")}: ${esc(r.typeName ?? r.type)}</b>${it.types[r.type] ? ` — ${esc(it.types[r.type])}` : ""}</p>`);
+    P.push(`<ul>${r.dims.map((d: any) => `<li>${esc(d.label)}: <b>${d.val}</b>${d.n ? ` (ortalama ${(d.val / d.n).toFixed(1).replace(".", ",")} / 7)` : ""} → ${esc(d.letter === d.hi ? d.hiName : d.loName)} (eşik ${r.cutoff}, eşikten uzaklık ${Math.abs(d.val - r.cutoff)})${it.dimDescs?.[d.label]?.[d.letter === d.hi ? "hi" : "lo"] ? ` — ${esc(it.dimDescs[d.label][d.letter === d.hi ? "hi" : "lo"])}` : ""}</li>`).join("")}</ul>`);
   }
   if (it.rank && r.subs?.length) {
     const sorted = [...r.subs].sort((a: any, b: any) => b.sum - a.sum);
     const top = sorted.slice(0, it.rank.top || 5), low = sorted.slice(-(it.rank.bottom || 3));
     const d = (s: any) => it.descs?.[s.label] ? ` — ${esc(it.descs[s.label])}` : "";
-    P.push(`<p><b>En belirgin ${top.length} güçlü yön:</b></p><ol>${top.map((s: any) => `<li style="margin-bottom:4px"><b>${esc(s.label)}: ${s.sum} / ${s.max}</b>${d(s)}</li>`).join("")}</ol>`);
-    P.push(`<p><b>En az belirgin ${low.length} yön:</b></p><ul>${low.map((s: any) => `<li>${esc(s.label)}: ${s.sum} / ${s.max}</li>`).join("")}</ul>`);
+    if (it.circumplex) {
+      const g = (k: string) => r.subs.find((s: any) => s.label.startsWith(k))?.sum ?? 0, c = 0.707;
+      const dom = 0.25 * (g("PA") - g("HI") + c * (g("NO") + g("BC") - g("FG") - g("JK")));
+      const lov = 0.25 * (g("LM") - g("DE") + c * (g("NO") + g("JK") - g("BC") - g("FG")));
+      const f = (x: number) => (x > 0 ? "+" : "") + x.toFixed(1).replace(".", ",");
+      P.push(`<p><b>Eksenler:</b> Baskınlık ${f(dom)} (${dom > 0.5 ? "daha baskın/yönlendirici" : dom < -0.5 ? "daha geri planda/uyumlu" : "dengeli"}) · Sıcaklık ${f(lov)} (${lov > 0.5 ? "daha sıcak/yakın" : lov < -0.5 ? "daha mesafeli/soğuk" : "dengeli"})</p>`);
+    }
+    P.push(`<p><b>${esc(it.rank.topTitle ?? `En belirgin ${top.length} güçlü yön`)}:</b></p><ol>${top.map((s: any) => `<li style="margin-bottom:4px"><b>${esc(s.label)}: ${s.sum} / ${s.max}</b>${d(s)}</li>`).join("")}</ol>`);
+    P.push(`<p><b>${esc(it.rank.bottomTitle ?? `En az belirgin ${low.length} yön`)}:</b></p><ul>${low.map((s: any) => `<li>${esc(s.label)}: ${s.sum} / ${s.max}</li>`).join("")}</ul>`);
   }
   if (it.levels && r.subs?.length) P.push(`<ul>${r.subs.map((s: any) => {
     const lv = it.levels.find((l: any) => s.sum <= l.max);
