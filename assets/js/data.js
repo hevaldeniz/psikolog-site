@@ -201,6 +201,7 @@
       const v = answers.map((a, i) => rev.has(i + 1) ? Math.min(...vals(i)) + Math.max(...vals(i)) - a : +a);
       const flags = (sc.flags || []).filter(f => (+answers[f.item - 1] || 0) >= f.min).map(f => f.label);
       const details = (sc.subscales || []).map(s => `${s.label}: ${s.items.reduce((a, n) => a + v[n - 1], 0)} / ${s.items.reduce((a, n) => a + Math.max(...vals(n - 1)), 0)}`);
+      if (sc.jung) { const dims = sc.jung.dims.map(d => { const val = d.base + d.plus.reduce((a, n) => a + answers[n - 1], 0) - d.minus.reduce((a, n) => a + answers[n - 1], 0); return val > sc.jung.cutoff ? d.hi : d.lo; }); return { score: null, severity: `Tip: ${dims.join("")}`, flags }; }
       if (sc.screen) { const n = sc.screen.thresholds.filter((t, i) => answers[i] >= t).length; return { score: n, max: answers.length, severity: n >= sc.screen.cutoff ? sc.screen.positive : sc.screen.negative, flags }; }
       if (sc.total === false) return { score: null, severity: details.join(" · ") || null, flags };
       const score = v.reduce((a, x) => a + x, 0) * mult, band = (sc.bands || []).find(b => score <= b.max);

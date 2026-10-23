@@ -56,6 +56,13 @@
           ${it.section.text ? `<p>${esc(it.section.text)}</p>` : ""}
         </div>` : "";
         const opts = Data.itemOptions(form, i), long = opts.some(o => o.label.length > 24);
+        if (typeof it === "object" && it.left) return `${sec}
+        <fieldset class="q bipolar" data-q="${i}">
+          <legend><span class="n">${i + 1}.</span><span class="sr-only">${esc(it.left)} ya da ${esc(it.right)}</span></legend>
+          <div class="bp-row"><span class="bp-l">${esc(it.left)}</span>
+            <div class="bp-opts">${opts.map(o => `<label title="${esc(o.label)}"><input type="radio" name="q${i}" value="${o.value}" aria-label="${esc(o.label)}"><i></i></label>`).join("")}</div>
+            <span class="bp-r">${esc(it.right)}</span></div>
+        </fieldset>`;
         return `${sec}
         <fieldset class="q" data-q="${i}">
           <legend><span class="n">${i + 1}.</span><span>${esc(Data.itemText(it))}</span></legend>

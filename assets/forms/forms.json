@@ -1918,6 +1918,924 @@
         }
       },
       "credit": "Hall'un Duygusal Zekâ Anketi'nin Türkçe formu (30 madde, 5 alt boyut). Puanlama ve yorum aralıkları Hall'un anahtarına göredir."
+    },
+    {
+      "id": "guclu-yonler",
+      "title": "Karakter Güçlü Yönleri Testi",
+      "group": "test",
+      "short": "Merak, cesaret, mizah, şükran gibi 24 karakter gücü arasından en belirgin güçlü yönlerinizi ortaya çıkaran 96 soru.",
+      "minutes": 10,
+      "kind": "scale",
+      "instructions": "Aşağıdaki ifadelerin sizi ne kadar iyi tanımladığını işaretleyin. Olmak istediğiniz gibi değil, şu anki hâlinizle yanıt verin.",
+      "options": [
+        {
+          "label": "Beni hiç tanımlamıyor",
+          "value": 1
+        },
+        {
+          "label": "Beni pek tanımlamıyor",
+          "value": 2
+        },
+        {
+          "label": "Kararsızım",
+          "value": 3
+        },
+        {
+          "label": "Beni oldukça tanımlıyor",
+          "value": 4
+        },
+        {
+          "label": "Beni tamamen tanımlıyor",
+          "value": 5
+        }
+      ],
+      "items": [
+        "Güzel şeyler gördüğümde derin duygular yaşarım.",
+        "Sevgimi bir başkasına ifade edebilirim.",
+        "Bir grubun parçası olmaktan keyif alırım.",
+        "Dünyayı çok ilginç bir yer olarak görürüm.",
+        "Herkese eşit davranırım.",
+        "Geçmişte kalanı geçmişte bırakırım.",
+        "Hayatta sahip olduklarım için minnettarlık duyarım.",
+        "Olayların iyi tarafına bakarım.",
+        "Güldürerek başkalarının gününü güzelleştiririm.",
+        "Bir işi bitirmeden bırakmam.",
+        "Sözlerimi tutarım.",
+        "Karar vermeden önce artılarını ve eksilerini tartarım.",
+        "Başkalarını mutlu etmeyi severim.",
+        "İnsanların birlikte iyi çalışmasına yardımcı olmakta iyiyimdir.",
+        "Yeni bir şey öğrendiğimde heyecanlanırım.",
+        "Başarılarımla övünmem.",
+        "Yeni ve farklı fikirler üretebilirim.",
+        "Hayata olgun bir bakış açım vardır.",
+        "Konuşmadan önce düşünürüm.",
+        "Son derece disiplinli biriyimdir.",
+        "Başkalarının ne hissettiğini sezmekte iyiyimdir.",
+        "Maneviyatı güçlü biriyimdir.",
+        "Korkularımla yüzleşebilirim.",
+        "Her yeni günü heyecanla beklerim.",
+        "Sanatın her türünü takdir ederim.",
+        "Kusurlarımı kabul eden insanlar olduğunu bilirim.",
+        "Takım arkadaşlarımı ya da grup üyelerini desteklerim.",
+        "Her durumda ilgimi çeken bir şey bulabilirim.",
+        "Herkese bir şans veririm.",
+        "Başkalarına yeni bir başlangıç şansı tanırım.",
+        "Beni önemseyenlere teşekkürümü dile getiririm.",
+        "Zorluklara rağmen umudumu korurum.",
+        "Kasvetli durumlarda bile mizah duygumu korurum.",
+        "Önümdeki engellere rağmen işleri tamamlarım.",
+        "Kendi değerlerime sadık kalırım.",
+        "Önemli kararlarım için iyi gerekçelerim olmasına özen gösteririm.",
+        "Moralsiz görünen insanları neşelendirmek için çaba gösteririm.",
+        "Gruptaki herkesin kendini dahil hissetmesini sağlamaya çalışırım.",
+        "Öğrenme ve gelişme fırsatlarını dört gözle beklerim.",
+        "Dikkatleri üzerime çekmem.",
+        "Bir şeyleri yapmanın yeni yollarını düşünmeyi severim.",
+        "Olup bitenlere geniş bir açıdan bakarım.",
+        "Seçimlerimi dikkatle yaparım.",
+        "Uzun vadede bana zarar verecek şeylerden, kısa vadede iyi hissettirse bile uzak dururum.",
+        "Yeni tanıştığım insanlarla iyi anlaşırım.",
+        "Her insanın hayatta bir amacı olduğuna inanırım.",
+        "Popüler olmayan bir görüşü dile getirmekten çekinmem.",
+        "Hayata kenardan bakmak yerine tam olarak katılmayı tercih ederim.",
+        "Başkalarının sıradan bulduğu basit şeylere hayranlık duyarım.",
+        "Duygularımı başkalarıyla kolay paylaşmam.",
+        "Grupla çalışmakta iyi değilimdir.",
+        "Dünyaya karşı o kadar da meraklı değilimdir.",
+        "Başkalarından çıkar sağlarım.",
+        "Kin tutarım.",
+        "Bana iyi davrananlara teşekkür etme gereği duymam.",
+        "Hep en kötüsünü beklerim.",
+        "Mizah anlayışımla tanınmam.",
+        "Başladığım işi bitirmem.",
+        "Başımı beladan kurtarmak için yalan söylerim.",
+        "Karar verirken farklı olasılıkları düşünmem.",
+        "Başkaları bana sorunlarından bahsettiğinde sabırsızlanırım.",
+        "Bir grubun sorumluluğunu üstlenmekte iyi değilimdir.",
+        "Yeni şeyler öğrenmekten hoşlanmam.",
+        "Kalabalığın içinde öne çıkmayı severim.",
+        "Yeni ve farklı fikirleri olan biri olarak görülmem.",
+        "Hayatta asıl önemli olanı gözden kaçırırım.",
+        "Doğruyu yanlıştan net biçimde ayırırım.",
+        "Dürtülerime yenik düşerim.",
+        "İnsanları neyin harekete geçirdiğini bilirim.",
+        "İnançlarımın hayatımı anlamlı kıldığını bilirim.",
+        "İnançlarımı savunmam.",
+        "Sabah kalkmak gözümde büyür.",
+        "Güzelliği ancak başkaları dikkatimi çektiğinde fark ederim.",
+        "Kendimi diğer insanlardan yalıtılmış hissederim.",
+        "Her şeyi tek başıma yapmayı tercih ederim.",
+        "İlgi alanlarım azdır.",
+        "Sevmediğim insanlara farklı davranırım.",
+        "Beni incitenlere ikinci bir şans vermem.",
+        "Hayatımda şükredecek pek az şey bulurum.",
+        "İşlerimi yapma biçimimin iyi sonuçlanacağından emin değilimdir.",
+        "Başkalarını gülümsetmek ya da güldürmek için pek çaba göstermem.",
+        "Kolayca pes ederim.",
+        "Kendimi bir sahtekâr gibi hissederim.",
+        "Olayları eleştirel bir gözle düşünme eğiliminde değilimdir.",
+        "Başkalarına yalnızca bana iyi davrandılarsa iyi davranırım.",
+        "Başkalarını birlikte çalıştırmakta güçlük çekerim.",
+        "Müzeleri gezmekten hoşlanmam.",
+        "Kendimden bahsetmeyi severim.",
+        "Özgün bir şey yapmak için özel bir istek duymam.",
+        "Başkaları bana nadiren akıl danışır.",
+        "Alışılmadık ve tuhaf şekillerde davranırım.",
+        "İşlerimi ancak son anda yaparım.",
+        "Yeni bir sosyal ortamda nasıl davranacağımı bilemem.",
+        "Evrensel bir güce ya da Tanrı'ya inanmam.",
+        "Rahatsız edici duygularla uğraşmaktan kaçınırım.",
+        "Pek enerjim yoktur."
+      ],
+      "scoring": {
+        "total": false,
+        "reverse": [
+          50,
+          51,
+          52,
+          53,
+          54,
+          55,
+          56,
+          57,
+          58,
+          59,
+          60,
+          61,
+          62,
+          63,
+          64,
+          65,
+          66,
+          68,
+          71,
+          72,
+          73,
+          74,
+          75,
+          76,
+          77,
+          78,
+          79,
+          80,
+          81,
+          82,
+          83,
+          84,
+          85,
+          86,
+          87,
+          88,
+          89,
+          90,
+          91,
+          92,
+          93,
+          94,
+          95,
+          96
+        ],
+        "subscales": [
+          {
+            "label": "Güzelliği ve mükemmelliği takdir etme",
+            "items": [
+              1,
+              25,
+              49,
+              73
+            ]
+          },
+          {
+            "label": "Sevme ve sevilme",
+            "items": [
+              2,
+              26,
+              50,
+              74
+            ]
+          },
+          {
+            "label": "Takım çalışması",
+            "items": [
+              3,
+              27,
+              51,
+              75
+            ]
+          },
+          {
+            "label": "Merak",
+            "items": [
+              4,
+              28,
+              52,
+              76
+            ]
+          },
+          {
+            "label": "Adalet",
+            "items": [
+              5,
+              29,
+              53,
+              77
+            ]
+          },
+          {
+            "label": "Affedicilik",
+            "items": [
+              6,
+              30,
+              54,
+              78
+            ]
+          },
+          {
+            "label": "Şükran",
+            "items": [
+              7,
+              31,
+              55,
+              79
+            ]
+          },
+          {
+            "label": "Umut",
+            "items": [
+              8,
+              32,
+              56,
+              80
+            ]
+          },
+          {
+            "label": "Mizah",
+            "items": [
+              9,
+              33,
+              57,
+              81
+            ]
+          },
+          {
+            "label": "Azim",
+            "items": [
+              10,
+              34,
+              58,
+              82
+            ]
+          },
+          {
+            "label": "Dürüstlük",
+            "items": [
+              11,
+              35,
+              59,
+              83
+            ]
+          },
+          {
+            "label": "Muhakeme ve açık fikirlilik",
+            "items": [
+              12,
+              36,
+              60,
+              84
+            ]
+          },
+          {
+            "label": "İyilik ve cömertlik",
+            "items": [
+              13,
+              37,
+              61,
+              85
+            ]
+          },
+          {
+            "label": "Liderlik",
+            "items": [
+              14,
+              38,
+              62,
+              86
+            ]
+          },
+          {
+            "label": "Öğrenme sevgisi",
+            "items": [
+              15,
+              39,
+              63,
+              87
+            ]
+          },
+          {
+            "label": "Alçakgönüllülük",
+            "items": [
+              16,
+              40,
+              64,
+              88
+            ]
+          },
+          {
+            "label": "Yaratıcılık",
+            "items": [
+              17,
+              41,
+              65,
+              89
+            ]
+          },
+          {
+            "label": "Bakış açısı ve bilgelik",
+            "items": [
+              18,
+              42,
+              66,
+              90
+            ]
+          },
+          {
+            "label": "Sağduyu",
+            "items": [
+              19,
+              43,
+              67,
+              91
+            ]
+          },
+          {
+            "label": "Öz denetim",
+            "items": [
+              20,
+              44,
+              68,
+              92
+            ]
+          },
+          {
+            "label": "Sosyal zekâ",
+            "items": [
+              21,
+              45,
+              69,
+              93
+            ]
+          },
+          {
+            "label": "Maneviyat ve anlam",
+            "items": [
+              22,
+              46,
+              70,
+              94
+            ]
+          },
+          {
+            "label": "Cesaret",
+            "items": [
+              23,
+              47,
+              71,
+              95
+            ]
+          },
+          {
+            "label": "Coşku ve canlılık",
+            "items": [
+              24,
+              48,
+              72,
+              96
+            ]
+          }
+        ]
+      },
+      "interpret": {
+        "about": "Bu test, olumlu psikolojideki 24 karakter gücü sınıflamasını (Peterson ve Seligman, 2004) ölçen kamuya açık IPIP-VIA maddelerine dayanır. Her güçlü yön 4 madde ile ölçülür (2'si ters puanlanır) ve 4–20 arası puan alır. Sonuçlar kişiyi başkalarıyla değil, kendi içindeki sıralamayla değerlendirir: en üstteki 5 yön kişinin 'imza güçlü yönleri' olarak düşünülebilir. Terapide imza güçlü yönleri hedeflere ulaşmada ve zorluklarla baş etmede kaynak olarak kullanmak işe yarar; en alttaki yönler 'eksiklik' değil, daha az kullanılan alanlardır.",
+        "rank": {
+          "top": 5,
+          "bottom": 3
+        },
+        "descs": {
+          "Güzelliği ve mükemmelliği takdir etme": "Doğada, sanatta ve insanlarda güzelliği ve ustalığı fark edip derinden etkilenme.",
+          "Sevme ve sevilme": "Yakın ilişkilere değer verme, sevgiyi verebilme ve kabul edebilme.",
+          "Takım çalışması": "Bir grubun iyi bir üyesi olma, sadakat ve paylaşılan hedeflere katkı.",
+          "Merak": "Yeni deneyimlere ilgi duyma, keşfetme ve soru sorma isteği.",
+          "Adalet": "İnsanlara eşit ve hakkaniyetli davranma, kişisel duyguların kararları etkilemesine izin vermeme.",
+          "Affedicilik": "Hata yapanları bağışlayabilme, intikam yerine ilişkiyi onarmayı seçme.",
+          "Şükran": "İyi şeylerin farkında olma ve bunlar için minnet duyup ifade etme.",
+          "Umut": "Geleceğe dair olumlu beklenti ve bunun için çabalama.",
+          "Mizah": "Gülmeyi ve şakayı sevme, başkalarına neşe getirme, olayların eğlenceli yanını görebilme.",
+          "Azim": "Başladığını bitirme, engellere rağmen yolda kalabilme.",
+          "Dürüstlük": "Doğruyu söyleme, kendine ve değerlerine sadık, sahici yaşama.",
+          "Muhakeme ve açık fikirlilik": "Konuları her açıdan düşünme, kanıtlara göre fikir değiştirebilme.",
+          "İyilik ve cömertlik": "Başkalarına yardım etme, şefkat ve cömertlik gösterme.",
+          "Liderlik": "Bir grubu örgütleme, yönlendirme ve herkesin katkısını sağlama.",
+          "Öğrenme sevgisi": "Yeni beceri ve bilgiler edinmekten keyif alma, sürekli öğrenen olma.",
+          "Alçakgönüllülük": "Başarılarının kendisi için konuşmasına izin verme, kendini olduğundan büyük görmeme.",
+          "Yaratıcılık": "Bir şeyleri yapmanın yeni ve özgün yollarını bulma.",
+          "Bakış açısı ve bilgelik": "Hayata geniş ve anlamlı bir açıdan bakabilme, başkalarına sağlıklı öğüt verebilme.",
+          "Sağduyu": "Seçimlerinde dikkatli olma, sonradan pişman olacağı şeyleri söylememe ya da yapmama.",
+          "Öz denetim": "Duygularını, dürtülerini ve alışkanlıklarını düzenleyebilme.",
+          "Sosyal zekâ": "Kendi ve başkalarının duygularını ve güdülerini anlama, farklı ortamlara uyum sağlama.",
+          "Maneviyat ve anlam": "Hayatın daha büyük bir anlamı ve amacı olduğuna dair tutarlı inançlar.",
+          "Cesaret": "Tehdit, zorluk ya da acı karşısında geri çekilmeme, doğru bildiğini savunma.",
+          "Coşku ve canlılık": "Hayata heyecan ve enerjiyle yaklaşma, yaptığı işe kendini verme."
+        },
+        "notes": [
+          "Bu kısa form, IPIP-VIA ölçeklerinden IPIP-VIA-R yapısına (her güçlü yön için 2 olumlu + 2 ters madde) uygun olarak bu site için derlenmiştir; birkaç güçlü yönde ters madde sayısı 1'dir. Geçerlik çalışması yapılmış resmî bir kısa form değildir."
+        ]
+      },
+      "credit": "Maddeler kamuya açık Uluslararası Kişilik Madde Havuzu'nun (IPIP, ipip.ori.org) IPIP-VIA ölçeklerinden alınmıştır; sınıflama: Peterson ve Seligman (2004). Türkçe ifadeler bu site için hazırlanmıştır. VIA Institute on Character ile ilişkili değildir."
+    },
+    {
+      "id": "mizah-tarzlari",
+      "title": "Mizah Tarzları Ölçeği",
+      "group": "test",
+      "short": "Mizahı nasıl kullandığınızı dört tarzda değerlendiren 32 soru: sosyal, kendini yükselten, saldırgan ve kendini yıpratan mizah.",
+      "minutes": 6,
+      "kind": "scale",
+      "instructions": "Aşağıdaki ifadeler insanların mizahı yaşayıp kullanma biçimlerini anlatıyor. Her ifadeye ne ölçüde katıldığınızı işaretleyin. Mümkün olduğunca dürüst ve nesnel yanıt vermeye çalışın.",
+      "options": [
+        {
+          "label": "Kesinlikle katılmıyorum",
+          "value": 1
+        },
+        {
+          "label": "Oldukça katılmıyorum",
+          "value": 2
+        },
+        {
+          "label": "Biraz katılmıyorum",
+          "value": 3
+        },
+        {
+          "label": "Ne katılıyorum ne katılmıyorum",
+          "value": 4
+        },
+        {
+          "label": "Biraz katılıyorum",
+          "value": 5
+        },
+        {
+          "label": "Oldukça katılıyorum",
+          "value": 6
+        },
+        {
+          "label": "Kesinlikle katılıyorum",
+          "value": 7
+        }
+      ],
+      "items": [
+        "Başkalarıyla genellikle pek gülüp şakalaşmam.",
+        "Kendimi çökkün hissettiğimde genellikle mizah sayesinde neşelenebilirim.",
+        "Biri bir hata yaptığında onunla sık sık dalga geçerim.",
+        "İnsanların bana gülmesine ya da benimle dalga geçmesine olması gerekenden fazla izin veririm.",
+        "Başkalarını güldürmek için çok uğraşmam gerekmez; doğal olarak esprili biriyimdir.",
+        "Tek başımayken bile hayatın saçmalıkları beni sık sık eğlendirir.",
+        "İnsanlar mizah anlayışımdan asla gücenmez ya da incinmez.",
+        "Ailemi ya da arkadaşlarımı güldürecekse kendimi küçük düşürmekte sık sık ileri giderim.",
+        "Kendimle ilgili komik hikâyeler anlatarak insanları nadiren güldürürüm.",
+        "Üzgün ya da mutsuz hissettiğimde, kendimi daha iyi hissetmek için genellikle durumun komik bir yanını düşünmeye çalışırım.",
+        "Şaka yaparken ya da komik şeyler söylerken başkalarının bunu nasıl karşıladığını pek umursamam.",
+        "Kendi zayıflıklarım, sakarlıklarım ya da kusurlarım hakkında komik bir şey söyleyerek insanların beni daha çok sevmesini ya da kabul etmesini sağlamaya çalışırım.",
+        "En yakın arkadaşlarımla çok gülüp şakalaşırım.",
+        "Hayata esprili bakışım, olaylar karşısında aşırı üzülmemi ya da çökmemi engeller.",
+        "İnsanların mizahı birini eleştirmek ya da küçük düşürmek için kullanmasından hoşlanmam.",
+        "Kendimi küçük düşüren komik şeyleri sık söylemem.",
+        "Genellikle fıkra anlatmayı ya da insanları eğlendirmeyi sevmem.",
+        "Yalnızken mutsuz hissedersem, kendimi neşelendirmek için komik bir şey düşünmeye çabalarım.",
+        "Bazen öyle komik bir şey aklıma gelir ki duruma uygun olmasa bile söylemeden duramam.",
+        "Şaka yaparken ya da komik olmaya çalışırken kendimi küçük düşürmekte sık sık aşırıya kaçarım.",
+        "İnsanları güldürmekten keyif alırım.",
+        "Üzgün ya da sıkıntılı hissettiğimde genellikle mizah duygumu kaybederim.",
+        "Bütün arkadaşlarım yapsa bile başkalarına gülmeye asla katılmam.",
+        "Arkadaşlarımla ya da ailemle birlikteyken, dalga geçilen ya da hakkında şaka yapılan kişi genellikle ben olurum.",
+        "Arkadaşlarımla pek şakalaşmam.",
+        "Deneyimlerime göre, bir durumun eğlenceli bir yanını düşünmek sorunlarla baş etmenin çoğu zaman çok etkili bir yoludur.",
+        "Birini sevmiyorsam, onu küçük düşürmek için sık sık mizahı ya da takılmayı kullanırım.",
+        "Sorunlarım olduğunda ya da mutsuz hissettiğimde, en yakın arkadaşlarım bile gerçekte ne hissettiğimi bilmesin diye bunu şakalarla örterim.",
+        "Başkalarıyla birlikteyken genellikle esprili bir şey söyleyemem.",
+        "Eğlenmek için başkalarıyla birlikte olmam gerekmez; tek başımayken bile gülecek bir şey bulabilirim.",
+        "Bir şey bana çok komik gelse bile, biri bundan gücenecekse gülmem ya da şaka yapmam.",
+        "Başkalarının bana gülmesine izin vermek, ailemin ve arkadaşlarımın neşesini yerinde tutmanın bir yoludur."
+      ],
+      "scoring": {
+        "total": false,
+        "reverse": [
+          1,
+          7,
+          9,
+          15,
+          16,
+          17,
+          22,
+          23,
+          25,
+          29,
+          31
+        ],
+        "subscales": [
+          {
+            "label": "Sosyal (katılımcı) mizah",
+            "items": [
+              1,
+              5,
+              9,
+              13,
+              17,
+              21,
+              25,
+              29
+            ]
+          },
+          {
+            "label": "Kendini yükselten mizah",
+            "items": [
+              2,
+              6,
+              10,
+              14,
+              18,
+              22,
+              26,
+              30
+            ]
+          },
+          {
+            "label": "Saldırgan mizah",
+            "items": [
+              3,
+              7,
+              11,
+              15,
+              19,
+              23,
+              27,
+              31
+            ]
+          },
+          {
+            "label": "Kendini yıpratan mizah",
+            "items": [
+              4,
+              8,
+              12,
+              16,
+              20,
+              24,
+              28,
+              32
+            ]
+          }
+        ]
+      },
+      "interpret": {
+        "about": "Mizah Tarzları Ölçeği (Martin ve ark., 2003) mizahın dört kullanım biçimini ölçer. Sosyal ve kendini yükselten mizah uyumlu tarzlardır; iyi oluş, benlik saygısı ve ilişki doyumuyla ilişkilidir. Saldırgan ve kendini yıpratan mizah uyumsuz tarzlardır; kendini yıpratan mizah özellikle depresif belirtiler, düşük benlik saygısı ve kabul görme ihtiyacıyla ilişkilidir. Her tarz 8 madde ile ölçülür ve 8–56 arası puan alır. Türkçe norm bulunmadığından düzeyler madde ortalamasına göre kaba bir sınıflamadır (8–24 düşük, 25–40 orta, 41–56 yüksek).",
+        "levels": [
+          {
+            "max": 24,
+            "label": "Düşük"
+          },
+          {
+            "max": 40,
+            "label": "Orta"
+          },
+          {
+            "max": 56,
+            "label": "Yüksek"
+          }
+        ],
+        "traits": {
+          "Sosyal (katılımcı) mizah": {
+            "Yüksek": "İnsanları güldürmekten, şakalaşmaktan ve mizahla ilişkileri güçlendirmekten keyif alıyor.",
+            "Orta": "Sosyal ortamlarda mizahı ölçülü kullanıyor.",
+            "Düşük": "Başkalarıyla şakalaşmayı ve onları eğlendirmeyi pek tercih etmiyor; sosyal çekingenlikle ilişkili olabilir."
+          },
+          "Kendini yükselten mizah": {
+            "Yüksek": "Zor durumlarda mizahı bir baş etme aracı olarak etkili kullanıyor; hayata esprili bakabiliyor.",
+            "Orta": "Mizahı zaman zaman baş etmek için kullanabiliyor.",
+            "Düşük": "Sıkıntılı anlarda mizah duygusunu kaybetme eğiliminde; mizahı baş etme aracı olarak az kullanıyor."
+          },
+          "Saldırgan mizah": {
+            "Yüksek": "Mizahı alay, iğneleme ya da küçümseme için kullanma eğilimi belirgin; ilişkilerde çatışma ve öfke ile ilişkili olabilir.",
+            "Orta": "Zaman zaman iğneleyici mizah kullanabiliyor.",
+            "Düşük": "Mizahı başkalarını incitmek için kullanmıyor."
+          },
+          "Kendini yıpratan mizah": {
+            "Yüksek": "Kabul görmek ya da duygularını gizlemek için kendini küçük düşüren mizaha sık başvuruyor; düşük benlik saygısı ve depresif belirtiler açısından dikkat edilmeli.",
+            "Orta": "Kendiyle dalga geçen mizahı zaman zaman kullanıyor.",
+            "Düşük": "Kendini küçük düşüren mizaha başvurmuyor."
+          }
+        }
+      },
+      "credit": "Humor Styles Questionnaire: Martin, R. A., Puhlik-Doris, P., Larsen, G., Gray, J. ve Weir, K. (2003). Journal of Research in Personality, 37, 48–75. Türkçe ifadeler bu site için hazırlanmıştır."
+    },
+    {
+      "id": "jung-tipleri",
+      "title": "Jung Kişilik Tipleri Testi",
+      "group": "test",
+      "short": "Dört harfli kişilik tipinizi (ör. INFJ, ESTP) belirleyen, iki seçenek arasında tercih yaptığınız 32 soru.",
+      "minutes": 6,
+      "kind": "scale",
+      "instructions": "Her satırda karşıt iki özellik var. Sizi hangisinin daha iyi tanımladığını işaretleyin: en soldaki daire soldaki ifadeye tamamen, en sağdaki daire sağdaki ifadeye tamamen uyduğunuzu; ortadaki daire ikisinin arasında olduğunuzu gösterir.",
+      "options": [
+        {
+          "label": "Tamamen soldaki",
+          "value": 1
+        },
+        {
+          "label": "Daha çok soldaki",
+          "value": 2
+        },
+        {
+          "label": "İkisinin arası",
+          "value": 3
+        },
+        {
+          "label": "Daha çok sağdaki",
+          "value": 4
+        },
+        {
+          "label": "Tamamen sağdaki",
+          "value": 5
+        }
+      ],
+      "items": [
+        {
+          "text": "Liste yapar ↔ Hafızasına güvenir",
+          "left": "Liste yapar",
+          "right": "Hafızasına güvenir"
+        },
+        {
+          "text": "Şüphecidir ↔ İnanmak ister",
+          "left": "Şüphecidir",
+          "right": "İnanmak ister"
+        },
+        {
+          "text": "Yalnız kalmaktan sıkılır ↔ Yalnız kalmaya ihtiyaç duyar",
+          "left": "Yalnız kalmaktan sıkılır",
+          "right": "Yalnız kalmaya ihtiyaç duyar"
+        },
+        {
+          "text": "Her şeyi olduğu gibi kabul eder ↔ İşlerin gidişatından kolay memnun olmaz",
+          "left": "Her şeyi olduğu gibi kabul eder",
+          "right": "İşlerin gidişatından kolay memnun olmaz"
+        },
+        {
+          "text": "Odasını derli toplu tutar ↔ Eşyalarını rastgele bir yere bırakır",
+          "left": "Odasını derli toplu tutar",
+          "right": "Eşyalarını rastgele bir yere bırakır"
+        },
+        {
+          "text": "“Robot gibi” denmesini hakaret sayar ↔ Makine gibi işleyen bir zihne sahip olmaya çalışır",
+          "left": "“Robot gibi” denmesini hakaret sayar",
+          "right": "Makine gibi işleyen bir zihne sahip olmaya çalışır"
+        },
+        {
+          "text": "Enerjiktir ↔ Sakin ve yumuşaktır",
+          "left": "Enerjiktir",
+          "right": "Sakin ve yumuşaktır"
+        },
+        {
+          "text": "Çoktan seçmeli sınavları tercih eder ↔ Açık uçlu (yazılı) sınavları tercih eder",
+          "left": "Çoktan seçmeli sınavları tercih eder",
+          "right": "Açık uçlu (yazılı) sınavları tercih eder"
+        },
+        {
+          "text": "Dağınıktır ↔ Düzenlidir",
+          "left": "Dağınıktır",
+          "right": "Düzenlidir"
+        },
+        {
+          "text": "Kolay incinir ↔ Eleştiriye karşı dayanıklıdır",
+          "left": "Kolay incinir",
+          "right": "Eleştiriye karşı dayanıklıdır"
+        },
+        {
+          "text": "En iyi grupla çalışır ↔ En iyi yalnız çalışır",
+          "left": "En iyi grupla çalışır",
+          "right": "En iyi yalnız çalışır"
+        },
+        {
+          "text": "Şimdiye odaklıdır ↔ Geleceğe odaklıdır",
+          "left": "Şimdiye odaklıdır",
+          "right": "Geleceğe odaklıdır"
+        },
+        {
+          "text": "Çok önceden plan yapar ↔ Son dakikada plan yapar",
+          "left": "Çok önceden plan yapar",
+          "right": "Son dakikada plan yapar"
+        },
+        {
+          "text": "İnsanların saygısını ister ↔ İnsanların sevgisini ister",
+          "left": "İnsanların saygısını ister",
+          "right": "İnsanların sevgisini ister"
+        },
+        {
+          "text": "Partilerde yorulur ↔ Partilerde enerjisi yükselir",
+          "left": "Partilerde yorulur",
+          "right": "Partilerde enerjisi yükselir"
+        },
+        {
+          "text": "Ortama uyum sağlar ↔ Göze çarpar, sivrilir",
+          "left": "Ortama uyum sağlar",
+          "right": "Göze çarpar, sivrilir"
+        },
+        {
+          "text": "Seçenekleri açık tutar ↔ Karar verip bağlanır",
+          "left": "Seçenekleri açık tutar",
+          "right": "Karar verip bağlanır"
+        },
+        {
+          "text": "Bir şeyleri tamir etmekte iyi olmak ister ↔ İnsanlara iyi gelmekte iyi olmak ister",
+          "left": "Bir şeyleri tamir etmekte iyi olmak ister",
+          "right": "İnsanlara iyi gelmekte iyi olmak ister"
+        },
+        {
+          "text": "Daha çok konuşur ↔ Daha çok dinler",
+          "left": "Daha çok konuşur",
+          "right": "Daha çok dinler"
+        },
+        {
+          "text": "Bir olayı anlatırken ne olduğunu anlatır ↔ Bir olayı anlatırken ne anlama geldiğini anlatır",
+          "left": "Bir olayı anlatırken ne olduğunu anlatır",
+          "right": "Bir olayı anlatırken ne anlama geldiğini anlatır"
+        },
+        {
+          "text": "İşini hemen bitirir ↔ İşini erteler",
+          "left": "İşini hemen bitirir",
+          "right": "İşini erteler"
+        },
+        {
+          "text": "Kalbini dinler ↔ Aklını dinler",
+          "left": "Kalbini dinler",
+          "right": "Aklını dinler"
+        },
+        {
+          "text": "Evde kalmayı sever ↔ Dışarı çıkıp eğlenmeyi sever",
+          "left": "Evde kalmayı sever",
+          "right": "Dışarı çıkıp eğlenmeyi sever"
+        },
+        {
+          "text": "Büyük resmi görmek ister ↔ Ayrıntıları bilmek ister",
+          "left": "Büyük resmi görmek ister",
+          "right": "Ayrıntıları bilmek ister"
+        },
+        {
+          "text": "Doğaçlama yapar ↔ Önceden hazırlanır",
+          "left": "Doğaçlama yapar",
+          "right": "Önceden hazırlanır"
+        },
+        {
+          "text": "Ahlakı adalete dayandırır ↔ Ahlakı merhamete dayandırır",
+          "left": "Ahlakı adalete dayandırır",
+          "right": "Ahlakı merhamete dayandırır"
+        },
+        {
+          "text": "Çok yüksek sesle bağırmakta zorlanır ↔ Uzaktaki birine seslenmek ona doğal gelir",
+          "left": "Çok yüksek sesle bağırmakta zorlanır",
+          "right": "Uzaktaki birine seslenmek ona doğal gelir"
+        },
+        {
+          "text": "Kuramsal düşünür ↔ Deneyime dayalı düşünür",
+          "left": "Kuramsal düşünür",
+          "right": "Deneyime dayalı düşünür"
+        },
+        {
+          "text": "Çok çalışır ↔ Doya doya eğlenir",
+          "left": "Çok çalışır",
+          "right": "Doya doya eğlenir"
+        },
+        {
+          "text": "Duygulardan rahatsız olur ↔ Duygulara değer verir",
+          "left": "Duygulardan rahatsız olur",
+          "right": "Duygulara değer verir"
+        },
+        {
+          "text": "Başkalarının önünde sahne almayı sever ↔ Topluluk önünde konuşmaktan kaçınır",
+          "left": "Başkalarının önünde sahne almayı sever",
+          "right": "Topluluk önünde konuşmaktan kaçınır"
+        },
+        {
+          "text": "“Kim? Ne? Ne zaman?” sorularını sever ↔ “Neden?” sorusunu sever",
+          "left": "“Kim? Ne? Ne zaman?” sorularını sever",
+          "right": "“Neden?” sorusunu sever"
+        }
+      ],
+      "scoring": {
+        "jung": {
+          "cutoff": 24,
+          "dims": [
+            {
+              "label": "İçe dönüklük (I) – Dışa dönüklük (E)",
+              "lo": "I",
+              "hi": "E",
+              "loName": "İçe dönük",
+              "hiName": "Dışa dönük",
+              "base": 30,
+              "plus": [
+                15,
+                23,
+                27
+              ],
+              "minus": [
+                3,
+                7,
+                11,
+                19,
+                31
+              ]
+            },
+            {
+              "label": "Duyumsama (S) – Sezgi (N)",
+              "lo": "S",
+              "hi": "N",
+              "loName": "Duyumsayan",
+              "hiName": "Sezgisel",
+              "base": 12,
+              "plus": [
+                4,
+                8,
+                12,
+                16,
+                20,
+                32
+              ],
+              "minus": [
+                24,
+                28
+              ]
+            },
+            {
+              "label": "Hissetme (F) – Düşünme (T)",
+              "lo": "F",
+              "hi": "T",
+              "loName": "Hisseden",
+              "hiName": "Düşünen",
+              "base": 30,
+              "plus": [
+                6,
+                10,
+                22
+              ],
+              "minus": [
+                2,
+                14,
+                18,
+                26,
+                30
+              ]
+            },
+            {
+              "label": "Yargılama (J) – Algılama (P)",
+              "lo": "J",
+              "hi": "P",
+              "loName": "Planlı (yargılayan)",
+              "hiName": "Esnek (algılayan)",
+              "base": 18,
+              "plus": [
+                1,
+                5,
+                13,
+                21,
+                29
+              ],
+              "minus": [
+                9,
+                17,
+                25
+              ]
+            }
+          ]
+        }
+      },
+      "interpret": {
+        "about": "Bu test, Jung'un psikolojik tipler kuramına dayanan Açık Jung Tip Ölçekleri'nin (OEJTS) Türkçe formudur. Dört boyutun her biri 8–40 arası puan alır; 24'ün üzeri boyutun ikinci kutbunu (E, N, T, P), altı ilk kutbunu (I, S, F, J) gösterir. Eşiğe yakın puanlar (ör. 22–26) o boyutta belirgin bir tercih olmadığına işaret eder. Tip yaklaşımı eğlenceli ve kendini tanımaya yönelik bir çerçevedir; bilimsel geçerliği Beş Faktör modeline göre sınırlıdır ve klinik değerlendirme için kullanılmamalıdır.",
+        "types": {
+          "ISTJ": "Sorumluluk sahibi, düzenli, kurallara ve geleneklere önem veren, güvenilir.",
+          "ISFJ": "Sadık, özenli, başkalarının ihtiyaçlarına duyarlı, pratik biçimde yardımsever.",
+          "INFJ": "İçgörülü, idealist, anlam arayan, insanlara derinden önem veren.",
+          "INTJ": "Stratejik, bağımsız, uzun vadeli planlar kuran, analitik.",
+          "ISTP": "Pratik, gözlemci, sorun çözmeyi seven, esnek ve sakin.",
+          "ISFP": "Nazik, duyarlı, anı yaşayan, estetik duyarlılığı yüksek.",
+          "INFP": "Değerlerine bağlı, hayalperest, empatik, özgünlüğe önem veren.",
+          "INTP": "Meraklı, mantıksal, fikirlerle uğraşmayı seven, bağımsız düşünür.",
+          "ESTP": "Enerjik, girişken, aksiyon odaklı, risk almaktan çekinmeyen.",
+          "ESFP": "Neşeli, sosyal, spontane, anı paylaşmayı seven.",
+          "ENFP": "Coşkulu, yaratıcı, ilham veren, yeni olasılıklara açık.",
+          "ENTP": "Hazırcevap, yenilikçi, tartışmayı ve fikir üretmeyi seven.",
+          "ESTJ": "Organize, kararlı, pratik, işleri yönetmeyi seven.",
+          "ESFJ": "Sıcak, yardımsever, uyuma ve iş birliğine önem veren.",
+          "ENFJ": "Karizmatik, empatik, başkalarının gelişimini destekleyen.",
+          "ENTJ": "Lider ruhlu, hedef odaklı, verimli ve kararlı."
+        }
+      },
+      "credit": "Açık Jung Tip Ölçekleri (Open Extended Jungian Type Scales 1.2) © Open Psychometrics, Creative Commons Atıf-GayriTicari-AynıLisanslaPaylaş 4.0 lisansıyla. Türkçe ifadeler bu site için hazırlanmıştır ve aynı lisansla paylaşılır. MBTI ile ilişkili değildir."
     }
   ]
 }

@@ -35,6 +35,16 @@ function score(form: any, answers: number[]) {
     max: s.items.reduce((a: number, n: number) => a + Math.max(...vals(form, n - 1)), 0),
   }));
   const details = subs.map((s: any) => `${s.label}: ${s.sum} / ${s.max}`);
+  if (sc.jung) {
+    // Açık Jung Tip Ölçekleri: her boyut = taban + artı maddeler − eksi maddeler; eşik üstü = "hi" harfi
+    const dims = sc.jung.dims.map((d: any) => {
+      const val = d.base + d.plus.reduce((a: number, n: number) => a + answers[n - 1], 0) - d.minus.reduce((a: number, n: number) => a + answers[n - 1], 0);
+      return { ...d, val, letter: val > sc.jung.cutoff ? d.hi : d.lo };
+    });
+    const type = dims.map((d: any) => d.letter).join("");
+    const det = dims.map((d: any) => `${d.label}: ${d.val} (${d.letter})`);
+    return { ...none, severity: `Tip: ${type}`, flags, details: det, subs: [], type, dims };
+  }
   if (sc.screen) {
     const n = sc.screen.thresholds.filter((t: number, i: number) => answers[i] >= t).length;
     return { score: n, max: answers.length, severity: n >= sc.screen.cutoff ? sc.screen.positive : sc.screen.negative, flags, details, subs };
@@ -65,6 +75,17 @@ function interpretHtml(form: any, answers: number[], r: any) {
     const max = g.items.reduce((a: number, n: number) => a + Math.max(...vals(form, n - 1)), 0);
     return `<li>${esc(g.label)}: <b>${sum} / ${max}</b></li>`;
   }).join("")}</ul>`);
+  if (it.types && r.type) {
+    P.push(`<p style="font-size:18px;margin:10px 0"><b>Tip: ${esc(r.type)}</b>${it.types[r.type] ? ` — ${esc(it.types[r.type])}` : ""}</p>`);
+    P.push(`<ul>${r.dims.map((d: any) => `<li>${esc(d.label)}: <b>${d.val}</b> → ${esc(d.letter === d.hi ? d.hiName : d.loName)} (${d.letter}; eşik 24, eşikten uzaklık ${Math.abs(d.val - 24)})</li>`).join("")}</ul>`);
+  }
+  if (it.rank && r.subs?.length) {
+    const sorted = [...r.subs].sort((a: any, b: any) => b.sum - a.sum);
+    const top = sorted.slice(0, it.rank.top || 5), low = sorted.slice(-(it.rank.bottom || 3));
+    const d = (s: any) => it.descs?.[s.label] ? ` — ${esc(it.descs[s.label])}` : "";
+    P.push(`<p><b>En belirgin ${top.length} güçlü yön:</b></p><ol>${top.map((s: any) => `<li style="margin-bottom:4px"><b>${esc(s.label)}: ${s.sum} / ${s.max}</b>${d(s)}</li>`).join("")}</ol>`);
+    P.push(`<p><b>En az belirgin ${low.length} yön:</b></p><ul>${low.map((s: any) => `<li>${esc(s.label)}: ${s.sum} / ${s.max}</li>`).join("")}</ul>`);
+  }
   if (it.levels && r.subs?.length) P.push(`<ul>${r.subs.map((s: any) => {
     const lv = it.levels.find((l: any) => s.sum <= l.max);
     const txt = it.traits?.[s.label]?.[lv?.label];

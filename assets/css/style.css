@@ -385,6 +385,22 @@ tr:last-child td { border-bottom: none; }
 .q-section h3 { font-size: 1.1rem; color: var(--accent); }
 .q-section ul { margin: 0; padding-left: 1.2em; color: var(--muted); font-size: 0.93rem; display: grid; gap: 4px; }
 .form-credit { margin-top: 8px; }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.q.bipolar legend { float: left; margin-right: 10px; }
+.bp-row { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 12px; }
+.bp-l { text-align: right; } .bp-r { text-align: left; }
+.bp-opts { display: flex; gap: 8px; }
+.bp-opts label { position: relative; cursor: pointer; display: grid; place-items: center; width: 34px; height: 34px; }
+.bp-opts input { position: absolute; opacity: 0; inset: 0; margin: 0; cursor: pointer; }
+.bp-opts i { display: block; border-radius: 50%; border: 2px solid var(--line); background: var(--bg); transition: transform .1s; }
+.bp-opts label:nth-child(1) i, .bp-opts label:nth-child(5) i { width: 30px; height: 30px; }
+.bp-opts label:nth-child(2) i, .bp-opts label:nth-child(4) i { width: 24px; height: 24px; }
+.bp-opts label:nth-child(3) i { width: 18px; height: 18px; }
+.bp-opts label:nth-child(-n+2) i { border-color: var(--online); }
+.bp-opts label:nth-child(n+4) i { border-color: var(--inperson); }
+.bp-opts input:checked + i { background: var(--accent); border-color: var(--accent); transform: scale(1.08); }
+.bp-opts input:focus-visible + i { outline: 3px solid var(--mist); outline-offset: 2px; }
+@media (max-width: 600px) { .bp-row { grid-template-columns: 1fr 1fr; } .bp-opts { grid-column: 1 / -1; grid-row: 2; justify-content: center; } .bp-l { text-align: left; } .bp-r { text-align: right; } }
 .progress { position: sticky; top: calc(env(safe-area-inset-top, 0px) + 66px); z-index: 5; background: var(--bg); padding-block: 8px; display: grid; gap: 6px; }
 .progress .bar { height: 6px; border-radius: 99px; background: var(--surface-2); overflow: hidden; }
 .progress .bar i { display: block; height: 100%; width: 0; background: var(--accent); transition: width .2s; }
