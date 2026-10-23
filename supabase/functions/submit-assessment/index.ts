@@ -29,20 +29,67 @@ function score(form: any, answers: number[]) {
   const sc = form.scoring || {}, mult = sc.multiplier || 1, rev = new Set(sc.reverse || []);
   const v = answers.map((a, i) => rev.has(i + 1) ? Math.min(...vals(form, i)) + Math.max(...vals(form, i)) - a : a);
   const flags = (sc.flags || []).filter((f: any) => (answers[f.item - 1] ?? 0) >= f.min).map((f: any) => f.label);
-  const details = (sc.subscales || []).map((s: any) => {
-    const sum = s.items.reduce((a: number, n: number) => a + v[n - 1], 0);
-    const max = s.items.reduce((a: number, n: number) => a + Math.max(...vals(form, n - 1)), 0);
-    return `${s.label}: ${sum} / ${max}`;
-  });
+  const subs = (sc.subscales || []).map((s: any) => ({
+    label: s.label, items: s.items,
+    sum: s.items.reduce((a: number, n: number) => a + v[n - 1], 0),
+    max: s.items.reduce((a: number, n: number) => a + Math.max(...vals(form, n - 1)), 0),
+  }));
+  const details = subs.map((s: any) => `${s.label}: ${s.sum} / ${s.max}`);
   if (sc.screen) {
     const n = sc.screen.thresholds.filter((t: number, i: number) => answers[i] >= t).length;
-    return { score: n, max: answers.length, severity: n >= sc.screen.cutoff ? sc.screen.positive : sc.screen.negative, flags, details };
+    return { score: n, max: answers.length, severity: n >= sc.screen.cutoff ? sc.screen.positive : sc.screen.negative, flags, details, subs };
   }
-  if (sc.total === false) return { ...none, severity: details.join(" · ") || null, flags, details };
+  if (sc.total === false) return { ...none, severity: details.join(" · ") || null, flags, details, subs };
   const total = v.reduce((a, x) => a + x, 0) * mult;
   const band = (sc.bands || []).find((b: any) => total <= b.max);
   const max = form.items.reduce((a: number, _: any, i: number) => a + Math.max(...vals(form, i)), 0) * mult;
-  return { score: total, severity: band?.label ?? (details.join(" · ") || null), flags, max, details };
+  return { score: total, severity: band?.label ?? (details.join(" · ") || null), flags, max, details, subs };
+}
+
+// Yalnızca psikoloğa giden e-postadaki "Sonuçların yorumu" bölümü (forms.json → interpret)
+function interpretHtml(form: any, answers: number[], r: any) {
+  const it = form.interpret;
+  if (!it || form.kind !== "scale") return "";
+  const sc = form.scoring || {}, P: string[] = [];
+  const optLabel = (i: number) => itemOpts(form, i).find((o: any) => o.value === answers[i])?.label ?? answers[i];
+  const li = (i: number) => `<li>${i + 1}. ${esc(itemText(form.items[i]))} — <i>${esc(optLabel(i))}</i></li>`;
+  if (it.about) P.push(`<p>${esc(it.about)}</p>`);
+  const band = r.score !== null && !sc.screen ? (sc.bands || []).find((b: any) => r.score <= b.max) : null;
+  if (band?.desc) P.push(`<p><b>Bu sonuç (${r.score} puan, ${esc(band.label)}):</b> ${esc(band.desc)}</p>`);
+  if (it.screenItems && sc.screen) {
+    const over = sc.screen.thresholds.map((t: number, i: number) => answers[i] >= t ? i : -1).filter((i: number) => i >= 0);
+    P.push(`<p><b>Eşik üstü maddeler (${over.length} / ${answers.length}; eşik ${sc.screen.cutoff}):</b></p>${over.length ? `<ul>${over.map(li).join("")}</ul>` : "<p>Eşik üstü madde yok.</p>"}`);
+  }
+  if (it.groups) P.push(`<ul>${it.groups.map((g: any) => {
+    const sum = g.items.reduce((a: number, n: number) => a + answers[n - 1], 0);
+    const max = g.items.reduce((a: number, n: number) => a + Math.max(...vals(form, n - 1)), 0);
+    return `<li>${esc(g.label)}: <b>${sum} / ${max}</b></li>`;
+  }).join("")}</ul>`);
+  if (it.levels && r.subs?.length) P.push(`<ul>${r.subs.map((s: any) => {
+    const lv = it.levels.find((l: any) => s.sum <= l.max);
+    const txt = it.traits?.[s.label]?.[lv?.label];
+    return `<li style="margin-bottom:6px"><b>${esc(s.label)}: ${s.sum} / ${s.max} (${esc(lv?.label)})</b>${txt ? ` — ${esc(txt)}` : ""}</li>`;
+  }).join("")}</ul>`);
+  if (it.domains && r.subs?.length) {
+    const top = [...r.subs].sort((a: any, b: any) => b.sum - a.sum)[0];
+    P.push(`<ul>${r.subs.map((s: any) => {
+      const t = answers[s.items[0] - 1], d = answers[s.items[3] - 1], notes: string[] = [];
+      if (t >= 2) notes.push(`günde 1 saatten fazla zaman alıyor (${esc(optLabel(s.items[0] - 1))})`);
+      if (d >= 2) notes.push(`işlevsellikte belirgin bozulma bildiriliyor (${esc(optLabel(s.items[3] - 1))})`);
+      return `<li style="margin-bottom:6px"><b>${esc(s.label)}: ${s.sum} / ${s.max}</b>${notes.length ? ` — ${notes.join("; ")}` : ""}</li>`;
+    }).join("")}</ul>`);
+    if (top.sum > 0) P.push(`<p>En belirgin boyut: <b>${esc(top.label)}</b> (${top.sum} / ${top.max}).</p>`);
+  }
+  if (it.highlight) {
+    const h = it.highlight;
+    const idx = answers.map((a, i) => (h.min != null ? a >= h.min : a <= h.max) ? i : -1).filter(i => i >= 0);
+    if (idx.length) P.push(`<p><b>${esc(h.title)}:</b></p><ul>${idx.map(li).join("")}</ul>`);
+  }
+  if (r.flags?.length) P.push(`<p style="color:#b42318"><b>Dikkat:</b> ${r.flags.map(esc).join("; ")}</p>`);
+  (it.notes || []).forEach((n: string) => P.push(`<p style="color:#56607a;font-size:13px">${esc(n)}</p>`));
+  return `<div style="border-left:3px solid #2667ff;background:#f7f9fe;padding:12px 16px;margin:18px 0;border-radius:0 8px 8px 0">
+    <h3 style="margin:0 0 8px;font-size:16px">Sonuçların yorumu</h3>${P.join("")}
+    <p style="color:#56607a;font-size:12px;margin-bottom:0">Bu yorum ölçeğin yayımlanmış kesme noktalarına göre otomatik oluşturulmuştur; klinik değerlendirmenin yerini tutmaz.</p></div>`;
 }
 
 function answerRows(form: any, answers: any) {
@@ -131,7 +178,8 @@ Deno.serve(async (req) => {
     `${flagged ? "⚠ DİKKAT — " : ""}${form.title}: ${name}${r.score !== null ? ` (${r.score})` : ""}`,
     wrap(`<h2 style="margin:0 0 8px">${esc(form.title)}</h2>
       <p>${esc(name)} · <a href="mailto:${esc(email)}">${esc(email)}</a>${phone ? " · " + esc(phone) : ""}</p>
-      ${flagHtml}${scoreLine}
+      ${flagHtml}${scoreLine}${interpretHtml(form, answers, r)}
+      <h3 style="margin:18px 0 6px;font-size:16px">Yanıtlar</h3>
       <table style="border-collapse:collapse;width:100%;font-size:14px">${rows}</table>`),
     email);
 

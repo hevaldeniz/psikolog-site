@@ -112,23 +112,28 @@
         "bands": [
           {
             "max": 4,
-            "label": "Minimal"
+            "label": "Minimal",
+            "desc": "Klinik açıdan anlamlı depresif belirti saptanmadı."
           },
           {
             "max": 9,
-            "label": "Hafif"
+            "label": "Hafif",
+            "desc": "Hafif düzeyde depresif belirtiler. İzlem önerilir; belirtilerin süresi ve işlevselliğe etkisi birlikte değerlendirilmelidir."
           },
           {
             "max": 14,
-            "label": "Orta"
+            "label": "Orta",
+            "desc": "Orta düzeyde depresif belirtiler; majör depresyon tarama eşiğinin üzerinde. Tanısal değerlendirme ve tedavi planı önerilir."
           },
           {
             "max": 19,
-            "label": "Orta-ağır"
+            "label": "Orta-ağır",
+            "desc": "Orta-ağır düzeyde depresif belirtiler. Aktif tedavi (psikoterapi, gerekirse psikiyatrik değerlendirme) önerilir."
           },
           {
             "max": 27,
-            "label": "Ağır"
+            "label": "Ağır",
+            "desc": "Ağır düzeyde depresif belirtiler. Psikiyatrik değerlendirme ve yakın izlem önerilir."
           }
         ],
         "flags": [
@@ -137,6 +142,17 @@
             "min": 1,
             "label": "9. madde (kendine zarar verme düşünceleri) işaretlendi"
           }
+        ]
+      },
+      "interpret": {
+        "about": "PHQ-9, DSM depresyon ölçütlerine dayanan 9 maddelik bir tarama aracıdır. Toplam puan 0–27 arasındadır; 5, 10, 15 ve 20 puan sırasıyla hafif, orta, orta-ağır ve ağır depresif belirti düzeylerinin kesme noktalarıdır. 10 ve üzeri puan, majör depresyon için en yaygın kullanılan tarama eşiğidir.",
+        "highlight": {
+          "min": 2,
+          "title": "Günlerin yarısından fazlasında ya da her gün yaşanan belirtiler"
+        },
+        "notes": [
+          "9. madde (ölüm ya da kendine zarar verme düşünceleri) toplam puandan bağımsız değerlendirilmelidir; 1 ve üzeri yanıt risk değerlendirmesi gerektirir.",
+          "Bu ölçek tanı koymaz; sonuçlar klinik görüşme ve öyküyle birlikte değerlendirilmelidir."
         ]
       }
     },
@@ -179,20 +195,34 @@
         "bands": [
           {
             "max": 4,
-            "label": "Minimal"
+            "label": "Minimal",
+            "desc": "Klinik açıdan anlamlı kaygı belirtisi saptanmadı."
           },
           {
             "max": 9,
-            "label": "Hafif"
+            "label": "Hafif",
+            "desc": "Hafif düzeyde kaygı belirtileri; izlem önerilir."
           },
           {
             "max": 14,
-            "label": "Orta"
+            "label": "Orta",
+            "desc": "Orta düzeyde kaygı; tarama eşiğinin üzerinde. Kaygı bozuklukları açısından klinik değerlendirme önerilir."
           },
           {
             "max": 21,
-            "label": "Ağır"
+            "label": "Ağır",
+            "desc": "Ağır düzeyde kaygı belirtileri; aktif tedavi önerilir."
           }
+        ]
+      },
+      "interpret": {
+        "about": "GAD-7, yaygın anksiyete bozukluğu belirtilerini tarayan 7 maddelik bir ölçektir; panik bozukluğu, sosyal kaygı ve TSSB için de makul tarama performansı gösterir. Toplam puan 0–21 arasındadır; 5, 10 ve 15 puan hafif, orta ve ağır kaygı düzeylerinin kesme noktalarıdır. 10 ve üzeri puan ayrıntılı değerlendirme için önerilen eşiktir.",
+        "highlight": {
+          "min": 2,
+          "title": "Günlerin yarısından fazlasında ya da her gün yaşanan belirtiler"
+        },
+        "notes": [
+          "Bu ölçek tanı koymaz; sonuçlar klinik görüşme ve öyküyle birlikte değerlendirilmelidir."
         ]
       }
     },
@@ -241,16 +271,29 @@
         "bands": [
           {
             "max": 28,
-            "label": "Düşük iyi oluş (ayrıntılı değerlendirme önerilir)"
+            "label": "Düşük iyi oluş (ayrıntılı değerlendirme önerilir)",
+            "desc": "Belirgin düşük iyi oluş; olası depresyon açısından ayrıntılı değerlendirme önerilir."
           },
           {
             "max": 50,
-            "label": "Düşük iyi oluş"
+            "label": "Düşük iyi oluş",
+            "desc": "Düşük iyi oluş; depresyon taraması önerilir."
           },
           {
             "max": 100,
-            "label": "Yeterli iyi oluş"
+            "label": "Yeterli iyi oluş",
+            "desc": "Yeterli iyi oluş düzeyi."
           }
+        ]
+      },
+      "interpret": {
+        "about": "WHO-5, son iki haftadaki öznel iyi oluşu ölçer. Ham puan (0–25) 4 ile çarpılarak 0–100 arası yüzde puanına çevrilir; yüksek puan daha iyi iyi oluşu gösterir. 50 ve altı düşük iyi oluşa, 28 ve altı olası depresyona işaret eder; bu durumlarda depresyon taraması (ör. PHQ-9) önerilir. İzlemde 10 puanlık değişim klinik olarak anlamlı kabul edilir.",
+        "highlight": {
+          "max": 1,
+          "title": "Hiçbir zaman ya da yalnızca ara sıra yaşandığı belirtilen olumlu durumlar"
+        },
+        "notes": [
+          "Bu ölçek tanı koymaz; sonuçlar klinik görüşme ve öyküyle birlikte değerlendirilmelidir."
         ]
       }
     },
@@ -299,23 +342,59 @@
         "bands": [
           {
             "max": 15,
-            "label": "Düşük düzeyde sıkıntı"
+            "label": "Düşük düzeyde sıkıntı",
+            "desc": "Belirgin psikolojik sıkıntı saptanmadı."
           },
           {
             "max": 21,
-            "label": "Orta düzeyde sıkıntı"
+            "label": "Orta düzeyde sıkıntı",
+            "desc": "Orta düzeyde sıkıntı; hafif düzeyde bir kaygı ya da depresif tablo olasılığı."
           },
           {
             "max": 29,
-            "label": "Yüksek düzeyde sıkıntı"
+            "label": "Yüksek düzeyde sıkıntı",
+            "desc": "Yüksek düzeyde sıkıntı; orta düzeyde bir kaygı ya da depresif bozukluk olasılığı yüksektir, klinik değerlendirme önerilir."
           },
           {
             "max": 50,
-            "label": "Çok yüksek düzeyde sıkıntı"
+            "label": "Çok yüksek düzeyde sıkıntı",
+            "desc": "Çok yüksek düzeyde sıkıntı; ağır bir ruhsal bozukluk olasılığı. Ayrıntılı değerlendirme ve gerekirse psikiyatrik konsültasyon önerilir."
           }
         ]
       },
-      "credit": "K10 © Ronald C. Kessler. Kaynak: Kessler ve ark. (2003), Archives of General Psychiatry. Türkçe ifadeler bu site için hazırlanmıştır."
+      "credit": "K10 © Ronald C. Kessler. Kaynak: Kessler ve ark. (2003), Archives of General Psychiatry. Türkçe ifadeler bu site için hazırlanmıştır.",
+      "interpret": {
+        "about": "K10, son 30 gündeki özgül olmayan psikolojik sıkıntıyı (kaygı ve depresif belirtiler) ölçer. Toplam puan 10–50 arasındadır. Andrews ve Slade (2001) sınıflamasına göre 10–15 düşük, 16–21 orta, 22–29 yüksek, 30–50 çok yüksek sıkıntıyı gösterir. Puan yükseldikçe kaygı ya da depresif bozukluk olasılığı artar.",
+        "highlight": {
+          "min": 4,
+          "title": "Çoğu zaman ya da her zaman yaşanan belirtiler"
+        },
+        "groups": [
+          {
+            "label": "Kaygı belirtileri (2, 3, 5, 6. maddeler)",
+            "items": [
+              2,
+              3,
+              5,
+              6
+            ]
+          },
+          {
+            "label": "Depresif belirtiler (1, 4, 7, 8, 9, 10. maddeler)",
+            "items": [
+              1,
+              4,
+              7,
+              8,
+              9,
+              10
+            ]
+          }
+        ],
+        "notes": [
+          "Bu ölçek tanı koymaz; sonuçlar klinik görüşme ve öyküyle birlikte değerlendirilmelidir."
+        ]
+      }
     },
     {
       "id": "asrs",
@@ -369,7 +448,16 @@
           "negative": "Tarama olumsuz"
         }
       },
-      "credit": "ASRS v1.1 Tarama Formu © 2003 Dünya Sağlık Örgütü (WHO); New York University ve President and Fellows of Harvard College. Kaynak: Kessler ve ark. (2005), Psychological Medicine. Türkçe ifadeler bu site için hazırlanmıştır."
+      "credit": "ASRS v1.1 Tarama Formu © 2003 Dünya Sağlık Örgütü (WHO); New York University ve President and Fellows of Harvard College. Kaynak: Kessler ve ark. (2005), Psychological Medicine. Türkçe ifadeler bu site için hazırlanmıştır.",
+      "interpret": {
+        "about": "ASRS v1.1 Bölüm A, DSM-IV DEHB ölçütlerine dayanan 18 maddelik listenin en ayırt edici 6 maddesinden oluşur. 1–3. maddelerde 'Bazen' ve üzeri, 4–6. maddelerde 'Sık sık' ve üzeri yanıtlar eşik üstü sayılır. 4 ya da daha fazla eşik üstü yanıt, belirtilerin yetişkin DEHB ile uyumlu olabileceğini ve ayrıntılı değerlendirme (tam ASRS, klinik görüşme, çocukluk dönemi öyküsü, işlevsellik) gerektiğini gösterir.",
+        "screenItems": true,
+        "notes": [
+          "1–4. maddeler dikkat ve organizasyon güçlüklerini, 5–6. maddeler hiperaktivite ve dürtüselliği yansıtır.",
+          "Kaygı, depresyon, uyku sorunları ve madde kullanımı benzer belirtilere yol açabileceğinden ayırıcı tanıda göz önünde bulundurulmalıdır.",
+          "Bu ölçek tanı koymaz; sonuçlar klinik görüşme ve öyküyle birlikte değerlendirilmelidir."
+        ]
+      }
     },
     {
       "id": "docs",
@@ -996,7 +1084,15 @@
           }
         ]
       },
-      "credit": "Boyutsal Obsesif Kompulsif Bozukluk Ölçeği (DOCS) © Jonathan S. Abramowitz. Türkçe çeviri: Kli. Psk. Gizem Özge Erinç; editör: Psk. Gizem Baki; proje süpervizörü: Dr. Emel Stroup (2018). Jonathan S. Abramowitz’in izni ile çevrilmiştir."
+      "credit": "Boyutsal Obsesif Kompulsif Bozukluk Ölçeği (DOCS) © Jonathan S. Abramowitz. Türkçe çeviri: Kli. Psk. Gizem Özge Erinç; editör: Psk. Gizem Baki; proje süpervizörü: Dr. Emel Stroup (2018). Jonathan S. Abramowitz’in izni ile çevrilmiştir.",
+      "interpret": {
+        "about": "DOCS, obsesif-kompulsif belirtileri 4 boyutta ölçer: kirlenme, sorumluluk/zarar, kabul edilemez düşünceler ve simetri/tamlık. Her boyuttaki 5 madde sırasıyla zaman, kaçınma, sıkıntı, işlevsellikte bozulma ve direnmede güçlüğü 0–4 arası puanlar; boyut puanı 0–20, toplam puan 0–80 arasındadır. Yüksek puan o boyutta daha şiddetli belirtiye işaret eder. Türkçe norm verisi bulunmadığından puanlar en çok boyutlar arası karşılaştırma ve tedavi sürecinde izlem için kullanılmalıdır.",
+        "domains": true,
+        "notes": [
+          "Günde 1 saatten fazla zaman alması ve işlevsellikte belirgin bozulma, DSM-5 OKB ölçütlerindeki klinik önemlilik göstergeleridir.",
+          "Bu ölçek tanı koymaz; sonuçlar klinik görüşme ve öyküyle birlikte değerlendirilmelidir."
+        ]
+      }
     },
     {
       "id": "bes-faktor",
@@ -1179,7 +1275,51 @@
           }
         ]
       },
-      "credit": "Maddeler kamuya açık Uluslararası Kişilik Madde Havuzu'ndan (IPIP, ipip.ori.org) alınmıştır; Goldberg (1992). Türkçe ifadeler bu site için hazırlanmıştır. MBTI ile ilişkili değildir."
+      "credit": "Maddeler kamuya açık Uluslararası Kişilik Madde Havuzu'ndan (IPIP, ipip.ori.org) alınmıştır; Goldberg (1992). Türkçe ifadeler bu site için hazırlanmıştır. MBTI ile ilişkili değildir.",
+      "interpret": {
+        "about": "IPIP-50, Beş Faktör kişilik modelinin kamuya açık ölçüm aracıdır. Her boyut 10 madde ile ölçülür ve 10–50 arası puan alır. Türkçe norm bulunmadığından aşağıdaki düzeyler ölçek aralığına göre kaba bir sınıflamadır (10–23 düşük, 24–36 orta, 37–50 yüksek); kişinin profilini kendi içinde değerlendirmek için kullanılmalıdır. Kişilik boyutları tek başına psikopatoloji göstermez.",
+        "levels": [
+          {
+            "max": 23,
+            "label": "Düşük"
+          },
+          {
+            "max": 36,
+            "label": "Orta"
+          },
+          {
+            "max": 50,
+            "label": "Yüksek"
+          }
+        ],
+        "traits": {
+          "Dışadönüklük": {
+            "Yüksek": "Sosyal ortamlarda enerjik, konuşkan ve girişken; etkileşim ve uyarana yönelim belirgin.",
+            "Orta": "Duruma göre hem sosyal hem içe dönük davranabilen dengeli bir profil.",
+            "Düşük": "Daha sessiz ve içe dönük; küçük gruplarda ya da yalnızken daha rahat, sosyal etkileşimden sonra dinlenme ihtiyacı."
+          },
+          "Uyumluluk": {
+            "Yüksek": "Yardımsever, empatik ve iş birliğine açık; çatışmadan kaçınma ve kendi ihtiyaçlarını geri plana atma eğilimi olabilir.",
+            "Orta": "Hem iş birliğine açık hem gerektiğinde kendi görüşünü savunabilen dengeli bir profil.",
+            "Düşük": "Daha rekabetçi, eleştirel ya da şüpheci; sınır koymada rahat, ilişkilerde çatışma olasılığı artabilir."
+          },
+          "Sorumluluk": {
+            "Yüksek": "Düzenli, planlı, güvenilir ve hedef odaklı; uç düzeyde mükemmeliyetçilik ve katılık görülebilir.",
+            "Orta": "Plan ve esneklik arasında dengeli bir profil.",
+            "Düşük": "Daha esnek ve spontane; planlama, erteleme ve görevleri sürdürmede güçlük yaşanabilir."
+          },
+          "Nevrotiklik (duygusal dalgalanma)": {
+            "Yüksek": "Kaygı, üzüntü ve öfke gibi olumsuz duygulara yatkınlık, strese duyarlılık ve duygusal dalgalanma; kaygı ve depresyon için bilinen bir risk etkenidir.",
+            "Orta": "Olumsuz duygulara orta düzeyde duyarlılık.",
+            "Düşük": "Duygusal olarak dengeli; stres karşısında sakin kalabilme."
+          },
+          "Deneyime açıklık": {
+            "Yüksek": "Meraklı, hayal gücü geniş; yeni fikir ve deneyimlere açık.",
+            "Orta": "Yeni ile alışılmış arasında dengeli bir profil.",
+            "Düşük": "Daha geleneksel, somut ve pratik; alışılmış olanı tercih etme eğilimi."
+          }
+        }
+      }
     }
   ]
 }
