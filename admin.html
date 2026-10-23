@@ -12,7 +12,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,500;0,7..72,600;1,7..72,400;1,7..72,500&display=swap">
-<link rel="stylesheet" href="assets/css/style.css?v=20261023u">
+<link rel="stylesheet" href="assets/css/style.css?v=20261023v">
 </head>
 <body>
 
@@ -59,9 +59,8 @@
 
     <div class="tabs" role="tablist">
       <button class="tab" role="tab" id="t-bookings" aria-selected="true" aria-controls="p-bookings">Randevular</button>
-      <button class="tab" role="tab" id="t-new" aria-selected="false" aria-controls="p-new">Randevu ekle</button>
       <button class="tab" role="tab" id="t-clients" aria-selected="false" aria-controls="p-clients">Danışanlar</button>
-      <button class="tab" role="tab" id="t-calendar" aria-selected="false" aria-controls="p-calendar">Takvim</button>
+      <button class="tab" role="tab" id="t-calendar" aria-selected="false" aria-controls="p-calendar">Çalışma saatleri</button>
       <button class="tab" role="tab" id="t-add" aria-selected="false" aria-controls="p-add">Saat ekle</button>
       <button class="tab" role="tab" id="t-tests" aria-selected="false" aria-controls="p-tests">Testler</button>
     </div>
@@ -74,6 +73,24 @@
 
     <!-- Randevular -->
     <div role="tabpanel" id="p-bookings" class="stack">
+      <div class="wk-toolbar">
+        <div class="filters" role="group" aria-label="Görünüm">
+          <button class="chip" type="button" data-view="week" aria-pressed="true">Hafta</button>
+          <button class="chip" type="button" data-view="day" aria-pressed="false">Gün</button>
+          <button class="chip" type="button" data-view="list" aria-pressed="false">Liste</button>
+        </div>
+        <div class="wk-nav" id="wk-nav">
+          <button class="btn ghost small" type="button" id="wk-prev" aria-label="Önceki">‹</button>
+          <button class="btn ghost small" type="button" id="wk-today">Bugün</button>
+          <button class="btn ghost small" type="button" id="wk-next" aria-label="Sonraki">›</button>
+          <b id="wk-label" class="wk-label">—</b>
+        </div>
+        <button class="btn small" type="button" id="wk-add">+ Yeni randevu</button>
+      </div>
+      <p class="small muted" id="wk-hint">Boş saate (kesikli kutu) ya da takvimde boş bir yere tıklayarak randevu verin; randevuya tıklayınca ayrıntılar açılır.</p>
+      <div id="wk-msg" hidden></div>
+      <div class="wk-wrap" id="wk"></div>
+      <div id="b-list" class="stack" hidden>
       <div class="filters" role="group" aria-label="Randevu filtresi">
         <button class="chip" type="button" data-bf="upcoming" aria-pressed="true">Yaklaşan</button>
         <button class="chip" type="button" data-bf="past" aria-pressed="false">Geçmiş</button>
@@ -85,13 +102,13 @@
           <tbody id="b-rows"></tbody>
         </table>
       </div>
+      </div>
     </div>
 
-    <!-- Randevu ekle (elle) -->
-    <div role="tabpanel" id="p-new" hidden>
-      <form class="card form" id="nb-form" style="max-width: 720px" novalidate>
-        <h3>Danışana randevu ekle</h3>
-        <p class="small muted">Telefonla, yüz yüze ya da mesajla anlaştığınız randevuları buradan ekleyin. Seçtiğiniz saat takvimde dolu olarak işaretlenir; o saatte açık bir boş saat varsa kullanılır, yoksa yeni oluşturulur.</p>
+    <!-- Randevu ekle (açılır pencere) -->
+    <dialog class="modal" id="nb-dialog" aria-labelledby="nb-title">
+      <form class="form" id="nb-form" novalidate>
+        <div class="modal-head"><h3 id="nb-title">Yeni randevu</h3><button class="icon-btn modal-x" type="button" data-close aria-label="Kapat">✕</button></div>
         <div class="row">
           <div class="field"><label for="nb-date">Tarih</label><input id="nb-date" type="date" required></div>
           <div class="field"><label for="nb-time">Saat</label><input id="nb-time" type="time" step="300" value="10:00" required></div>
@@ -119,9 +136,14 @@
         <label class="check"><input type="checkbox" id="nb-notify" checked><span>Danışana onay e-postası ve seans hatırlatmaları gönder <span class="muted">(e-posta yazılıysa; tekrarlı randevularda onay yalnızca ilk seans için gider)</span></span></label>
         <div class="notice info" id="nb-preview">—</div>
         <div id="nb-msg" hidden></div>
-        <button class="btn" type="submit" id="nb-submit">Randevuyu ekle</button>
+        <div class="modal-actions"><button class="btn ghost" type="button" data-close>Vazgeç</button><button class="btn" type="submit" id="nb-submit">Randevuyu ekle</button></div>
       </form>
-    </div>
+    </dialog>
+
+    <!-- Randevu ayrıntısı -->
+    <dialog class="modal" id="bk-dialog" aria-labelledby="bk-title">
+      <div class="form" id="bk-body"></div>
+    </dialog>
 
     <!-- Danışanlar -->
     <div role="tabpanel" id="p-clients" class="stack" hidden>
@@ -195,9 +217,9 @@
 </main>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
-<script src="assets/js/config.js?v=20261023u"></script>
-<script src="assets/js/data.js?v=20261023u"></script>
-<script src="assets/js/main.js?v=20261023u"></script>
-<script src="assets/js/admin.js?v=20261023u"></script>
+<script src="assets/js/config.js?v=20261023v"></script>
+<script src="assets/js/data.js?v=20261023v"></script>
+<script src="assets/js/main.js?v=20261023v"></script>
+<script src="assets/js/admin.js?v=20261023v"></script>
 </body>
 </html>

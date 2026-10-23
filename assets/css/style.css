@@ -449,3 +449,45 @@ tr:last-child td { border-bottom: none; }
 .sync-card details summary { cursor: pointer; font-weight: 600; }
 .sync-tips { padding-left: 18px; display: grid; gap: 8px; margin: 10px 0; }
 .sync-url { display: block; overflow-wrap: anywhere; padding: 8px 10px; border-radius: 8px; background: var(--surface-2, rgb(0 0 0 / 5%)); font-size: .8rem; user-select: all; }
+
+/* Panel: haftalık randevu takvimi */
+.wk-toolbar { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; justify-content: space-between; }
+.wk-nav { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+.wk-label { margin-left: 6px; font-variant-numeric: tabular-nums; }
+.wk-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 12px; background: var(--surface); }
+.wk { display: grid; min-width: 100%; }
+.wk-head, .wk-body { display: grid; grid-template-columns: 52px repeat(var(--days), minmax(118px, 1fr)); }
+.wk-head { position: sticky; top: 0; z-index: 3; background: var(--surface); border-bottom: 1px solid var(--line); }
+.wk-dh { padding: 10px 8px; text-align: center; font-size: .85rem; color: var(--muted); border-left: 1px solid var(--line); }
+.wk-dh b { display: block; font-size: 1.15rem; color: var(--fg); font-variant-numeric: tabular-nums; }
+.wk-dh.today b { color: var(--accent-ink); background: var(--accent); border-radius: 999px; width: 2em; height: 2em; line-height: 2em; margin: 2px auto 0; }
+.wk-dh small { display: block; font-size: .72rem; }
+.wk-times { position: relative; }
+.wk-times span { position: absolute; right: 8px; transform: translateY(-50%); font-size: .72rem; color: var(--muted); font-variant-numeric: tabular-nums; }
+.wk-times span:first-child { transform: none; }
+.wk-col { position: relative; border-left: 1px solid var(--line); cursor: copy;
+  background-image: repeating-linear-gradient(to bottom, var(--line) 0 1px, transparent 1px calc(var(--hpx) / 2), color-mix(in srgb, var(--line) 45%, transparent) calc(var(--hpx) / 2) calc(var(--hpx) / 2 + 1px), transparent calc(var(--hpx) / 2 + 1px) var(--hpx)); }
+.wk-col.past { background-color: color-mix(in srgb, var(--surface-2) 55%, transparent); }
+.ev { position: absolute; left: 4px; right: 4px; border-radius: 8px; padding: 4px 8px; text-align: left; font: inherit; font-size: .78rem; line-height: 1.25; overflow: hidden; cursor: pointer; border: 1px solid transparent; display: flex; flex-direction: column; gap: 1px; }
+.ev b { font-variant-numeric: tabular-nums; }
+.ev span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.ev.online { background: var(--online-bg); color: var(--online); border-left: 4px solid var(--online); }
+.ev.inperson { background: var(--inperson-bg); color: var(--inperson); border-left: 4px solid var(--inperson); }
+.ev.done { opacity: .6; }
+.ev.free { background: transparent; color: var(--muted); border: 1.5px dashed var(--line); }
+.ev.free:hover { border-color: var(--accent); color: var(--accent); background: var(--surface-2); }
+.ev:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+.wk-now { position: absolute; left: 0; right: 0; height: 2px; background: var(--danger); z-index: 2; pointer-events: none; }
+.wk-now::before { content: ""; position: absolute; left: -5px; top: -4px; width: 10px; height: 10px; border-radius: 50%; background: var(--danger); }
+
+/* Panel: açılır pencereler */
+dialog.modal { border: none; border-radius: 18px; padding: 0; width: min(620px, calc(100% - 32px)); max-height: calc(100dvh - 32px); background: var(--surface); color: var(--fg); box-shadow: 0 30px 80px -20px rgb(13 26 58 / 45%); }
+dialog.modal::backdrop { background: rgb(13 18 34 / 45%); }
+dialog.modal > .form { padding: 22px 24px 24px; display: grid; gap: 14px; }
+.modal-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.modal-head h3 { margin: 0; font-size: 1.2rem; }
+.modal-x { font-size: 1.1rem; }
+.modal-actions { display: flex; flex-wrap: wrap; gap: 10px; justify-content: flex-end; }
+.bk-info { display: grid; grid-template-columns: 110px 1fr; gap: 8px 12px; margin: 0; }
+.bk-info dt { color: var(--muted); font-size: .85rem; }
+.bk-info dd { margin: 0; overflow-wrap: anywhere; }

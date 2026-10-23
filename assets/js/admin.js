@@ -76,7 +76,7 @@
       $("stats").innerHTML = '<div class="notice err" style="grid-column:1/-1">Veriler yüklenemedi. Bu hesabın <b>admins</b> tablosunda kayıtlı olduğundan emin olun (README, adım 2).</div>';
       return;
     }
-    renderStats(); renderBookings(); renderCalendar(); renderTests(); renderSync(); buildClients();
+    renderStats(); renderBookings(); renderWeek(); renderCalendar(); renderTests(); renderSync(); buildClients();
   }
 
   /* ---------- Takvim aboneliği ---------- */
@@ -158,7 +158,150 @@
     $("stats").innerHTML = items.map(([l, v]) => `<div class="stat"><span>${l}</span><b>${v}</b></div>`).join("");
   }
 
-  /* ---------- Randevular ---------- */
+  /* ---------- Randevular: haftalık / günlük takvim ---------- */
+  const HPX = 64;                                   // 1 saatin yüksekliği (px)
+  const mq = window.matchMedia("(max-width: 760px)");
+  let view = "week", wkStart = null, dayKeySel = null, msgTimer = null;
+  try { const v = localStorage.getItem("adminView"); if (v) view = v; } catch (e) {}
+  if (mq.matches && view === "week") view = "day";
+  const mins = iso => { const [h, m] = F.time(iso).split(":").map(Number); return h * 60 + m; };
+  const hhmm = m => `${String(Math.floor(m / 60)).padStart(2, "0")}:${String(m % 60).padStart(2, "0")}`;
+  const keyIso = k => `${k}T12:00:00+03:00`;
+  const mondayOf = k => addDays(k, -((new Date(keyIso(k)).getUTCDay() + 6) % 7));
+  const DOWS = ["Pzt", "Sal", "Çar", "Per", "Cum", "Cmt", "Paz"];
+  function flash(html) {
+    const m = $("wk-msg"); m.hidden = false; m.className = "notice ok"; m.innerHTML = html;
+    clearTimeout(msgTimer); msgTimer = setTimeout(() => { m.hidden = true; }, 7000);
+  }
+  function wkGoTo(k) { dayKeySel = k; wkStart = mondayOf(k); }
+  function setView(v) {
+    view = v; try { localStorage.setItem("adminView", v); } catch (e) {}
+    document.querySelectorAll("[data-view]").forEach(x => x.setAttribute("aria-pressed", x.dataset.view === v));
+    const list = v === "list";
+    $("b-list").hidden = !list; $("wk").hidden = list; $("wk-nav").hidden = list; $("wk-hint").hidden = list;
+    renderWeek();
+  }
+  document.querySelectorAll("[data-view]").forEach(b => b.onclick = () => setView(b.dataset.view));
+  $("wk-prev").onclick = () => { wkGoTo(addDays(dayKeySel, view === "day" ? -1 : -7)); renderWeek(); };
+  $("wk-next").onclick = () => { wkGoTo(addDays(dayKeySel, view === "day" ? 1 : 7)); renderWeek(); };
+  $("wk-today").onclick = () => { wkGoTo(F.todayKey()); renderWeek(); };
+  $("wk-add").onclick = () => openNewBooking(null, view === "day" ? { date: dayKeySel } : null);
+
+  function renderWeek() {
+    if (!dayKeySel) wkGoTo(F.todayKey());
+    if (view === "list") return;
+    const days = view === "day" ? [dayKeySel] : DOWS.map((_, i) => addDays(wkStart, i));
+    const inDays = new Set(days), today = F.todayKey(), nowIso = new Date().toISOString();
+    const slotById = new Map(slots.map(x => [x.id, x]));
+    const bks = bookings.filter(b => b.status !== "iptal" && inDays.has(F.dayKey(b.starts_at)));
+    const taken = new Set(bks.map(b => b.slot_id));
+    const free = slots.filter(x => x.status === "available" && !taken.has(x.id) && inDays.has(F.dayKey(x.starts_at)));
+    const bDur = b => { const sl = slotById.get(b.slot_id); return sl ? Math.round((new Date(sl.ends_at) - new Date(sl.starts_at)) / 60000) : 50; };
+    const sDur = x => Math.round((new Date(x.ends_at) - new Date(x.starts_at)) / 60000) || 50;
+    let lo = 9 * 60, hi = 20 * 60;
+    bks.forEach(b => { lo = Math.min(lo, mins(b.starts_at)); hi = Math.max(hi, mins(b.starts_at) + bDur(b)); });
+    free.forEach(x => { lo = Math.min(lo, mins(x.starts_at)); hi = Math.max(hi, mins(x.starts_at) + sDur(x)); });
+    lo = Math.floor(lo / 60) * 60; hi = Math.min(24 * 60, Math.ceil(hi / 60) * 60);
+    const H = (hi - lo) / 60 * HPX, y = m => (m - lo) / 60 * HPX;
+
+    const first = days[0], last = days[days.length - 1];
+    const fmtD = k => new Intl.DateTimeFormat("tr-TR", { timeZone: "Europe/Istanbul", day: "numeric", month: "long" }).format(new Date(keyIso(k)));
+    $("wk-label").textContent = view === "day"
+      ? new Intl.DateTimeFormat("tr-TR", { timeZone: "Europe/Istanbul", weekday: "long", day: "numeric", month: "long", year: "numeric" }).format(new Date(keyIso(first)))
+      : `${fmtD(first)} – ${fmtD(last)} ${last.slice(0, 4)}`;
+
+    const head = days.map(k => {
+      const d = new Date(keyIso(k)), n = bks.filter(b => F.dayKey(b.starts_at) === k).length;
+      return `<div class="wk-dh ${k === today ? "today" : ""}">${DOWS[(d.getUTCDay() + 6) % 7]}<b>${Number(k.slice(8))}</b><small>${n ? `${n} randevu` : "&nbsp;"}</small></div>`;
+    }).join("");
+    let times = "";
+    for (let m = lo; m <= hi; m += 60) times += `<span style="top:${y(m)}px">${hhmm(m)}</span>`;
+    const cols = days.map(k => {
+      const evs = [];
+      free.filter(x => F.dayKey(x.starts_at) === k).forEach(x => {
+        const m = mins(x.starts_at), h = Math.max(22, sDur(x) / 60 * HPX - 3);
+        evs.push(`<button type="button" class="ev free" data-slot="${x.id}" style="top:${y(m) + 1}px;height:${h}px" aria-label="${esc(F.time(x.starts_at))} boş saat, ${esc(F.typeLabel(x.type))}; randevu ver"><b>${esc(F.time(x.starts_at))}</b><span>Boş · ${esc(F.typeLabel(x.type))}</span></button>`);
+      });
+      bks.filter(b => F.dayKey(b.starts_at) === k).forEach(b => {
+        const m = mins(b.starts_at), h = Math.max(22, bDur(b) / 60 * HPX - 3);
+        evs.push(`<button type="button" class="ev ${F.typeClass(b.type)} ${b.status === "tamamlandi" ? "done" : ""}" data-bk="${b.id}" style="top:${y(m) + 1}px;height:${h}px" title="${esc(b.name)} · ${esc(F.time(b.starts_at))}"><b>${esc(F.time(b.starts_at))}</b><span>${esc(b.name)}</span>${h > 58 ? `<span>${esc(F.typeLabel(b.type))}</span>` : ""}</button>`);
+      });
+      let now = "";
+      if (k === today) { const nm = mins(nowIso); if (nm >= lo && nm <= hi) now = `<div class="wk-now" style="top:${y(nm)}px"></div>`; }
+      return `<div class="wk-col ${k < today ? "past" : ""}" data-day="${k}" style="height:${H}px">${evs.join("")}${now}</div>`;
+    }).join("");
+    $("wk").innerHTML = `<div class="wk" style="--days:${days.length};--hpx:${HPX}px">
+      <div class="wk-head"><div></div>${head}</div>
+      <div class="wk-body"><div class="wk-times" style="height:${H}px">${times}</div>${cols}</div></div>`;
+    $("wk").dataset.lo = lo;
+  }
+  $("wk").addEventListener("click", e => {
+    const bk = e.target.closest("[data-bk]");
+    if (bk) return openBookingDetail(bk.dataset.bk);
+    const fs = e.target.closest("[data-slot]");
+    if (fs) return openNewBooking(slots.find(x => x.id === fs.dataset.slot));
+    const col = e.target.closest(".wk-col"); if (!col) return;
+    // Takvimde boş bir yere tıklama: 15 dakikaya yuvarlanmış saatle yeni randevu
+    const lo = +$("wk").dataset.lo, rel = e.clientY - col.getBoundingClientRect().top;
+    const m = Math.min(23 * 60 + 45, lo + Math.floor((rel / HPX * 60) / 15) * 15);
+    openNewBooking(null, { date: col.dataset.day, time: hhmm(m) });
+  });
+  mq.addEventListener("change", () => { if (mq.matches && view === "week") setView("day"); });
+
+  /* ---------- Randevu ayrıntısı ---------- */
+  function openBookingDetail(id) {
+    const b = bookings.find(x => x.id === id); if (!b) return;
+    const sl = slots.find(x => x.id === b.slot_id);
+    const end = sl ? sl.ends_at : new Date(new Date(b.starts_at).getTime() + 50 * 60000).toISOString();
+    const nowIso = new Date().toISOString(), past = b.starts_at <= nowIso;
+    const digits = (b.phone || "").replace(/\D/g, "").replace(/^0/, "90");
+    const st0 = STATUS[b.status] || [b.status, "ok"];
+    const body = $("bk-body");
+    body.innerHTML = `
+      <div class="modal-head"><h3 id="bk-title">${esc(b.name)}</h3><button class="icon-btn modal-x" type="button" data-close aria-label="Kapat">✕</button></div>
+      <dl class="bk-info">
+        <dt>Tarih</dt><dd><b>${esc(F.dateLong(b.starts_at))}</b>, ${esc(F.time(b.starts_at))}–${esc(F.time(end))}</dd>
+        <dt>Tür</dt><dd><span class="pill ${F.typeClass(b.type)}">${F.typeLabel(b.type)}</span> <span class="pill ${st0[1]}">${st0[0]}</span></dd>
+        <dt>Telefon</dt><dd><a href="tel:${esc(b.phone)}">${esc(b.phone)}</a>${digits ? ` · <a href="https://wa.me/${digits}" target="_blank" rel="noopener">WhatsApp</a>` : ""}</dd>
+        ${b.email ? `<dt>E-posta</dt><dd><a href="mailto:${esc(b.email)}">${esc(b.email)}</a></dd>` : ""}
+        ${b.note ? `<dt>Not</dt><dd>${esc(b.note)}</dd>` : ""}
+        <dt>Kaynak</dt><dd class="small muted">${b.source === "panel" ? "Panelden eklendi" : "Siteden alındı"} · ${esc(F.dateShort(b.created_at))} ${esc(F.time(b.created_at))}</dd>
+      </dl>
+      <div id="bk-msg" hidden></div>
+      <div class="modal-actions" id="bk-actions">
+        <button class="btn ghost small" type="button" data-bka="again">1 hafta sonra aynı saate randevu</button>
+        ${b.status === "onayli" && past ? `<button class="btn ghost small" type="button" data-bka="done">Tamamlandı</button>` : ""}
+        ${b.status === "onayli" ? `<button class="btn danger small" type="button" data-bka="ask">Randevuyu iptal et</button>` : ""}
+      </div>`;
+    body.dataset.id = id;
+    if (!$("bk-dialog").open) $("bk-dialog").showModal();
+  }
+  $("bk-body").addEventListener("click", async e => {
+    const btn = e.target.closest("[data-bka]"); if (!btn) return;
+    const id = $("bk-body").dataset.id, b = bookings.find(x => x.id === id), act = btn.dataset.bka;
+    if (act === "again") {
+      const sl = slots.find(x => x.id === b.slot_id);
+      $("bk-dialog").close();
+      openNewBooking(null, { date: addDays(F.dayKey(b.starts_at), 7), time: F.time(b.starts_at), type: b.type,
+        minutes: sl ? Math.round((new Date(sl.ends_at) - new Date(sl.starts_at)) / 60000) : 50 });
+      const c = clients.find(x => x.key === phoneKey(b.phone)); if (c) fillClient(c);
+      return;
+    }
+    if (act === "ask") {
+      $("bk-actions").innerHTML = `<span class="small" style="flex:1 1 100%">Randevu iptal edilecek, saat yeniden açılacak${b.email ? " ve danışana iptal e-postası gidecek" : ""}. Emin misiniz?</span>
+        <button class="btn ghost small" type="button" data-bka="back">Vazgeç</button><button class="btn danger small" type="button" data-bka="cancel">Evet, iptal et</button>`;
+      return;
+    }
+    if (act === "back") return openBookingDetail(id);
+    btn.disabled = true;
+    try {
+      await Data.setBookingStatus(id, act === "cancel" ? "iptal" : "tamamlandi");
+      await refresh(); $("bk-dialog").close();
+      flash(act === "cancel" ? `${esc(b.name)} randevusu iptal edildi.` : `${esc(b.name)} seansı tamamlandı olarak işaretlendi.`);
+    } catch (err) { btn.disabled = false; note($("bk-msg"), "İşlem yapılamadı, tekrar deneyin."); }
+  });
+
+  /* ---------- Randevular: liste ---------- */
   document.querySelectorAll("[data-bf]").forEach(b => b.onclick = () => {
     bf = b.dataset.bf; document.querySelectorAll("[data-bf]").forEach(x => x.setAttribute("aria-pressed", x === b)); renderBookings();
   });
@@ -381,15 +524,28 @@
     $("nb-preview").textContent = txt;
   }
   nbIds.forEach(id => $(id).addEventListener("input", nbPreview));
-  function openNewBooking(slot) {
-    selectTab("t-new");
+  // Yeni randevu penceresi: slot (boş saat) ya da pre {date, time, minutes, type} ile önceden doldurulur
+  function openNewBooking(slot, pre) {
+    $("nb-form").reset(); note($("nb-msg"), "");
+    $("nb-date").value = F.todayKey(); $("nb-time").value = "10:00"; $("nb-len").value = 50;
     if (slot) {
       $("nb-date").value = F.dayKey(slot.starts_at); $("nb-time").value = F.time(slot.starts_at);
       $("nb-len").value = Math.round((new Date(slot.ends_at) - new Date(slot.starts_at)) / 60000) || 50;
       if (slot.type !== "ikisi") $("nb-type").value = slot.type;
     }
-    nbPreview(); (slot ? $("nb-name") : $("nb-date")).focus();
+    if (pre) {
+      if (pre.date) $("nb-date").value = pre.date;
+      if (pre.time) $("nb-time").value = pre.time;
+      if (pre.minutes) $("nb-len").value = pre.minutes;
+      if (pre.type) $("nb-type").value = pre.type;
+    }
+    if (!$("nb-dialog").open) $("nb-dialog").showModal();
+    nbPreview(); ((slot || pre) ? $("nb-client") : $("nb-date")).focus();
   }
+  // Pencereleri kapat: ✕ / Vazgeç / arka plana tıklama
+  document.querySelectorAll("dialog.modal").forEach(d => d.addEventListener("click", e => {
+    if (e.target === d || e.target.closest("[data-close]")) d.close();
+  }));
   const NB_ERR = {
     name_required: "Danışanın adını yazın.", phone_required: "Geçerli bir telefon numarası yazın.", email_invalid: "E-posta adresi geçersiz.",
     duration_invalid: "Süre 15–240 dakika arasında olmalı.", type_required: "Seans türünü seçin.", not_admin: "Yönetici yetkisi doğrulanamadı; çıkış yapıp tekrar girin.",
@@ -405,9 +561,10 @@
     const btn = $("nb-submit"); btn.disabled = true;
     try {
       const n = await Data.adminCreateBooking(f);
+      wkGoTo(F.dayKey(f.starts));
       await refresh();
-      $("nb-form").reset(); $("nb-len").value = 50; $("nb-time").value = "10:00"; nbPreview();
-      note($("nb-msg"), `${n > 1 ? `${n} seans` : "Randevu"} eklendi.${f.email && f.notify && st > new Date() ? " Danışana onay e-postası gönderiliyor." : ""}`, "ok");
+      $("nb-dialog").close();
+      flash(`${esc(f.name)} için ${n > 1 ? `${n} seans` : "randevu"} eklendi.${f.email && f.notify && st > new Date() ? " Danışana onay e-postası gönderiliyor." : ""}`);
     } catch (err) {
       const m = String(err && err.message || "");
       const code = m.split(":")[0].trim(), at = m.includes(":") ? m.slice(m.indexOf(":") + 1).trim() : "";
@@ -419,10 +576,11 @@
   });
 
   /* ---------- Sekmeler ---------- */
-  const tabs = [["t-bookings", "p-bookings"], ["t-new", "p-new"], ["t-clients", "p-clients"], ["t-calendar", "p-calendar"], ["t-add", "p-add"], ["t-tests", "p-tests"]];
-  function selectTab(t) { tabs.forEach(([tt, pp]) => { const on = tt === t; $(tt).setAttribute("aria-selected", on); $(pp).hidden = !on; if (on && pp === "p-add") preview(); if (on && pp === "p-new") nbPreview(); }); }
+  const tabs = [["t-bookings", "p-bookings"], ["t-clients", "p-clients"], ["t-calendar", "p-calendar"], ["t-add", "p-add"], ["t-tests", "p-tests"]];
+  function selectTab(t) { tabs.forEach(([tt, pp]) => { const on = tt === t; $(tt).setAttribute("aria-selected", on); $(pp).hidden = !on; if (on && pp === "p-add") preview(); }); }
   tabs.forEach(([t]) => $(t).onclick = () => selectTab(t));
   if (!$("nb-date").value) $("nb-date").value = F.todayKey();
+  setView(view);
 
   boot();
 })();
