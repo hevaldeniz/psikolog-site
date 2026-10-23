@@ -244,90 +244,76 @@
       "group": "on"
     },
     {
-      "id": "phq9",
-      "title": "PHQ-9 Hasta Sağlığı Anketi",
-      "short": "Son iki haftadaki duygudurumunuzla ilgili 9 soru.",
-      "minutes": 3,
+      "id": "who5",
+      "title": "WHO-5 İyi Oluş İndeksi",
+      "short": "Son iki haftada kendinizi nasıl hissettiğinizle ilgili 5 soru.",
+      "minutes": 2,
       "kind": "scale",
-      "instructions": "Son 2 hafta içinde, aşağıdaki sorunlardan herhangi biri sizi ne sıklıkta rahatsız etti?",
+      "instructions": "Son 2 hafta içinde kendinizi nasıl hissettiğinize en yakın seçeneği işaretleyin.",
       "options": [
         {
-          "label": "Hiç",
+          "label": "Hiçbir zaman",
           "value": 0
         },
         {
-          "label": "Birkaç gün",
+          "label": "Ara sıra",
           "value": 1
         },
         {
-          "label": "Günlerin yarısından fazlasında",
+          "label": "Zamanın yarısından azında",
           "value": 2
         },
         {
-          "label": "Hemen hemen her gün",
+          "label": "Zamanın yarısından fazlasında",
           "value": 3
+        },
+        {
+          "label": "Çoğu zaman",
+          "value": 4
+        },
+        {
+          "label": "Her zaman",
+          "value": 5
         }
       ],
       "items": [
-        "Bir şeyler yapmaya karşı ilgi veya zevk duymama",
-        "Kendini çökkün, depresif ya da umutsuz hissetme",
-        "Uykuya dalmada veya uykuyu sürdürmede güçlük ya da çok fazla uyuma",
-        "Kendini yorgun hissetme ya da enerjinin az olması",
-        "İştahsızlık ya da aşırı yeme",
-        "Kendini kötü hissetme, başarısız biri olduğunu düşünme ya da kendini veya aileni hayal kırıklığına uğrattığını düşünme",
-        "Gazete okumak ya da televizyon izlemek gibi şeylere dikkatini vermede güçlük",
-        "Başkalarının fark edebileceği kadar yavaş hareket etme veya konuşma ya da tam tersine, her zamankinden çok daha huzursuz olma",
-        "Ölmüş olmanın daha iyi olacağını ya da kendine bir şekilde zarar verme düşünceleri"
+        "Kendimi neşeli ve keyifli hissettim",
+        "Kendimi sakin ve rahat hissettim",
+        "Kendimi aktif ve enerjik hissettim",
+        "Sabahları dinç ve dinlenmiş uyandım",
+        "Günlük hayatım ilgimi çeken şeylerle doluydu"
       ],
       "scoring": {
-        "multiplier": 1,
+        "multiplier": 4,
         "bands": [
           {
-            "max": 4,
-            "label": "Minimal",
-            "desc": "Klinik açıdan anlamlı depresif belirti saptanmadı."
+            "max": 28,
+            "label": "Düşük iyi oluş (ayrıntılı değerlendirme önerilir)",
+            "desc": "Belirgin düşük iyi oluş; olası depresyon açısından ayrıntılı değerlendirme önerilir."
           },
           {
-            "max": 9,
-            "label": "Hafif",
-            "desc": "Hafif düzeyde depresif belirtiler. İzlem önerilir; belirtilerin süresi ve işlevselliğe etkisi birlikte değerlendirilmelidir."
+            "max": 50,
+            "label": "Düşük iyi oluş",
+            "desc": "Düşük iyi oluş; depresyon taraması önerilir."
           },
           {
-            "max": 14,
-            "label": "Orta",
-            "desc": "Orta düzeyde depresif belirtiler; majör depresyon tarama eşiğinin üzerinde. Tanısal değerlendirme ve tedavi planı önerilir."
-          },
-          {
-            "max": 19,
-            "label": "Orta-ağır",
-            "desc": "Orta-ağır düzeyde depresif belirtiler. Aktif tedavi (psikoterapi, gerekirse psikiyatrik değerlendirme) önerilir."
-          },
-          {
-            "max": 27,
-            "label": "Ağır",
-            "desc": "Ağır düzeyde depresif belirtiler. Psikiyatrik değerlendirme ve yakın izlem önerilir."
-          }
-        ],
-        "flags": [
-          {
-            "item": 9,
-            "min": 1,
-            "label": "9. madde (kendine zarar verme düşünceleri) işaretlendi"
+            "max": 100,
+            "label": "Yeterli iyi oluş",
+            "desc": "Yeterli iyi oluş düzeyi."
           }
         ]
       },
       "interpret": {
-        "about": "PHQ-9, DSM depresyon ölçütlerine dayanan 9 maddelik bir tarama aracıdır. Toplam puan 0–27 arasındadır; 5, 10, 15 ve 20 puan sırasıyla hafif, orta, orta-ağır ve ağır depresif belirti düzeylerinin kesme noktalarıdır. 10 ve üzeri puan, majör depresyon için en yaygın kullanılan tarama eşiğidir.",
+        "about": "WHO-5, son iki haftadaki öznel iyi oluşu ölçer. Ham puan (0–25) 4 ile çarpılarak 0–100 arası yüzde puanına çevrilir; yüksek puan daha iyi iyi oluşu gösterir. 50 ve altı düşük iyi oluşa, 28 ve altı olası depresyona işaret eder; bu durumlarda depresyon taraması (ör. PHQ-9) önerilir. İzlemde 10 puanlık değişim klinik olarak anlamlı kabul edilir.",
         "highlight": {
-          "min": 2,
-          "title": "Günlerin yarısından fazlasında ya da her gün yaşanan belirtiler"
+          "max": 1,
+          "title": "Hiçbir zaman ya da yalnızca ara sıra yaşandığı belirtilen olumlu durumlar"
         },
         "notes": [
-          "9. madde (ölüm ya da kendine zarar verme düşünceleri) toplam puandan bağımsız değerlendirilmelidir; 1 ve üzeri yanıt risk değerlendirmesi gerektirir.",
           "Bu ölçek tanı koymaz; sonuçlar klinik görüşme ve öyküyle birlikte değerlendirilmelidir."
         ]
       },
-      "group": "test"
+      "group": "on"
     },
     {
       "id": "asrs",
@@ -1258,76 +1244,90 @@
       "group": "test"
     },
     {
-      "id": "who5",
-      "title": "WHO-5 İyi Oluş İndeksi",
-      "short": "Son iki haftada kendinizi nasıl hissettiğinizle ilgili 5 soru.",
-      "minutes": 2,
+      "id": "phq9",
+      "title": "PHQ-9 Hasta Sağlığı Anketi",
+      "short": "Son iki haftadaki duygudurumunuzla ilgili 9 soru.",
+      "minutes": 3,
       "kind": "scale",
-      "instructions": "Son 2 hafta içinde kendinizi nasıl hissettiğinize en yakın seçeneği işaretleyin.",
+      "instructions": "Son 2 hafta içinde, aşağıdaki sorunlardan herhangi biri sizi ne sıklıkta rahatsız etti?",
       "options": [
         {
-          "label": "Hiçbir zaman",
+          "label": "Hiç",
           "value": 0
         },
         {
-          "label": "Ara sıra",
+          "label": "Birkaç gün",
           "value": 1
         },
         {
-          "label": "Zamanın yarısından azında",
+          "label": "Günlerin yarısından fazlasında",
           "value": 2
         },
         {
-          "label": "Zamanın yarısından fazlasında",
+          "label": "Hemen hemen her gün",
           "value": 3
-        },
-        {
-          "label": "Çoğu zaman",
-          "value": 4
-        },
-        {
-          "label": "Her zaman",
-          "value": 5
         }
       ],
       "items": [
-        "Kendimi neşeli ve keyifli hissettim",
-        "Kendimi sakin ve rahat hissettim",
-        "Kendimi aktif ve enerjik hissettim",
-        "Sabahları dinç ve dinlenmiş uyandım",
-        "Günlük hayatım ilgimi çeken şeylerle doluydu"
+        "Bir şeyler yapmaya karşı ilgi veya zevk duymama",
+        "Kendini çökkün, depresif ya da umutsuz hissetme",
+        "Uykuya dalmada veya uykuyu sürdürmede güçlük ya da çok fazla uyuma",
+        "Kendini yorgun hissetme ya da enerjinin az olması",
+        "İştahsızlık ya da aşırı yeme",
+        "Kendini kötü hissetme, başarısız biri olduğunu düşünme ya da kendini veya aileni hayal kırıklığına uğrattığını düşünme",
+        "Gazete okumak ya da televizyon izlemek gibi şeylere dikkatini vermede güçlük",
+        "Başkalarının fark edebileceği kadar yavaş hareket etme veya konuşma ya da tam tersine, her zamankinden çok daha huzursuz olma",
+        "Ölmüş olmanın daha iyi olacağını ya da kendine bir şekilde zarar verme düşünceleri"
       ],
       "scoring": {
-        "multiplier": 4,
+        "multiplier": 1,
         "bands": [
           {
-            "max": 28,
-            "label": "Düşük iyi oluş (ayrıntılı değerlendirme önerilir)",
-            "desc": "Belirgin düşük iyi oluş; olası depresyon açısından ayrıntılı değerlendirme önerilir."
+            "max": 4,
+            "label": "Minimal",
+            "desc": "Klinik açıdan anlamlı depresif belirti saptanmadı."
           },
           {
-            "max": 50,
-            "label": "Düşük iyi oluş",
-            "desc": "Düşük iyi oluş; depresyon taraması önerilir."
+            "max": 9,
+            "label": "Hafif",
+            "desc": "Hafif düzeyde depresif belirtiler. İzlem önerilir; belirtilerin süresi ve işlevselliğe etkisi birlikte değerlendirilmelidir."
           },
           {
-            "max": 100,
-            "label": "Yeterli iyi oluş",
-            "desc": "Yeterli iyi oluş düzeyi."
+            "max": 14,
+            "label": "Orta",
+            "desc": "Orta düzeyde depresif belirtiler; majör depresyon tarama eşiğinin üzerinde. Tanısal değerlendirme ve tedavi planı önerilir."
+          },
+          {
+            "max": 19,
+            "label": "Orta-ağır",
+            "desc": "Orta-ağır düzeyde depresif belirtiler. Aktif tedavi (psikoterapi, gerekirse psikiyatrik değerlendirme) önerilir."
+          },
+          {
+            "max": 27,
+            "label": "Ağır",
+            "desc": "Ağır düzeyde depresif belirtiler. Psikiyatrik değerlendirme ve yakın izlem önerilir."
+          }
+        ],
+        "flags": [
+          {
+            "item": 9,
+            "min": 1,
+            "label": "9. madde (kendine zarar verme düşünceleri) işaretlendi"
           }
         ]
       },
       "interpret": {
-        "about": "WHO-5, son iki haftadaki öznel iyi oluşu ölçer. Ham puan (0–25) 4 ile çarpılarak 0–100 arası yüzde puanına çevrilir; yüksek puan daha iyi iyi oluşu gösterir. 50 ve altı düşük iyi oluşa, 28 ve altı olası depresyona işaret eder; bu durumlarda depresyon taraması (ör. PHQ-9) önerilir. İzlemde 10 puanlık değişim klinik olarak anlamlı kabul edilir.",
+        "about": "PHQ-9, DSM depresyon ölçütlerine dayanan 9 maddelik bir tarama aracıdır. Toplam puan 0–27 arasındadır; 5, 10, 15 ve 20 puan sırasıyla hafif, orta, orta-ağır ve ağır depresif belirti düzeylerinin kesme noktalarıdır. 10 ve üzeri puan, majör depresyon için en yaygın kullanılan tarama eşiğidir.",
         "highlight": {
-          "max": 1,
-          "title": "Hiçbir zaman ya da yalnızca ara sıra yaşandığı belirtilen olumlu durumlar"
+          "min": 2,
+          "title": "Günlerin yarısından fazlasında ya da her gün yaşanan belirtiler"
         },
         "notes": [
+          "9. madde (ölüm ya da kendine zarar verme düşünceleri) toplam puandan bağımsız değerlendirilmelidir; 1 ve üzeri yanıt risk değerlendirmesi gerektirir.",
           "Bu ölçek tanı koymaz; sonuçlar klinik görüşme ve öyküyle birlikte değerlendirilmelidir."
         ]
       },
-      "group": "on",
+      "group": "test",
       "hidden": true
     }
   ]

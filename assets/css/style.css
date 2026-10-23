@@ -366,6 +366,10 @@ tr:last-child td { border-bottom: none; }
 .form-card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 22px; display: grid; gap: 10px; align-content: start; text-decoration: none; color: var(--fg); }
 .form-card:hover { border-color: var(--accent); }
 .form-card .meta { display: flex; gap: 10px; flex-wrap: wrap; font-size: 0.85rem; color: var(--muted); }
+.home-pre { padding-top: clamp(24px, 4vw, 48px); }
+.home-forms { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 16px; }
+.home-forms .form-card { grid-template-rows: auto 1fr auto auto; }
+.form-card .go { color: var(--accent); font-weight: 600; font-size: 0.92rem; }
 .test-layout { display: grid; gap: 20px; max-width: 820px; }
 .q { border: 1px solid var(--line); border-radius: 12px; background: var(--surface); padding: 16px 18px; margin: 0; display: grid; gap: 12px; }
 .q legend { padding: 0; font-weight: 600; display: flex; gap: 10px; }

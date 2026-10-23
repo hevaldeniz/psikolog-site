@@ -1,4 +1,4 @@
-# pskhevaldenizozdemir.com — Proje Durumu (son güncelleme 23 Ekim 2026, 15:00)
+# pskhevaldenizozdemir.com — Proje Durumu (son güncelleme 23 Ekim 2026, 18:00)
 
 ## Yayın durumu
 - Barındırma: GitHub Pages (ücretsiz). Depo: github.com/hevaldeniz/psikolog-site (public), dal `main`, kök klasör.
@@ -40,6 +40,7 @@
 - Sayfa ayrımı (23 Ekim, 15:00): "Ön değerlendirme" (test.html, başlık "Seanstan önce birkaç dakikanızı ayırın") → Ön Görüşme Formu, GAD-7, K10. "Testler" (testler.html, ayrı menü sekmesi) → PHQ-9, ASRS, DOCS, Beş Faktör. WHO-5 sitede gösterilmiyor (forms.json'da hidden; eski kayıtlar panelde görünür). forms.json'da her formun "group" alanı var (on / test). Eski test.html?form=phq9 gibi bağlantılar doğru sayfaya yönlenir. Menü 1180 px altında "Menü" düğmesine dönüşür.
 - Psikoloğa giden test e-postasında "Sonuçların yorumu" bölümü (kesme noktaları, bu sonucun anlamı, öne çıkan yanıtlar, alt ölçek yorumları; forms.json → interpret, bands[].desc). Danışan e-postası değişmedi. submit-assessment forms.json'u dakikalık önbellek kırıcıyla okur.
 - Ana sayfa (23 Ekim): Instagram bölümü (tek profil penceresi + takip et butonu), iletişimde Google Haritalar ("Klinik Psikolog Heval Deniz Özdemir" işletme kaydı), tıklanabilir e-posta/telefon, başlık "Size nasıl yardımcı olabilirim?". Çalışma alanları 12 başlık (Kaygı, Stres, Obsesyonlar, Duygudurum bozuklukları, Öfke problemleri, İlişkiler, Tekrarlayıcı döngüler, Kişilik bozuklukları, Travmatik deneyimler, Yas ve kayıp, Zorlayıcı yaşantılar, Kendini tanıma).
+- 23 Ekim, 18:00: Ön değerlendirme = Ön Görüşme Formu, GAD-7, K10, WHO-5 (ana sayfada randevu takviminin altında, Hakkımda'nın üstünde kart olarak da var; ayrıca test.html). Testler = ASRS, DOCS, Beş Faktör. PHQ-9 sitede gizli (hidden; eski kayıtlar panelde görünür). Tüm sayfalarda üst menü aynı: Hakkımda, Çalışma alanları, Online / Yüz yüze, Ön değerlendirme, Testler, SSS, İletişim.
 - Sıradaki: panelden gerçek seans saatlerini açmak; config.js'e telefon/WhatsApp/adres; hakkımda/eğitim/fotoğraf; Google Ads.
 
 ## Eksikler / sıradaki adımlar

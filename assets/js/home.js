@@ -94,6 +94,24 @@
     frame(`https://www.instagram.com/${user}/embed/`, "Instagram profili", "ig-profile");
   }
 
+  // Ön değerlendirme formları (forms.json → group "on")
+  const hf = $("home-forms");
+  if (hf) Data.loadForms().then(all => {
+    const list = all.filter(f => (f.group || "on") === "on" && !f.hidden);
+    hf.innerHTML = "";
+    list.forEach(f => {
+      const a = document.createElement("a");
+      a.className = "form-card"; a.href = `test.html?form=${encodeURIComponent(f.id)}`;
+      a.innerHTML = `<h3></h3><p class="muted"></p><span class="meta"><span></span><span></span></span><span class="go">Doldur →</span>`;
+      a.querySelector("h3").textContent = f.title;
+      a.querySelector("p").textContent = f.short;
+      const m = a.querySelectorAll(".meta span");
+      m[0].textContent = `Yaklaşık ${f.minutes} dk`;
+      m[1].textContent = `${f.kind === "scale" ? f.items.length : f.fields.length} soru`;
+      hf.appendChild(a);
+    });
+  }).catch(() => { hf.innerHTML = '<p class="muted small">Formlar şu an yüklenemedi. <a href="test.html">Ön değerlendirme sayfasını</a> deneyin.</p>'; });
+
   // Harita (config.js → mapsEmbedQuery ya da address)
   const map = $("map");
   if (map) map.src = `https://www.google.com/maps?q=${encodeURIComponent(C.mapsEmbedQuery || C.address)}&hl=tr&z=16&output=embed`;
