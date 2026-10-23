@@ -11,7 +11,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,500;0,7..72,600;1,7..72,400;1,7..72,500&display=swap">
-<link rel="stylesheet" href="assets/css/style.css?v=20261023f">
+<link rel="stylesheet" href="assets/css/style.css?v=20261023g">
 </head>
 <body>
 
@@ -49,15 +49,26 @@
         </div>
       </div>
 
-      <aside class="next-card" aria-labelledby="next-title">
+      <aside class="next-card mini-cal" aria-labelledby="cal-title">
         <header>
-          <h3 id="next-title">Sıradaki uygun seanslar</h3>
-          <a class="small" href="randevu.html">Tümü</a>
+          <h3 id="cal-title">Uygun günler</h3>
+          <div class="cal-nav">
+            <button type="button" id="cal-prev" aria-label="Önceki ay">‹</button>
+            <span id="cal-month" class="small"></span>
+            <button type="button" id="cal-next" aria-label="Sonraki ay">›</button>
+          </div>
         </header>
-        <ul class="next-list" id="next-list">
-          <li class="muted small">Takvim yükleniyor…</li>
-        </ul>
-        <p class="small muted">Seansın online mı yüz yüze mi olacağı her saatin yanında yazar.</p>
+        <div id="cal-body" class="stack">
+          <div class="cal-grid" id="cal-grid" role="group" aria-label="Gün seçimi"><span class="muted small" style="grid-column:1/-1">Takvim yükleniyor…</span></div>
+          <div class="cal-sel">
+            <p class="cal-day-title" id="cal-day-title"></p>
+            <div class="cal-times" id="cal-times"></div>
+          </div>
+          <div class="cal-foot">
+            <a class="btn" id="cal-cta" href="randevu.html">Randevu al →</a>
+            <span class="cal-legend small muted"><span><i class="mk online"></i>Online</span><span><i class="mk inperson"></i>Yüz yüze</span><span><i class="mk both"></i>İkisi de</span></span>
+          </div>
+        </div>
       </aside>
     </div>
   </section>
@@ -200,26 +211,9 @@
 <a class="wa" data-href="whatsapp" data-track="contact" href="#" target="_blank" rel="noopener">WhatsApp</a>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
-<script src="assets/js/config.js?v=20261023f"></script>
-<script src="assets/js/data.js?v=20261023f"></script>
-<script src="assets/js/main.js?v=20261023f"></script>
-<script>
-(async function () {
-  const list = document.getElementById("next-list"), F = Data.fmt;
-  try {
-    const slots = (await Data.listAvailableSlots()).slice(0, 4);
-    list.innerHTML = "";
-    if (!slots.length) { list.innerHTML = '<li class="muted small">Şu an açık saat yok. WhatsApp\'tan yazabilirsiniz.</li>'; return; }
-    slots.forEach(s => {
-      const li = document.createElement("li"), a = document.createElement("a");
-      a.href = "randevu.html";
-      a.innerHTML = `<span class="next-when"><b></b><span></span></span><span class="pill ${F.typeClass(s.type)}">${F.typeLabel(s.type)}</span>`;
-      a.querySelector("b").textContent = F.time(s.starts_at);
-      a.querySelector(".next-when span").textContent = F.dateLong(s.starts_at);
-      li.appendChild(a); list.appendChild(li);
-    });
-  } catch (e) { list.innerHTML = '<li class="muted small">Takvim şu an yüklenemedi. Randevu sayfasını deneyin.</li>'; }
-})();
-</script>
+<script src="assets/js/config.js?v=20261023g"></script>
+<script src="assets/js/data.js?v=20261023g"></script>
+<script src="assets/js/main.js?v=20261023g"></script>
+<script src="assets/js/home.js?v=20261023g"></script>
 </body>
 </html>

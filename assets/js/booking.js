@@ -7,7 +7,13 @@
   async function load() {
     try { all = await Data.listAvailableSlots(); }
     catch (e) { $("slots").innerHTML = '<div class="empty">Takvim yüklenemedi. Sayfayı yenileyin veya WhatsApp\'tan yazın.</div>'; return; }
+    // Ana sayfadaki takvimden gelindiyse gün/saat önceden seçili gelsin (?slot=... ya da ?d=YYYY-MM-DD)
+    const q = new URLSearchParams(location.search);
+    const pre = all.find(s => s.id === q.get("slot"));
+    if (pre) { picked = pre; day = F.dayKey(pre.starts_at); }
+    else if (/^\d{4}-\d{2}-\d{2}$/.test(q.get("d") || "")) day = q.get("d");
     render();
+    if (pre) { summary(); if (matchMedia("(max-width: 860px)").matches) $("form-card").scrollIntoView({ behavior: "smooth", block: "start" }); }
   }
 
   function visible() { return all.filter(s => F.fits(s.type, filter)); }

@@ -132,6 +132,48 @@ section { padding-block: clamp(56px, 8vw, 96px); }
 .next-when b { font-variant-numeric: tabular-nums; }
 .next-when span { font-size: 0.85rem; color: var(--muted); }
 
+/* Ana sayfa mini takvim */
+.mini-cal { gap: 16px; }
+.mini-cal header { align-items: center; }
+.cal-nav { display: flex; align-items: center; gap: 6px; }
+.cal-nav span { min-width: 9ch; text-align: center; color: var(--muted); text-transform: capitalize; font-variant-numeric: tabular-nums; }
+.cal-nav button {
+  width: 30px; height: 30px; border-radius: 50%; border: 1px solid var(--line); background: var(--surface);
+  color: var(--fg); font: 600 1.05rem/1 var(--body); cursor: pointer; display: grid; place-items: center;
+}
+.cal-nav button:hover:not([disabled]) { border-color: var(--accent); color: var(--accent); }
+.cal-nav button[disabled] { opacity: .35; cursor: default; }
+.cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; }
+.cal-dow { font-size: 0.72rem; font-weight: 600; letter-spacing: .04em; color: var(--muted); text-align: center; padding-bottom: 4px; }
+.cal-day {
+  position: relative; height: 40px; border-radius: 10px; border: 1px solid transparent;
+  background: transparent; color: var(--muted); font: 500 0.9rem/1 var(--body); font-variant-numeric: tabular-nums;
+  display: grid; place-items: center; padding: 0;
+}
+.cal-day[disabled] { opacity: .45; }
+.cal-day.today { border-color: var(--line); }
+.cal-day.has { background: var(--surface-2); color: var(--fg); font-weight: 700; cursor: pointer; }
+.cal-day.has::after { content: ""; position: absolute; bottom: 5px; left: 50%; width: 4px; height: 4px; margin-left: -2px; border-radius: 50%; background: var(--accent); }
+.cal-day.has:hover { border-color: var(--accent); }
+.cal-day[aria-pressed="true"] { background: var(--accent); color: var(--accent-ink); }
+.cal-day[aria-pressed="true"]::after { background: var(--accent-ink); }
+.cal-sel { display: grid; gap: 10px; padding-top: 14px; border-top: 1px solid var(--line); }
+.cal-day-title { font-weight: 600; font-size: 0.95rem; }
+.cal-times { display: flex; flex-wrap: wrap; gap: 8px; }
+.time-chip {
+  display: inline-flex; align-items: center; gap: 7px; padding: 8px 13px; border-radius: 999px;
+  border: 1px solid var(--line); background: var(--surface); color: var(--fg); text-decoration: none;
+  font-weight: 600; font-size: 0.92rem; font-variant-numeric: tabular-nums;
+}
+.time-chip:hover { border-color: var(--accent); color: var(--accent); }
+.mk { display: inline-block; width: 9px; height: 9px; flex: none; }
+.mk.online { border-radius: 50%; background: var(--online); }
+.mk.inperson { border-radius: 2px; background: var(--inperson); }
+.mk.both { border-radius: 50%; background: linear-gradient(90deg, var(--online) 50%, var(--inperson) 50%); }
+.cal-foot { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; }
+.cal-legend { display: flex; flex-wrap: wrap; gap: 4px 12px; }
+.cal-legend > span { display: inline-flex; align-items: center; gap: 6px; }
+
 /* Type pills */
 .pill { display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; border-radius: 999px; font-size: 0.78rem; font-weight: 600; white-space: nowrap; }
 .pill::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: currentColor; }
