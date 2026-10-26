@@ -514,13 +514,12 @@
   function nbStart() { const d = $("nb-date").value, t = $("nb-time").value; return d && t ? new Date(`${d}T${t}:00+03:00`) : null; }
   function nbPreview() {
     const st = nbStart(), weeks = +$("nb-repeat").value, mail = $("nb-email").value.trim();
-    $("nb-notify").disabled = !mail;
     if (!st || isNaN(st)) { $("nb-preview").textContent = "Tarih ve saat seçin."; return; }
     const len = +$("nb-len").value || 50, en = new Date(st.getTime() + len * 60000);
     let txt = `${F.dateLong(st.toISOString())}, ${F.time(st.toISOString())}–${F.time(en.toISOString())} · ${$("nb-type").value === "online" ? "Online" : "Yüz yüze"}`;
     if (weeks > 1) { const last = new Date(st.getTime() + (weeks - 1) * 7 * 86400000); txt += ` · ${weeks} hafta boyunca her hafta (son seans ${F.dateShort(last.toISOString())})`; }
     if (en <= new Date()) txt += " · Geçmiş bir tarih: seans 'Tamamlandı' olarak kaydedilir, e-posta gitmez.";
-    else txt += mail && $("nb-notify").checked ? " · Danışana onay e-postası gidecek." : " · Danışana e-posta gitmeyecek.";
+    else txt += !$("nb-notify").checked ? " · Danışana bildirim gitmeyecek." : mail ? " · Danışana onay e-postası (ve SMS etkinse SMS) gidecek." : " · E-posta yok; SMS etkinse danışana SMS gidecek.";
     $("nb-preview").textContent = txt;
   }
   nbIds.forEach(id => $(id).addEventListener("input", nbPreview));

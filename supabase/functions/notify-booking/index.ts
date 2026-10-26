@@ -3,6 +3,8 @@
 //  - İptal (UPDATE → status 'iptal'): danışana ve psikoloğa iptal bildirimi. Tek gönderim: cancel_notified_at.
 //  - Hatırlatma ({type:"REMINDERS"}, saatlik pg_cron görevi): seanstan 3 gün ve 1 gün önce danışana, iptal butonlu.
 //    Tek gönderim: claim_reminders() reminder3_sent_at / reminder1_sent_at alanlarını atomik işaretler.
+//  - SMS (Netgsm): randevu onayı, 1 gün önce hatırlatma, iptal. Yalnızca NETGSM_USERCODE, NETGSM_PASSWORD ve
+//    NETGSM_HEADER secrets girildiyse çalışır; girilmediyse hiçbir SMS gönderilmez. Hatırlatma: claim_sms_reminders().
 // Tetikleyiciler: randevu_bildirimi (INSERT), randevu_iptal_bildirimi (UPDATE). Gelen veriye güvenilmez;
 // kayıt her seferinde veritabanından yeniden okunur.
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.45.4";
@@ -14,6 +16,27 @@ const PSYCHOLOGIST_EMAIL = Deno.env.get("PSYCHOLOGIST_EMAIL")!;
 const OFFICE_ADDRESS = Deno.env.get("OFFICE_ADDRESS") || "";
 const CONTACT_PHONE = Deno.env.get("CONTACT_PHONE") || "";
 const TZ = "Europe/Istanbul";
+const SMS_USER = Deno.env.get("NETGSM_USERCODE") || "";
+const SMS_PASS = Deno.env.get("NETGSM_PASSWORD") || "";
+const SMS_HEADER = Deno.env.get("NETGSM_HEADER") || "";
+const smsOn = () => !!(SMS_USER && SMS_PASS && SMS_HEADER);
+const HOST = (Deno.env.get("SITE_URL") || "").replace(/^https?:\/\//, "").replace(/^www\./, "").replace(/\/$/, "");
+// Türkiye cep numarası → 5XXXXXXXXX; başka biçimler için SMS atlanır
+const gsmNo = (p: unknown) => { const t = String(p ?? "").replace(/\D/g, "").slice(-10); return /^5\d{9}$/.test(t) ? t : null; };
+const smsWhen = (iso: string) => new Intl.DateTimeFormat("tr-TR", { timeZone: "Europe/Istanbul", day: "numeric", month: "long", weekday: "short", hour: "2-digit", minute: "2-digit" }).format(new Date(iso));
+// Netgsm: bilgilendirme mesajı (filter=0, ticari değil), Türkçe karakter (dil=TR). Başarı yanıtı 00/01/02 + bulkid.
+async function sms(phone: unknown, text: string) {
+  const no = gsmNo(phone);
+  if (!smsOn() || !no) return false;
+  try {
+    const q = new URLSearchParams({ usercode: SMS_USER, password: SMS_PASS, gsmno: no, message: text, msgheader: SMS_HEADER, dil: "TR", filter: "0" });
+    const r = await fetch(`https://api.netgsm.com.tr/sms/send/get?${q}`);
+    const t = (await r.text()).trim();
+    const ok = /^0[0-2](\s|$)/.test(t);
+    if (!ok) console.error("netgsm hata", t.slice(0, 20));
+    return ok;
+  } catch (e) { console.error("netgsm istek", String(e)); return false; }
+}
 
 const esc = (s: unknown) => String(s ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]!));
 const fmtDate = (iso: string) => new Intl.DateTimeFormat("tr-TR", { timeZone: TZ, weekday: "long", day: "numeric", month: "long", year: "numeric" }).format(new Date(iso));
@@ -106,6 +129,9 @@ async function onInsert(id: string) {
       PSYCHOLOGIST_EMAIL,
       ics(b, endIso, "Psk. Heval Deniz Özdemir ile seans", where));
   }
+  // SMS onayı
+  if (b.notify_client !== false && new Date(b.starts_at).getTime() > Date.now())
+    await sms(b.phone, `Psk. Heval Deniz Özdemir ile ${smsWhen(b.starts_at)} randevunuz oluşturuldu. İptal: ${HOST}/iptal.html?t=${b.cancel_token}`);
   return new Response("ok", { status: 200 });
 }
 
@@ -153,6 +179,9 @@ async function onCancel(id: string) {
       PSYCHOLOGIST_EMAIL,
       ics(b, endIso, "Psk. Heval Deniz Özdemir ile seans", "İptal edildi", true), "iptal.ics");
   }
+  // SMS iptal bildirimi (gelecekteki seanslar için)
+  if (b.notify_client !== false && future)
+    await sms(b.phone, `Psk. Heval Deniz Özdemir ile ${smsWhen(b.starts_at)} randevunuz iptal edildi.${CONTACT_PHONE ? ` Bilgi: ${CONTACT_PHONE}` : ""}`);
   return new Response("ok", { status: 200 });
 }
 
@@ -186,7 +215,18 @@ async function onReminders() {
       if (ok) sent++;
     }
   }
-  return new Response(`reminders ${sent}`, { status: 200 });
+  // SMS hatırlatma (seanstan yaklaşık 1 gün önce); SMS kapalıyken kayıtlar işaretlenmez
+  let smsSent = 0;
+  if (smsOn()) {
+    const { data, error } = await db0.rpc("claim_sms_reminders");
+    if (error) console.error("claim_sms_reminders", error.message);
+    const tomorrow = new Intl.DateTimeFormat("en-CA", { timeZone: TZ }).format(new Date(Date.now() + 86400000));
+    for (const b of (data || []) as any[]) {
+      const day = new Intl.DateTimeFormat("en-CA", { timeZone: TZ }).format(new Date(b.starts_at)) === tomorrow ? "Yarın" : "Bugün";
+      if (await sms(b.phone, `Hatırlatma: ${day} ${fmtTime(b.starts_at)} Psk. Heval Deniz Özdemir ile randevunuz var. İptal: ${HOST}/iptal.html?t=${b.cancel_token}`)) smsSent++;
+    }
+  }
+  return new Response(`reminders ${sent} sms ${smsSent}`, { status: 200 });
 }
 
 Deno.serve(async (req) => {
