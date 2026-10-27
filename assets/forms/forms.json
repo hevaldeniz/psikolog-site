@@ -2041,6 +2041,186 @@
       "credit": "Hall'un Duygusal Zekâ Anketi'nin Türkçe formu (30 madde, 5 alt boyut). Puanlama ve yorum aralıkları Hall'un anahtarına göredir."
     },
     {
+      "id": "ecr",
+      "title": "Yakın İlişkilerde Yaşantılar Envanteri (ECR)",
+      "group": "test",
+      "short": "Romantik ilişkilerde bağlanma kaygısını ve yakınlıktan kaçınmayı ölçen, alanda en yaygın kullanılan ölçeklerden biri (36 soru).",
+      "minutes": 8,
+      "kind": "scale",
+      "instructions": "Aşağıdaki ifadeler romantik ilişkilerde nasıl hissettiğinizle ilgili. Yalnızca şu anki ilişkinizi değil, romantik ilişkilerde genel olarak neler yaşadığınızı düşünün. Her ifadeye ne ölçüde katıldığınızı işaretleyin.",
+      "options": [
+        {
+          "label": "Kesinlikle katılmıyorum",
+          "value": 1
+        },
+        {
+          "label": "Katılmıyorum",
+          "value": 2
+        },
+        {
+          "label": "Biraz katılmıyorum",
+          "value": 3
+        },
+        {
+          "label": "Kararsızım",
+          "value": 4
+        },
+        {
+          "label": "Biraz katılıyorum",
+          "value": 5
+        },
+        {
+          "label": "Katılıyorum",
+          "value": 6
+        },
+        {
+          "label": "Kesinlikle katılıyorum",
+          "value": 7
+        }
+      ],
+      "items": [
+        "Derinlerde neler hissettiğimi partnerime göstermemeyi tercih ederim.",
+        "Terk edilmekten endişe ederim.",
+        "Romantik partnerlerime yakın olmak bana çok rahat gelir.",
+        "İlişkilerim konusunda çok endişelenirim.",
+        "Partnerim bana yakınlaşmaya başladığı anda kendimi geri çekilirken bulurum.",
+        "Romantik partnerlerimin beni, benim onları önemsediğim kadar önemsemeyeceğinden endişe ederim.",
+        "Romantik partnerim çok yakın olmak istediğinde rahatsız olurum.",
+        "Partnerimi kaybetmekten epeyce endişe duyarım.",
+        "Romantik partnerlerime açılmak bana rahat gelmez.",
+        "Sık sık partnerimin bana karşı duygularının, benim ona karşı duygularım kadar güçlü olmasını dilerim.",
+        "Partnerime yakın olmak isterim ama sürekli geri çekilirim.",
+        "Sık sık romantik partnerlerimle tamamen bütünleşmek isterim ve bu bazen onları benden uzaklaştırır.",
+        "Partnerlerim bana fazla yaklaştığında gerilirim.",
+        "Yalnız kalmaktan endişe ederim.",
+        "Özel düşüncelerimi ve duygularımı partnerimle paylaşmak bana rahat gelir.",
+        "Çok yakın olma isteğim bazen insanları benden uzaklaştırır.",
+        "Partnerime fazla yakınlaşmaktan kaçınmaya çalışırım.",
+        "Partnerimin beni sevdiğine dair çok fazla güvenceye ihtiyaç duyarım.",
+        "Partnerime yakınlaşmak bana görece kolay gelir.",
+        "Bazen partnerlerimi daha fazla duygu ve bağlılık göstermeye zorladığımı hissederim.",
+        "Romantik partnerlerime güvenip dayanmaya kendimi bırakmakta zorlanırım.",
+        "Terk edilmekten pek sık endişe etmem.",
+        "Romantik partnerlerime çok yakın olmamayı tercih ederim.",
+        "Partnerimin bana ilgi göstermesini sağlayamazsam üzülür ya da öfkelenirim.",
+        "Partnerime hemen her şeyi anlatırım.",
+        "Partnerlerimin benimle, benim istediğim kadar yakın olmak istemediğini fark ederim.",
+        "Sorunlarımı ve kaygılarımı genellikle partnerimle konuşurum.",
+        "Bir ilişkim olmadığında kendimi biraz kaygılı ve güvensiz hissederim.",
+        "Romantik partnerlerime güvenip dayanmak bana rahat gelir.",
+        "Partnerim istediğim kadar yanımda olmadığında hayal kırıklığı ve gerginlik yaşarım.",
+        "Romantik partnerlerimden teselli, öneri ya da yardım istemekten çekinmem.",
+        "İhtiyaç duyduğumda romantik partnerlerim ulaşılabilir olmazsa hayal kırıklığı ve gerginlik yaşarım.",
+        "Zor zamanlarda romantik partnerime yönelmek bana iyi gelir.",
+        "Romantik partnerlerim beni onaylamadığında kendimi gerçekten kötü hissederim.",
+        "Teselli ve güvence de dahil olmak üzere pek çok konuda partnerime yönelirim.",
+        "Partnerim benden uzakta vakit geçirdiğinde buna içerlerim."
+      ],
+      "scoring": {
+        "jung": {
+          "cutoff": 72,
+          "prefix": "Bağlanma örüntüsü",
+          "names": {
+            "aY": "Güvenli",
+            "AY": "Saplantılı (kaygılı)",
+            "aK": "Kayıtsız (kaçıngan)",
+            "AK": "Korkulu-kaçıngan"
+          },
+          "dims": [
+            {
+              "label": "Bağlanma kaygısı",
+              "lo": "a",
+              "hi": "A",
+              "loName": "Düşük kaygı",
+              "hiName": "Yüksek kaygı",
+              "n": 18,
+              "base": 8,
+              "plus": [
+                2,
+                4,
+                6,
+                8,
+                10,
+                12,
+                14,
+                16,
+                18,
+                20,
+                24,
+                26,
+                28,
+                30,
+                32,
+                34,
+                36
+              ],
+              "minus": [
+                22
+              ]
+            },
+            {
+              "label": "Yakınlıktan kaçınma",
+              "lo": "Y",
+              "hi": "K",
+              "loName": "Yakınlıkta rahat",
+              "hiName": "Yüksek kaçınma",
+              "n": 18,
+              "base": 72,
+              "plus": [
+                1,
+                5,
+                7,
+                9,
+                11,
+                13,
+                17,
+                21,
+                23
+              ],
+              "minus": [
+                3,
+                15,
+                19,
+                25,
+                27,
+                29,
+                31,
+                33,
+                35
+              ]
+            }
+          ]
+        }
+      },
+      "interpret": {
+        "about": "Yakın İlişkilerde Yaşantılar Envanteri (Experiences in Close Relationships, ECR; Brennan, Clark ve Shaver, 1998), yetişkin bağlanmasını iki boyutta ölçer: bağlanma kaygısı (terk edilme, sevilmeme ve reddedilme endişesi; çift numaralı 18 madde) ve yakınlıktan kaçınma (duygusal yakınlıktan ve partnere güvenip dayanmaktan rahatsızlık; tek numaralı 18 madde). Her boyutun toplamı 18–126, madde ortalaması 1–7 arasıdır; ters maddeler (3, 15, 19, 22, 25, 27, 29, 31, 33, 35) çevrilmiştir. Bu yorumda örüntü, kuramsal orta noktaya (madde ortalaması 4, toplam 72) göre Bartholomew'un dört kategorisine yerleştirilir. Brennan ve arkadaşları kategorileri küme analiziyle elde etmiştir ve bağlanmanın kategorilerden çok boyutlar üzerinde değiştiğini vurgular; bu yüzden boyut ortalamaları ve eşiğe uzaklık tipten daha bilgilendiricidir. Türkçe ifadeler bu site için hazırlanmıştır; Türkçe norm bulunmadığından sonuçlar klinik görüşmeyle birlikte değerlendirilmelidir.",
+        "types": {
+          "aY": "Yakınlıkta da bağımsızlıkta da görece rahat. İhtiyaç duyduğunda destek isteyebilir, ilişkideki anlaşmazlıkları ilişkinin sonu olarak algılamaz; kendine ve başkalarına dair genel olarak olumlu bir bakışı vardır.",
+          "AY": "Yakınlığı güçlü biçimde ister ama sevilmediği ya da terk edileceği endişesi belirgindir. Onay arayışı, ilgi azaldığında yoğun huzursuzluk ve ilişkide ‘daha çok emek veren’ olma hissi sık görülür (saplantılı örüntü).",
+          "aK": "Bağımsızlığa ve kendine yetmeye önem verir; duygusal yakınlık, bağımlılık ve duyguları paylaşmak rahatsız edebilir. Zorlukta kendi başına çözmeyi tercih eder, kaygıyı genellikle uzak durarak düzenler (kayıtsız örüntü).",
+          "AK": "Yakınlığı ister ama incinmekten ve reddedilmekten korktuğu için geri çekilir. İlişkilerde yaklaş-kaç döngüleri, güvenme güçlüğü ve hem yalnızlık hem yakınlık karşısında sıkıntı görülebilir. Şema çalışması açısından terk edilme/güvensizlik ve kusurluluk şemalarına dikkat."
+        },
+        "dimDescs": {
+          "Bağlanma kaygısı": {
+            "hi": "Reddedilme ve terk edilme ipuçlarına karşı hassasiyet, onay ve güvence arayışı belirgin.",
+            "lo": "İlişkinin sürekliliğine dair temel güven korunuyor."
+          },
+          "Yakınlıktan kaçınma": {
+            "hi": "Duygusal yakınlıktan, bağımlılıktan ve duyguları paylaşmaktan uzak durma eğilimi belirgin.",
+            "lo": "Yakınlık ve başkalarına yaslanma görece rahat."
+          }
+        },
+        "highlight": {
+          "min": 6,
+          "title": "Güçlü katılım bildirilen maddeler (6–7)"
+        },
+        "notes": [
+          "Örüntü adları Bartholomew ve Horowitz'in (1991) modelini izler: güvenli, saplantılı, kayıtsız, korkulu-kaçıngan."
+        ]
+      },
+      "credit": "Experiences in Close Relationships (ECR): Brennan, K. A., Clark, C. L. ve Shaver, P. R. (1998). Self-report measurement of adult attachment: An integrative overview. J. A. Simpson ve W. S. Rholes (Ed.), Attachment theory and close relationships (s. 46–76). Guilford Press. Phillip R. Shaver'ın izniyle kullanılmaktadır. Türkçe ifadeler bu site için hazırlanmıştır."
+    },
+    {
       "id": "baglanma",
       "title": "Bağlanma Eğilimlerinizi Keşfedin",
       "group": "test",
