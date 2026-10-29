@@ -49,7 +49,7 @@ function ics(b: any, endIso: string, summary: string, description: string, cance
   return [
     "BEGIN:VCALENDAR", "VERSION:2.0", "PRODID:-//pskhevaldenizozdemir//randevu//TR", cancel ? "METHOD:CANCEL" : "METHOD:PUBLISH",
     "BEGIN:VEVENT", `UID:${b.id}@pskhevaldenizozdemir.com`, `DTSTAMP:${d(new Date().toISOString())}`,
-    ...(cancel ? ["STATUS:CANCELLED", "SEQUENCE:1"] : []),
+    `SEQUENCE:${(b.reschedule_count || 0) + (cancel ? 1 : 0)}`, ...(cancel ? ["STATUS:CANCELLED"] : []),
     `DTSTART:${d(b.starts_at)}`, `DTEND:${d(endIso)}`, `SUMMARY:${fold(summary)}`, `DESCRIPTION:${fold(description)}`,
     ...(b.type === "yuzyuze" && OFFICE_ADDRESS ? [`LOCATION:${fold(OFFICE_ADDRESS)}`] : []),
     ...(cancel ? [] : ["BEGIN:VALARM", "TRIGGER:-PT2H", "ACTION:DISPLAY", "DESCRIPTION:Seans hatırlatması", "END:VALARM"]),
@@ -80,10 +80,15 @@ async function send(to: string, subject: string, html: string, replyTo: string, 
 }
 
 const db = () => createClient(Deno.env.get("SUPABASE_URL")!, Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!);
+// Danışan e-postalarındaki "Gün/saat değiştir" ve "İptal et" butonları (aynı yönetim sayfasına gider)
+const manageUrl = (token: string) => `${SITE_URL}/iptal.html?t=${token}`;
+const smsLink = (token: string) => `${HOST}/r/?t=${token}`;
+const btn = (href: string, label: string, color: string) =>
+  `<a href="${esc(href)}" style="display:inline-block;background:#ffffff;color:${color};border:1px solid ${color};padding:10px 18px;border-radius:999px;text-decoration:none;font-weight:bold;margin:0 8px 8px 0">${label}</a>`;
 const cancelBlock = (token: string) => `
-  <p>Randevunuza katılamayacaksanız lütfen seanstan en az 24 saat önce iptal edin. Aşağıdaki buton seanstan 12 saat öncesine kadar çalışır; seansa 24 saatten az kala yapılan iptaller geç iptal olarak kaydedilir.</p>
-  <p style="margin:18px 0"><a href="${esc(`${SITE_URL}/iptal.html?t=${token}`)}" style="display:inline-block;background:#ffffff;color:#b42318;border:1px solid #b42318;padding:10px 18px;border-radius:999px;text-decoration:none;font-weight:bold">Randevumu iptal et</a></p>
-  <p style="color:#56607a;font-size:13px">Seansa 12 saatten az kaldıysa ya da randevunuzu değiştirmek istiyorsanız${CONTACT_PHONE ? ` <b>${esc(CONTACT_PHONE)}</b> numarasından ya da` : ""} bu e-postayı yanıtlayarak haber verin.</p>`;
+  <p>Randevunuzun gününü ya da saatini değiştirmek veya iptal etmek için aşağıdaki butonları kullanabilirsiniz. Butonlar seanstan 12 saat öncesine kadar çalışır. Katılamayacaksanız lütfen seanstan en az 24 saat önce bildirin; seansa 24 saatten az kala yapılan iptaller geç iptal olarak kaydedilir.</p>
+  <p style="margin:18px 0">${btn(`${manageUrl(token)}#degistir`, "Gün/saat değiştir", "#2667ff")}${btn(`${manageUrl(token)}#iptal`, "Randevumu iptal et", "#b42318")}</p>
+  <p style="color:#56607a;font-size:13px">Seansa 12 saatten az kaldıysa${CONTACT_PHONE ? ` <b>${esc(CONTACT_PHONE)}</b> numarasından ya da` : ""} bu e-postayı yanıtlayarak haber verin.</p>`;
 const row = (k: string, v: string) => `<tr><td style="padding:6px 12px 6px 0;color:#56607a">${k}</td><td style="padding:6px 0"><b>${v}</b></td></tr>`;
 
 async function onInsert(id: string) {
@@ -131,7 +136,7 @@ async function onInsert(id: string) {
   }
   // SMS onayı
   if (b.notify_client !== false && new Date(b.starts_at).getTime() > Date.now())
-    await sms(b.phone, `Psk. Heval Deniz Özdemir ile ${smsWhen(b.starts_at)} randevunuz oluşturuldu. İptal: ${HOST}/iptal.html?t=${b.cancel_token}`);
+    await sms(b.phone, `Klinik Psikolog Heval Deniz Özdemir ile ${smsWhen(b.starts_at)} randevunuz oluşturulmuştur. İptal veya gün/saat değişikliği için: ${smsLink(b.cancel_token)}`);
   return new Response("ok", { status: 200 });
 }
 
@@ -181,7 +186,53 @@ async function onCancel(id: string) {
   }
   // SMS iptal bildirimi (gelecekteki seanslar için)
   if (b.notify_client !== false && future)
-    await sms(b.phone, `Psk. Heval Deniz Özdemir ile ${smsWhen(b.starts_at)} randevunuz iptal edildi.${CONTACT_PHONE ? ` Bilgi: ${CONTACT_PHONE}` : ""}`);
+    await sms(b.phone, `Klinik Psikolog Heval Deniz Özdemir ile ${smsWhen(b.starts_at)} randevunuz iptal edilmiştir.${CONTACT_PHONE ? ` Bilgi için: ${CONTACT_PHONE}` : ""}`);
+  return new Response("ok", { status: 200 });
+}
+
+// Gün/saat değişikliği (UPDATE starts_at): danışana ve psikoloğa bildirim + SMS. Tek gönderim: reschedule_notified_at.
+async function onReschedule(id: string) {
+  const db0 = db();
+  const { data: b0 } = await db0.from("bookings").select("*, slots(ends_at)").eq("id", id).single();
+  if (!b0) return new Response("not found", { status: 200 });
+  const b: any = b0;
+  if (b.status !== "onayli" || !b.rescheduled_at || b.reschedule_notified_at) return new Response("skip", { status: 200 });
+  const { data: claimed } = await db0.from("bookings").update({ reschedule_notified_at: new Date().toISOString() })
+    .eq("id", id).is("reschedule_notified_at", null).select("id");
+  if (!claimed?.length) return new Response("already", { status: 200 });
+
+  const endIso = b.slots?.ends_at || new Date(new Date(b.starts_at).getTime() + 50 * 60_000).toISOString();
+  const when = `${fmtDate(b.starts_at)}, ${fmtTime(b.starts_at)}–${fmtTime(endIso)}`;
+  const was = b.previous_starts_at ? `${fmtDate(b.previous_starts_at)}, ${fmtTime(b.previous_starts_at)}` : "";
+  const where = b.type === "online"
+    ? "Görüntülü görüşme bağlantısı seanstan önce size ayrıca iletilecek."
+    : (OFFICE_ADDRESS ? `Adres: ${OFFICE_ADDRESS}` : "Ofis adresi size ayrıca iletilecek.");
+  const byClient = b.rescheduled_by === "danisan";
+  const first = String(b.name).split(" ")[0];
+
+  await send(PSYCHOLOGIST_EMAIL, `Randevu değiştirildi: ${b.name} · ${fmtDate(b.starts_at)} ${fmtTime(b.starts_at)}`,
+    wrap(`<h2 style="margin:0 0 12px">Randevu gün/saati değiştirildi</h2>
+      <table style="border-collapse:collapse;font-size:15px">
+        ${row("Danışan", esc(b.name))}${was ? row("Eski", `<s>${esc(was)}</s>`) : ""}${row("Yeni", esc(when))}${row("Tür", esc(typeLabel(b.type)))}
+        ${row("Değiştiren", byClient ? "Danışan (e-posta/SMS bağlantısıyla)" : "Siz (yönetim paneli)")}${row("Telefon", esc(b.phone))}${b.email ? row("E-posta", esc(b.email)) : ""}
+      </table>
+      <p><a href="${esc(SITE_URL)}/admin.html">Yönetim panelini aç</a></p>`),
+    b.email || PSYCHOLOGIST_EMAIL,
+    ics(b, endIso, `Seans: ${b.name} (${b.type === "online" ? "Online" : "Yüz yüze"})`, `Telefon: ${b.phone}`));
+
+  if (b.notify_client !== false) {
+    if (b.email) await send(b.email, `Randevunuz güncellendi · ${fmtDate(b.starts_at)} ${fmtTime(b.starts_at)}`,
+      wrap(`<p>Merhaba ${esc(first)},</p>
+        <p>${byClient ? "Randevu değişikliği talebiniz alındı." : "Randevunuzun günü/saati psikoloğunuz tarafından güncellendi."} Yeni randevu bilgileriniz:</p>
+        <p style="background:#f2f6fd;padding:14px 16px;border-radius:10px">
+          <b>${esc(when)}</b><br>${esc(typeLabel(b.type))}<br><span style="color:#56607a">${esc(where)}</span>
+          ${was ? `<br><span style="color:#56607a;font-size:13px">Önceki: <s>${esc(was)}</s></span>` : ""}</p>
+        <p>Ekteki dosyayı açarak takviminizdeki randevuyu güncelleyebilirsiniz.</p>
+        ${cancelBlock(b.cancel_token)}`),
+      PSYCHOLOGIST_EMAIL,
+      ics(b, endIso, "Klinik Psikolog Heval Deniz Özdemir ile seans", where));
+    await sms(b.phone, `Klinik Psikolog Heval Deniz Özdemir ile randevunuz ${smsWhen(b.starts_at)} olarak güncellenmiştir. İptal veya gün/saat değişikliği için: ${smsLink(b.cancel_token)}`);
+  }
   return new Response("ok", { status: 200 });
 }
 
@@ -223,7 +274,7 @@ async function onReminders() {
     const tomorrow = new Intl.DateTimeFormat("en-CA", { timeZone: TZ }).format(new Date(Date.now() + 86400000));
     for (const b of (data || []) as any[]) {
       const day = new Intl.DateTimeFormat("en-CA", { timeZone: TZ }).format(new Date(b.starts_at)) === tomorrow ? "Yarın" : "Bugün";
-      if (await sms(b.phone, `Hatırlatma: ${day} ${fmtTime(b.starts_at)} Psk. Heval Deniz Özdemir ile randevunuz var. İptal: ${HOST}/iptal.html?t=${b.cancel_token}`)) smsSent++;
+      if (await sms(b.phone, `Hatırlatma: Klinik Psikolog Heval Deniz Özdemir ile ${day.toLocaleLowerCase("tr")} saat ${fmtTime(b.starts_at)} randevunuz bulunmaktadır. İptal veya gün/saat değişikliği için: ${smsLink(b.cancel_token)}`)) smsSent++;
     }
   }
   return new Response(`reminders ${sent} sms ${smsSent}`, { status: 200 });
@@ -236,6 +287,6 @@ Deno.serve(async (req) => {
   if (body?.type === "REMINDERS") return onReminders();
   const id = body?.record?.id;
   if (!id || body?.table !== "bookings") return new Response("ignored", { status: 200 });
-  if (body.type === "UPDATE") return onCancel(id);
+  if (body.type === "UPDATE") return body?.record?.status === "iptal" ? onCancel(id) : onReschedule(id);
   return onInsert(id);
 });

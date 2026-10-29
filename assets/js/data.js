@@ -106,6 +106,15 @@
       if (sb) { const { data, error } = await sb.rpc("booking_by_token", { p_token: token }); if (error) throw error; return (data || [])[0] || null; }
       return null;
     },
+    async rescheduleByToken(token, slotId, type) {
+      if (sb) { const { data, error } = await sb.rpc("reschedule_booking_by_token", { p_token: token, p_slot: slotId, p_type: type || null }); if (error) throw error; return data; }
+      return "not_found";
+    },
+    async adminReschedule(id, f) {
+      if (!sb) throw new Error("demo");
+      const { data, error } = await sb.rpc("admin_reschedule_booking", { p_booking: id, p_starts: f.starts, p_minutes: f.minutes, p_type: f.type, p_notify: !!f.notify });
+      if (error) throw error; return data;
+    },
     async cancelByToken(token) {
       if (sb) { const { data, error } = await sb.rpc("cancel_booking_by_token", { p_token: token }); if (error) throw error; return data; }
       return "not_found";
