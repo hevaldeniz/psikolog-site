@@ -112,6 +112,28 @@
     });
   }).catch(() => { hf.innerHTML = '<p class="muted small">Formlar şu an yüklenemedi. <a href="test.html">Ön değerlendirme sayfasını</a> deneyin.</p>'; });
 
+
+  // Ofisim: fotoğraf büyütme penceresi (ok tuşları, kaydırma)
+  const lb = $("ofis-lb"), og = $("ofis-grid");
+  if (lb && og) {
+    const pics = JSON.parse($("ofis-data").textContent);
+    let cur = 0, touchX = null;
+    const show = i => {
+      cur = (i + pics.length) % pics.length; const p = pics[cur];
+      $("lb-img").src = `assets/img/ofis/${p.slug}.jpg`; $("lb-img").alt = p.alt;
+      $("lb-cap").textContent = p.alt; $("lb-num").textContent = `${cur + 1} / ${pics.length}`;
+      new Image().src = `assets/img/ofis/${pics[(cur + 1) % pics.length].slug}.jpg`;
+    };
+    og.addEventListener("click", e => { const b = e.target.closest("[data-i]"); if (!b) return; show(+b.dataset.i); lb.showModal(); });
+    $("lb-prev").onclick = () => show(cur - 1);
+    $("lb-next").onclick = () => show(cur + 1);
+    $("lb-close").onclick = () => lb.close();
+    lb.addEventListener("click", e => { if (e.target === lb || e.target.tagName === "FIGURE") lb.close(); });
+    lb.addEventListener("keydown", e => { if (e.key === "ArrowLeft") show(cur - 1); if (e.key === "ArrowRight") show(cur + 1); });
+    lb.addEventListener("touchstart", e => { touchX = e.touches[0].clientX; }, { passive: true });
+    lb.addEventListener("touchend", e => { if (touchX === null) return; const dx = e.changedTouches[0].clientX - touchX; if (Math.abs(dx) > 50) show(cur + (dx < 0 ? 1 : -1)); touchX = null; });
+  }
+
   // Harita (config.js → mapsEmbedQuery ya da address)
   const map = $("map");
   if (map) map.src = `https://www.google.com/maps?q=${encodeURIComponent(C.mapsEmbedQuery || C.address)}&hl=tr&z=16&output=embed`;

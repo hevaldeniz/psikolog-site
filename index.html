@@ -11,7 +11,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,500;0,7..72,600;1,7..72,400;1,7..72,500&display=swap">
-<link rel="stylesheet" href="assets/css/style.css?v=20261029a">
+<link rel="stylesheet" href="assets/css/style.css?v=20261029b">
 </head>
 <body>
 
@@ -166,6 +166,34 @@
     </div>
   </section>
 
+  <section id="ofis">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">Ofisim</p>
+        <h2>Caddebostan'daki kliniğim</h2>
+        <p class="muted">Yüz yüze seanslarımı Caddebostan'daki kliniğimde, gün ışığı alan, sakin ve özenle hazırlanmış bir ortamda gerçekleştiriyorum. Fotoğraflara tıklayarak büyütebilirsiniz.</p>
+      </div>
+      <div class="ofis-grid" id="ofis-grid">
+        <button type="button" class="ofis-item big" data-i="0" aria-label="Görüşme odası: koltuklar, çalışma masası ve duvarda tablolar – büyüt"><img src="assets/img/ofis/oda-1.jpg" alt="Görüşme odası: koltuklar, çalışma masası ve duvarda tablolar" loading="lazy" decoding="async" width="405" height="720"></button>
+        <button type="button" class="ofis-item" data-i="1" aria-label="Görüşme odası: kanepe, koltuk ve gün ışığı alan pencere – büyüt"><img src="assets/img/ofis/oda-2-k.jpg" alt="Görüşme odası: kanepe, koltuk ve gün ışığı alan pencere" loading="lazy" decoding="async" width="405" height="720"></button>
+        <button type="button" class="ofis-item" data-i="4" aria-label="Bekleme salonu: kanepeler, kırmızı koltuk ve geniş pencereler – büyüt"><img src="assets/img/ofis/salon-1-k.jpg" alt="Bekleme salonu: kanepeler, kırmızı koltuk ve geniş pencereler" loading="lazy" decoding="async" width="405" height="720"></button>
+        <button type="button" class="ofis-item" data-i="3" aria-label="Çalışma masasında kum saati – büyüt"><img src="assets/img/ofis/kum-saati-k.jpg" style="object-position:50% 85%" alt="Çalışma masasında kum saati" loading="lazy" decoding="async" width="405" height="720"></button>
+        <button type="button" class="ofis-item" data-i="2" aria-label="Görüşme odasında sehpa, masa saati ve duvarda renkli bir tablo – büyüt"><img src="assets/img/ofis/oda-detay-k.jpg" style="object-position:50% 70%" alt="Görüşme odasında sehpa, masa saati ve duvarda renkli bir tablo" loading="lazy" decoding="async" width="405" height="720"></button>
+        <button type="button" class="ofis-item" data-i="5" aria-label="Bekleme salonu ve yemek masası – büyüt"><img src="assets/img/ofis/salon-2-k.jpg" alt="Bekleme salonu ve yemek masası" loading="lazy" decoding="async" width="405" height="720"></button>
+        <button type="button" class="ofis-item" data-i="7" aria-label="Uygulama odasının kapısı ve isim levhası – büyüt"><img src="assets/img/ofis/kapi-k.jpg" style="object-position:50% 22%" alt="Uygulama odasının kapısı ve isim levhası" loading="lazy" decoding="async" width="405" height="720"></button>
+        <button type="button" class="ofis-item" data-i="10" aria-label="Görüşme odasındaki karlı İstanbul tablosu – büyüt"><img src="assets/img/ofis/tablo-1-k.jpg" alt="Görüşme odasındaki karlı İstanbul tablosu" loading="lazy" decoding="async" width="405" height="720"></button>
+        <button type="button" class="ofis-item" data-i="12" aria-label="Diplomalar ve meslek ruhsatı – büyüt"><img src="assets/img/ofis/diplomalar-k.jpg" style="object-position:60% 45%" alt="Diplomalar ve meslek ruhsatı" loading="lazy" decoding="async" width="405" height="720"><span class="ofis-more">+5 fotoğraf</span></button>
+      </div>
+    </div>
+    <dialog class="lightbox" id="ofis-lb" aria-label="Ofis fotoğrafları">
+      <figure><img id="lb-img" alt=""><figcaption><span id="lb-cap"></span> <span class="muted" id="lb-num"></span></figcaption></figure>
+      <button type="button" class="lb-btn lb-prev" id="lb-prev" aria-label="Önceki fotoğraf">‹</button>
+      <button type="button" class="lb-btn lb-next" id="lb-next" aria-label="Sonraki fotoğraf">›</button>
+      <button type="button" class="lb-btn lb-close" id="lb-close" aria-label="Kapat">✕</button>
+    </dialog>
+    <script type="application/json" id="ofis-data">[{"slug": "oda-1", "alt": "Görüşme odası: koltuklar, çalışma masası ve duvarda tablolar"}, {"slug": "oda-2", "alt": "Görüşme odası: kanepe, koltuk ve gün ışığı alan pencere"}, {"slug": "oda-detay", "alt": "Görüşme odasında sehpa, masa saati ve duvarda renkli bir tablo"}, {"slug": "kum-saati", "alt": "Çalışma masasında kum saati"}, {"slug": "salon-1", "alt": "Bekleme salonu: kanepeler, kırmızı koltuk ve geniş pencereler"}, {"slug": "salon-2", "alt": "Bekleme salonu ve yemek masası"}, {"slug": "salon-detay", "alt": "Bekleme salonundaki masada saksı bitkileri"}, {"slug": "kapi", "alt": "Uygulama odasının kapısı ve isim levhası"}, {"slug": "giris", "alt": "Giriş koridoru"}, {"slug": "koridor", "alt": "Koridorda tablo ve ahşap panjur"}, {"slug": "tablo-1", "alt": "Görüşme odasındaki karlı İstanbul tablosu"}, {"slug": "tablo-2", "alt": "Görüşme odasındaki karlı köy ve kedi tablosu"}, {"slug": "diplomalar", "alt": "Diplomalar ve meslek ruhsatı"}, {"slug": "koleksiyon", "alt": "Raflarda model araba koleksiyonu"}]</script>
+  </section>
+
   <section id="surec">
     <div class="wrap">
       <div class="section-head">
@@ -247,9 +275,9 @@
 <a class="wa" data-href="whatsapp" data-track="contact" href="#" target="_blank" rel="noopener">WhatsApp</a>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
-<script src="assets/js/config.js?v=20261029a"></script>
-<script src="assets/js/data.js?v=20261029a"></script>
-<script src="assets/js/main.js?v=20261029a"></script>
-<script src="assets/js/home.js?v=20261029a"></script>
+<script src="assets/js/config.js?v=20261029b"></script>
+<script src="assets/js/data.js?v=20261029b"></script>
+<script src="assets/js/main.js?v=20261029b"></script>
+<script src="assets/js/home.js?v=20261029b"></script>
 </body>
 </html>
