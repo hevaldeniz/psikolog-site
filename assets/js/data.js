@@ -112,7 +112,7 @@
     },
     async adminReschedule(id, f) {
       if (!sb) throw new Error("demo");
-      const { data, error } = await sb.rpc("admin_reschedule_booking", { p_booking: id, p_starts: f.starts, p_minutes: f.minutes, p_type: f.type, p_notify: !!f.notify });
+      const { data, error } = await sb.rpc("admin_reschedule_booking", { p_booking: id, p_starts: f.starts, p_minutes: f.minutes, p_type: f.type, p_notify: !!f.notify, p_reminders: f.reminders !== false });
       if (error) throw error; return data;
     },
     async cancelByToken(token) {

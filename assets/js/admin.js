@@ -271,7 +271,7 @@
       <div id="bk-msg" hidden></div>
       <div class="modal-actions" id="bk-actions">
         <button class="btn ghost small" type="button" data-bka="again">1 hafta sonra aynı saate randevu</button>
-        ${b.status === "onayli" ? `<button class="btn ghost small" type="button" data-bka="move">Gün/saat değiştir</button>` : ""}
+        ${b.status === "onayli" ? `<button class="btn ghost small" type="button" data-bka="move">Randevuyu düzenle</button>` : ""}
         ${b.status === "onayli" && past ? `<button class="btn ghost small" type="button" data-bka="done">Tamamlandı</button>` : ""}
         ${b.status === "onayli" ? `<button class="btn danger small" type="button" data-bka="ask">Randevuyu iptal et</button>` : ""}
       </div>`;
@@ -294,7 +294,7 @@
       const mins0 = sl ? Math.round((new Date(sl.ends_at) - new Date(sl.starts_at)) / 60000) : 50;
       $("bk-actions").innerHTML = `
         <div class="stack" style="flex:1 1 100%;gap:10px">
-          <b>Yeni gün ve saat</b>
+          <b>Randevuyu düzenle</b><span class="small muted">Gün, saat, süre ya da türü değiştirip kaydedin.</span>
           <div class="row">
             <div class="field"><label for="mv-date">Tarih</label><input id="mv-date" type="date" value="${F.dayKey(b.starts_at)}"></div>
             <div class="field"><label for="mv-time">Saat</label><input id="mv-time" type="time" step="300" value="${F.time(b.starts_at)}"></div>
@@ -303,7 +303,8 @@
             <div class="field"><label for="mv-len">Süre (dk)</label><input id="mv-len" type="number" min="15" max="240" value="${mins0}"></div>
             <div class="field"><label for="mv-type">Tür</label><select id="mv-type"><option value="yuzyuze" ${b.type !== "online" ? "selected" : ""}>Yüz yüze</option><option value="online" ${b.type === "online" ? "selected" : ""}>Online</option></select></div>
           </div>
-          <label class="check"><input type="checkbox" id="mv-notify" ${b.notify_client !== false ? "checked" : ""}><span>Danışana değişiklik bildirimi gönder <span class="muted">(e-posta ve SMS)</span></span></label>
+          <label class="check"><input type="checkbox" id="mv-notify" ${b.notify_client !== false ? "checked" : ""}><span>Danışana değişiklik bildirimi gönder <span class="muted">(e-posta ve SMS; yalnızca gün/saat değişirse gider)</span></span></label>
+          <label class="check"><input type="checkbox" id="mv-remind" ${b.notify_client !== false ? "checked" : ""}><span>Seanstan önce hatırlatma mesajlarını gönder <span class="muted">(3 gün ve 1 gün önce e-posta, 1 gün önce SMS)</span></span></label>
           <div class="modal-actions"><button class="btn ghost small" type="button" data-bka="back">Vazgeç</button><button class="btn small" type="button" data-bka="move-save">Değişikliği kaydet</button></div>
         </div>`;
       return;
@@ -314,9 +315,10 @@
       const starts = new Date(`${d}T${t}:00+03:00`).toISOString();
       btn.disabled = true;
       try {
-        await Data.adminReschedule(id, { starts, minutes: +$("mv-len").value || 50, type: $("mv-type").value, notify: $("mv-notify").checked });
+        const notify = $("mv-notify").checked, remind = $("mv-remind").checked, moved = starts !== new Date(b.starts_at).toISOString();
+        await Data.adminReschedule(id, { starts, minutes: +$("mv-len").value || 50, type: $("mv-type").value, notify, reminders: remind });
         wkGoTo(d); await refresh(); $("bk-dialog").close();
-        flash(`${esc(b.name)} randevusu ${esc(F.dateShort(starts))} ${esc(F.time(starts))} olarak güncellendi.${$("mv-notify") && $("mv-notify").checked ? " Danışana bildirim gönderiliyor." : ""}`);
+        flash(`${esc(b.name)} randevusu ${esc(F.dateShort(starts))} ${esc(F.time(starts))} olarak güncellendi.${moved && notify ? " Danışana değişiklik bildirimi gönderiliyor." : ""} ${remind ? "Hatırlatmalar gönderilecek." : "Bu randevu için hatırlatma gönderilmeyecek."}`);
       } catch (err) {
         btn.disabled = false;
         const m = String(err && err.message || ""), code = m.split(":")[0].trim(), at = m.includes(":") ? m.slice(m.indexOf(":") + 1).trim() : "";
