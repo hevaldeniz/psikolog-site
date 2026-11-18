@@ -80,8 +80,12 @@
   $("forgot").onclick = async () => {
     const email = $("l-email").value.trim();
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return note($("login-msg"), "Önce e-posta adresinizi yazın, sonra \"Şifremi unuttum\"a basın.", "warn");
-    const { error } = await sb.auth.resetPasswordForEmail(email, { redirectTo: location.origin + location.pathname });
-    note($("login-msg"), error ? "Bağlantı gönderilemedi, biraz sonra tekrar deneyin." : "Bu adres panele kayıtlıysa şifre belirleme bağlantısı gönderildi. E-postanızı kontrol edin.", error ? "err" : "ok");
+    let ok = false;
+    try {
+      const r = await fetch(`${C.supabaseUrl}/functions/v1/istatistik`, { method: "POST", headers: { "Content-Type": "application/json", apikey: C.supabaseAnonKey, Authorization: `Bearer ${C.supabaseAnonKey}` }, body: JSON.stringify({ action: "reset", email }) });
+      ok = r.ok;
+    } catch (e) {}
+    note($("login-msg"), ok ? "Bu adres panele kayıtlıysa şifre belirleme bağlantısı gönderildi. E-postanızı (ve istenmeyen klasörünü) kontrol edin." : "Bağlantı gönderilemedi, biraz sonra tekrar deneyin.", ok ? "ok" : "err");
   };
   $("pass-form").addEventListener("submit", async e => {
     e.preventDefault(); note($("pass-msg"), "");

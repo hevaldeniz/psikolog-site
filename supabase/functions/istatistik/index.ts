@@ -1,13 +1,33 @@
 // İstatistik paneli sunucu fonksiyonu
 //   POST {"action":"sync"}               → Instagram verilerini çeker (günlük cron + paneldeki "Şimdi güncelle")
 //   POST {"action":"invite","email":"…"} → panele üye davet eder (yalnızca panel üyesi, iki adımlı doğrulamalı oturum)
+//   POST {"action":"reset","email":"…"}  → panel üyesine şifre belirleme bağlantısı gönderir
+// Davet ve şifre e-postaları Resend ile gider (Supabase'in varsayılan e-posta servisi yalnızca ekip üyelerine gönderir).
 // Instagram token'ı yalnızca bu fonksiyon okur; hiçbir yanıtta geri döndürülmez.
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.45.4";
 
 const URL_ = Deno.env.get("SUPABASE_URL")!;
 const SITE_URL = (Deno.env.get("SITE_URL") || "https://pskhevaldenizozdemir.com").replace(/\/+$/, "");
 const db = () => createClient(URL_, Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!);
+const RESEND_API_KEY = Deno.env.get("RESEND_API_KEY") || "";
+const FROM_EMAIL = Deno.env.get("FROM_EMAIL") || "";
+const PANEL_URL = `${SITE_URL}/istatistik.html`;
 const V = "v23.0";
+
+async function mail(to: string, subject: string, html: string) {
+  const r = await fetch("https://api.resend.com/emails", {
+    method: "POST", headers: { Authorization: `Bearer ${RESEND_API_KEY}`, "Content-Type": "application/json" },
+    body: JSON.stringify({ from: FROM_EMAIL, to: [to], subject, html }),
+  });
+  if (!r.ok) throw new Error("mail " + r.status + " " + (await r.text()).slice(0, 200));
+}
+const linkMail = (title: string, intro: string, link: string, cta: string) => `<!doctype html><html><body style="margin:0;background:#f2f6fd;font-family:Segoe UI,Arial,sans-serif;color:#141a2e">
+<div style="max-width:520px;margin:0 auto;padding:28px 18px"><div style="background:#fff;border:1px solid #dde5f1;border-radius:14px;padding:26px">
+<h1 style="font-family:Georgia,serif;font-weight:500;font-size:22px;margin:0 0 12px">${title}</h1>
+<p style="font-size:15px;line-height:1.6;margin:0 0 20px">${intro}</p>
+<p style="margin:0 0 20px"><a href="${link}" style="display:inline-block;background:#2667ff;color:#fff;text-decoration:none;font-weight:600;padding:12px 20px;border-radius:10px">${cta}</a></p>
+<p style="font-size:13px;line-height:1.5;color:#56607a;margin:0">Bağlantı tek kullanımlıktır ve kısa sürede geçerliliğini yitirir. Bu e-postayı beklemiyorsanız dikkate almayın.</p>
+</div><p style="font-size:12px;color:#56607a;text-align:center;margin-top:14px">Klinik Psikolog Heval Deniz Özdemir · İstatistik paneli</p></div></body></html>`;
 const TZ = "Europe/Istanbul";
 
 const CORS = {
@@ -187,16 +207,46 @@ async function invite(req: Request, email: string) {
 
   const sb = db();
   let uid = "", existing = false;
-  const inv = await sb.auth.admin.inviteUserByEmail(email, { redirectTo: `${SITE_URL}/istatistik.html` });
-  if (inv.error) {
+  const gen = await sb.auth.admin.generateLink({ type: "invite", email, options: { redirectTo: PANEL_URL } });
+  if (gen.error) {
     // zaten hesabı varsa: üyeliğe ekle, mevcut şifresiyle girer
     const { data: list } = await sb.auth.admin.listUsers({ page: 1, perPage: 1000 });
     const u = list?.users?.find((x) => (x.email || "").toLowerCase() === email);
-    if (!u) return json({ ok: false, reason: "invite_failed", message: inv.error.message }, 400);
+    if (!u) return json({ ok: false, reason: "invite_failed", message: gen.error.message }, 400);
     uid = u.id; existing = true;
-  } else uid = inv.data.user!.id;
+  } else {
+    uid = gen.data.user!.id;
+    try {
+      await mail(email, "İstatistik paneline davet edildiniz", linkMail(
+        "İstatistik paneline davet edildiniz",
+        "Klinik Psikolog Heval Deniz Özdemir'in web sitesi ve Instagram istatistik paneline erişiminiz açıldı. Aşağıdaki bağlantıyla şifrenizi belirleyin; ardından telefonunuzdaki doğrulama uygulamasıyla iki adımlı doğrulamayı kuracaksınız.",
+        gen.data.properties!.action_link, "Şifremi belirle"));
+    } catch (e) {
+      await sb.auth.admin.deleteUser(uid);
+      return json({ ok: false, reason: "mail_failed", message: String((e as Error).message) }, 500);
+    }
+  }
   await sb.from("stats_users").upsert({ user_id: uid, email, added_by: me?.user?.id ?? null }, { onConflict: "user_id" });
   return json({ ok: true, existing });
+}
+
+// Şifre belirleme bağlantısı: yalnızca panel üyelerine gönderilir; yanıt her durumda aynıdır (adres sorgulanamasın)
+async function reset(email: string) {
+  email = String(email || "").trim().toLowerCase();
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return json({ ok: true });
+  const sb = db();
+  const { data: m } = await sb.from("stats_users").select("user_id").ilike("email", email).maybeSingle();
+  if (m) {
+    const gen = await sb.auth.admin.generateLink({ type: "recovery", email, options: { redirectTo: PANEL_URL } });
+    if (!gen.error) {
+      try {
+        await mail(email, "İstatistik paneli — şifre belirleme", linkMail("Şifrenizi belirleyin",
+          "İstatistik paneli için şifre belirleme talebinde bulunuldu. Yeni şifrenizi aşağıdaki bağlantıdan belirleyebilirsiniz.",
+          gen.data.properties!.action_link, "Yeni şifre belirle"));
+      } catch (_) { /* sessiz */ }
+    }
+  }
+  return json({ ok: true });
 }
 
 Deno.serve(async (req) => {
@@ -205,5 +255,6 @@ Deno.serve(async (req) => {
   const body = await req.json().catch(() => ({}));
   if (body.action === "sync") return json(await sync(false));
   if (body.action === "invite") return invite(req, body.email);
+  if (body.action === "reset") return reset(body.email);
   return json({ ok: false, reason: "unknown_action" }, 400);
 });
