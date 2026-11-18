@@ -68,6 +68,15 @@
 - Kutucuk 2: seans öncesi hatırlatmalar (3 gün/1 gün e-posta, 1 gün SMS). Kapalıysa o randevu için hatırlatma gitmez; gün/saat değişip açıksa hatırlatmalar yeni tarihe göre tekrar gider.
 - admin_reschedule_booking artık 6 parametreli (p_reminders eklendi). Sürüm v=20261111a.
 
+## 18 Kasım: İstatistik paneli (istatistik.html)
+- Adres: pskhevaldenizozdemir.com/istatistik.html. Giriş: e-posta + şifre + iki adımlı doğrulama. Üyeler (stats_users) aynı yetkide; site sahibi çıkarılamaz.
+- Danışman paneli göremez: admins tablosunda değil; yalnızca isimsiz toplamlar (stats_overview) görür.
+- Site sayacı: çerezsiz, kimliksiz (site_events, track RPC). Sayfa, yönlendiren alan adı, utm, cihaz, sekme oturumu. Admin/istatistik sayfaları ve "bu cihazı sayma" işaretli tarayıcılar sayılmaz. KVKK metnine cümle eklendi.
+- Etkileşimler: WhatsApp/telefon/e-posta/Instagram/harita tıklaması, tamamlanan randevu, gönderilen test.
+- Instagram: danışman token'ı panelde "Erişim ve ayarlar"dan girer (ig_config, istemciye okunmaz). Fonksiyon "istatistik" günlük 06:17'de (cron instagram-senkron) ve "Şimdi güncelle" ile veri çeker; Instagram ile giriş token'ı haftalık yenilenir. Tablolar: ig_daily, ig_media.
+- Davet ve "şifremi unuttum" e-postaları Resend ile (Supabase varsayılan e-postası yalnızca ekip üyelerine gider). Auth yönlendirme adreslerine istatistik.html (www ve www'siz) eklendi.
+- Sürüm v=20261118a (istatistik.js 20261118b).
+
 ## Eksikler / sıradaki adımlar
 1. SSL çıkınca Enforce HTTPS'i aç, siteyi kontrol et.
 2. Supabase (ücretsiz): proje aç (Frankfurt), supabase/schema.sql çalıştır, yönetici kullanıcı ekle, admins tablosuna ekle, URL + anon key → config.js. Kayıt (sign-up) kapatılacak.
@@ -89,4 +98,4 @@ VS Code'da dosyayı düzenle → kaydet → GitHub Desktop'ta özet yaz → Comm
 - Bilgisayardaki kopya: Belgeler\GitHub\psikolog-site (GitHub Desktop)
 
 ## Veritabanı değişiklik dosyaları (supabase/ klasörü, hepsi uygulandı)
-schema.sql (güncel tam şema), migration-ikisi.sql, migration-guvenlik.sql, migration-bildirim.sql, migration-zorunlu-alanlar.sql, migration-iptal.sql, migration-hatirlatma.sql, migration-takvim.sql, migration-manuel-randevu.sql, migration-bildirim-panel.sql, migration-sms.sql, migration-degisiklik.sql, migration-duzenle.sql
+schema.sql (güncel tam şema), migration-ikisi.sql, migration-guvenlik.sql, migration-bildirim.sql, migration-zorunlu-alanlar.sql, migration-iptal.sql, migration-hatirlatma.sql, migration-takvim.sql, migration-manuel-randevu.sql, migration-bildirim-panel.sql, migration-sms.sql, migration-degisiklik.sql, migration-duzenle.sql, migration-istatistik.sql

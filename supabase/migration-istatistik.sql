@@ -42,7 +42,7 @@ language plpgsql stable security definer set search_path = public as $$
 begin
   if not public.is_stats_user() then raise exception 'not_allowed'; end if;
   return query
-    select s.user_id, coalesce(u.email, s.email), s.added_at,
+    select s.user_id, coalesce(u.email::text, s.email), s.added_at,
            exists (select 1 from public.admins a where a.user_id = s.user_id),
            s.user_id = auth.uid()
     from public.stats_users s left join auth.users u on u.id = s.user_id
@@ -281,7 +281,7 @@ begin
     'username', c.username,
     'api', case c.host when 'graph.facebook.com' then 'Facebook ile giriş' when 'graph.instagram.com' then 'Instagram ile giriş' end,
     'token_set_at', c.token_set_at,
-    'token_set_by', (select email from auth.users where id = c.token_set_by),
+    'token_set_by', (select email::text from auth.users where id = c.token_set_by),
     'token_expires_at', c.token_expires_at,
     'last_sync_at', c.last_sync_at,
     'last_ok_at', c.last_ok_at,
