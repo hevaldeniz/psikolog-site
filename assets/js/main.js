@@ -87,6 +87,47 @@
   window.trackConversion = function (kind) {
     const label = C.conversions && C.conversions[kind];
     if (C.googleAdsId && label) gtag("event", "conversion", { send_to: `${C.googleAdsId}/${label}` });
+    if (kind === "booking" && window.psTrack) window.psTrack("randevu_tamam");
   };
   document.querySelectorAll("[data-track]").forEach(el => el.addEventListener("click", () => window.trackConversion(el.getAttribute("data-track"))));
+  /* ---------- Ziyaret sayacı: çerezsiz, kimliksiz (istatistik paneli için) ----------
+     Yalnızca sayfa yolu, yönlendiren sitenin alan adı, kampanya etiketi (utm) ve cihaz türü kaydedilir.
+     IP, çerez ya da kalıcı kimlik tutulmaz; sekme kapanınca oturum numarası silinir. */
+  (function () {
+    if (!C.supabaseUrl || !C.supabaseAnonKey) return;
+    if (/(admin|istatistik)(\.html)?$/.test(location.pathname)) return;
+    if (navigator.webdriver || /bot|crawl|spider|slurp|lighthouse|headless|preview|facebookexternalhit/i.test(navigator.userAgent)) return;
+    try { if (localStorage.getItem("psk_notrack") === "1") return; } catch (e) {}
+    const rnd = () => Array.from(crypto.getRandomValues(new Uint8Array(12)), b => (b % 36).toString(36)).join("");
+    let sid;
+    try { sid = sessionStorage.getItem("psk_sid"); if (!sid) { sid = rnd(); sessionStorage.setItem("psk_sid", sid); } } catch (e) { sid = rnd(); }
+    const q = new URLSearchParams(location.search);
+    let src = q.get("utm_source"), med = q.get("utm_medium");
+    const camp = q.get("utm_campaign");
+    if (!src && (q.get("gclid") || q.get("gbraid") || q.get("wbraid"))) { src = "google"; med = "cpc"; }
+    let ref = "";
+    try { const r = new URL(document.referrer); if (r.hostname.replace(/^www\./, "") !== location.hostname.replace(/^www\./, "")) ref = r.hostname; } catch (e) {}
+    const ua = navigator.userAgent;
+    const dev = /iPad|Tablet/i.test(ua) || (/Macintosh/.test(ua) && navigator.maxTouchPoints > 1) || (/Android/i.test(ua) && !/Mobile/i.test(ua)) ? "tablet"
+      : /Mobi|iPhone|Android/i.test(ua) ? "mobil" : "masaustu";
+    const path = location.pathname.replace(/\/index\.html$/, "/").replace(/\.html$/, "") || "/";
+    const send = kind => {
+      try {
+        fetch(`${C.supabaseUrl}/rest/v1/rpc/track`, {
+          method: "POST", keepalive: true,
+          headers: { apikey: C.supabaseAnonKey, Authorization: `Bearer ${C.supabaseAnonKey}`, "Content-Type": "application/json" },
+          body: JSON.stringify({ p_kind: kind, p_path: path, p_ref: kind === "view" ? ref : "", p_src: src, p_med: med, p_camp: camp, p_device: dev, p_sid: sid })
+        }).catch(() => {});
+      } catch (e) {}
+    };
+    window.psTrack = send;
+    send("view");
+    document.addEventListener("click", e => {
+      const a = e.target.closest && e.target.closest("a[href]"); if (!a) return;
+      const h = a.href || "";
+      const k = /wa\.me|whatsapp\.com/.test(h) ? "whatsapp" : /^tel:/.test(h) ? "telefon" : /^mailto:/.test(h) ? "eposta"
+        : /instagram\.com/.test(h) ? "instagram" : /google\.[a-z.]+\/maps|maps\.app\.goo\.gl|goo\.gl\/maps|maps\.google/.test(h) ? "harita" : "";
+      if (k) send(k);
+    }, true);
+  })();
 })();

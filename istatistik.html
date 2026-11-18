@@ -1,0 +1,197 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>İstatistik Paneli · Psk. Heval Deniz Özdemir</title>
+<script>try{var t=localStorage.getItem("psk_theme");if(t==="dark")document.documentElement.setAttribute("data-theme","dark");}catch(e){}</script>
+<meta name="robots" content="noindex, nofollow">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.jsdelivr.net 'sha256-O4kHzkc4w1inY3e7NnDButGxYJ4QFo/THsS13WoXfRU='; connect-src 'self' https://etqlcpukpiayywozxqmu.supabase.co wss://etqlcpukpiayywozxqmu.supabase.co; img-src 'self' data: https://*.cdninstagram.com https://*.fbcdn.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; base-uri 'none'; form-action 'none'; object-src 'none'">
+<meta name="referrer" content="no-referrer">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,500;0,7..72,600;1,7..72,400;1,7..72,500&display=swap">
+<link rel="stylesheet" href="assets/css/style.css?v=20261118a">
+</head>
+<body>
+
+<header class="site-header">
+  <nav class="wrap nav" aria-label="İstatistik">
+    <a class="brand" href="index.html"><strong>İstatistik paneli</strong><span>Heval Deniz Özdemir</span></a>
+    <div class="nav-end"><button class="theme-btn" type="button" data-theme-toggle aria-label="Temayı değiştir"></button><button class="btn ghost small" id="logout" type="button" hidden>Çıkış yap</button></div>
+  </nav>
+</header>
+
+<main class="wrap">
+  <!-- Giriş -->
+  <div class="card login" id="login-view" hidden>
+    <form class="form" id="login-form" novalidate>
+      <h2 style="font-size: 1.5rem">Giriş yap</h2>
+      <p class="muted small">Site ziyaretleri ve Instagram verileri. Danışan bilgileri bu panelde yer almaz.</p>
+      <div class="field"><label for="l-email">E-posta</label><input id="l-email" type="email" autocomplete="username" required></div>
+      <div class="field"><label for="l-pass">Şifre</label><input id="l-pass" type="password" autocomplete="current-password" required></div>
+      <div id="login-msg" hidden></div>
+      <button class="btn" type="submit">Giriş yap</button>
+      <button class="linkish small" type="button" id="forgot">Şifremi unuttum</button>
+    </form>
+  </div>
+
+  <!-- Şifre belirleme (davet / şifre sıfırlama bağlantısıyla gelince) -->
+  <div class="card login" id="pass-view" hidden>
+    <form class="form" id="pass-form" novalidate>
+      <h2 style="font-size: 1.5rem" id="pass-title">Şifrenizi belirleyin</h2>
+      <p class="muted small">En az 10 karakter. Bu şifreyle ve telefonunuzdaki doğrulama koduyla giriş yapacaksınız.</p>
+      <div class="field"><label for="p-new">Yeni şifre</label><input id="p-new" type="password" autocomplete="new-password" minlength="10" required></div>
+      <div class="field"><label for="p-new2">Yeni şifre (tekrar)</label><input id="p-new2" type="password" autocomplete="new-password" minlength="10" required></div>
+      <div id="pass-msg" hidden></div>
+      <button class="btn" type="submit">Şifreyi kaydet</button>
+    </form>
+  </div>
+
+  <!-- İki adımlı doğrulama -->
+  <div class="card login" id="mfa-view" hidden>
+    <form class="form" id="mfa-form" novalidate>
+      <h2 style="font-size: 1.5rem" id="mfa-title">Doğrulama kodu</h2>
+      <div id="mfa-setup" class="stack" hidden>
+        <p class="small">Panel yalnızca iki adımlı doğrulamayla açılır. Telefonunuzda <b>Google Authenticator</b> veya <b>Microsoft Authenticator</b> uygulamasını açın, aşağıdaki kodu taratın.</p>
+        <img id="mfa-qr" alt="Doğrulama uygulaması için QR kod" width="200" height="200" style="background:#fff;padding:8px;border-radius:10px;justify-self:center">
+        <p class="small muted">Taratamıyorsanız uygulamaya bu anahtarı elle girin:<br><b id="mfa-secret" style="user-select:all;overflow-wrap:anywhere;font-variant-numeric:tabular-nums"></b></p>
+      </div>
+      <p class="small muted" id="mfa-hint">Doğrulama uygulamanızdaki 6 haneli kodu girin.</p>
+      <div class="field"><label for="mfa-code">6 haneli kod</label><input id="mfa-code" inputmode="numeric" autocomplete="one-time-code" maxlength="6" pattern="[0-9]{6}" required></div>
+      <div id="mfa-msg" hidden></div>
+      <button class="btn" type="submit">Doğrula ve gir</button>
+      <button class="btn ghost small" type="button" id="mfa-cancel">Çıkış yap</button>
+    </form>
+  </div>
+
+  <!-- Yetkisiz -->
+  <div class="card login" id="denied-view" hidden>
+    <h2 style="font-size: 1.5rem">Erişim yok</h2>
+    <p class="muted small" style="margin-top:8px">Bu hesabın istatistik paneline erişimi bulunmuyor. Panel üyelerinden birinin sizi davet etmesi gerekir.</p>
+    <button class="btn ghost small" type="button" id="denied-out" style="margin-top:16px">Çıkış yap</button>
+  </div>
+
+  <!-- Panel -->
+  <div class="admin-layout st" id="app-view" hidden>
+    <div class="st-bar">
+      <div class="tabs" role="tablist">
+        <button class="tab" role="tab" id="t-ozet" aria-selected="true" aria-controls="p-ozet">Genel bakış</button>
+        <button class="tab" role="tab" id="t-site" aria-selected="false" aria-controls="p-site">Web sitesi</button>
+        <button class="tab" role="tab" id="t-ig" aria-selected="false" aria-controls="p-ig">Instagram</button>
+        <button class="tab" role="tab" id="t-ayar" aria-selected="false" aria-controls="p-ayar">Erişim ve ayarlar</button>
+      </div>
+      <div class="st-range">
+        <label class="sr-only" for="range">Tarih aralığı</label>
+        <select id="range">
+          <option value="7">Son 7 gün</option>
+          <option value="30" selected>Son 30 gün</option>
+          <option value="90">Son 90 gün</option>
+          <option value="month">Bu ay</option>
+          <option value="prevmonth">Geçen ay</option>
+          <option value="365">Son 12 ay</option>
+        </select>
+        <button class="btn ghost small" id="reload" type="button">Yenile</button>
+      </div>
+    </div>
+    <p class="small muted" id="range-note"></p>
+
+    <!-- Genel bakış -->
+    <div role="tabpanel" id="p-ozet" class="stack">
+      <div class="kpis" id="kpi-ozet"></div>
+      <div class="card st-card"><h3>Günlük ziyaret</h3><p class="small muted">Siteye gelen ziyaret (oturum) sayısı; üzerine gelince o günün sayfa görüntüleme ve randevu sayısı görünür.</p><div class="chart" id="ch-visits"></div></div>
+      <div class="st-grid">
+        <div class="card st-card"><h3>Ziyaretçiler nereden geliyor?</h3><div id="ozet-sources"></div></div>
+        <div class="card st-card"><h3>Instagram — günlük erişim</h3><div class="chart" id="ch-ig-mini"></div></div>
+      </div>
+    </div>
+
+    <!-- Web sitesi -->
+    <div role="tabpanel" id="p-site" class="stack" hidden>
+      <div class="kpis" id="kpi-site"></div>
+      <div class="st-grid">
+        <div class="card st-card"><h3>Kaynaklar</h3><p class="small muted">Ziyaretin geldiği yer (ilk sayfaya göre).</p><div id="site-sources"></div></div>
+        <div class="card st-card"><h3>En çok görüntülenen sayfalar</h3><div id="site-pages"></div></div>
+        <div class="card st-card"><h3>Giriş sayfaları</h3><p class="small muted">Ziyaretçinin siteye ilk girdiği sayfa.</p><div id="site-landing"></div></div>
+        <div class="card st-card"><h3>Cihaz</h3><div id="site-devices"></div></div>
+        <div class="card st-card"><h3>Etkileşimler</h3><p class="small muted">Sitede tıklanan iletişim bağlantıları.</p><div id="site-events"></div></div>
+        <div class="card st-card"><h3>Kampanya etiketleri</h3><p class="small muted">utm_campaign etiketli bağlantılardan gelen ziyaretler. Etiketli bağlantıyı "Erişim ve ayarlar" sekmesinden oluşturabilirsiniz.</p><div id="site-camps"></div></div>
+      </div>
+      <div class="card st-card"><h3>Ziyaretlerin saatlere dağılımı</h3><div class="chart" id="ch-hours"></div></div>
+      <div class="st-grid">
+        <div class="card st-card"><h3>Randevular</h3><p class="small muted">İsimsiz toplamlar; seçili dönemde oluşturulan kayıtlar.</p><div id="site-bookings"></div></div>
+        <div class="card st-card"><h3>Doldurulan testler</h3><div id="site-tests"></div></div>
+      </div>
+    </div>
+
+    <!-- Instagram -->
+    <div role="tabpanel" id="p-ig" class="stack" hidden>
+      <div id="ig-state"></div>
+      <div class="kpis" id="kpi-ig"></div>
+      <div class="st-grid">
+        <div class="card st-card"><h3>Takipçi sayısı</h3><p class="small muted">Panelin her gün kaydettiği takipçi sayısı.</p><div class="chart" id="ch-followers"></div></div>
+        <div class="card st-card"><h3>Günlük erişim</h3><p class="small muted">İçeriklerinizi gören tekil hesap sayısı.</p><div class="chart" id="ch-reach"></div></div>
+      </div>
+      <div class="card st-card">
+        <div class="st-head"><h3>Gönderiler</h3>
+          <label class="small">Sırala <select id="ig-sort"><option value="ts">En yeni</option><option value="reach">Erişim</option><option value="interactions">Etkileşim</option><option value="saves">Kaydetme</option><option value="shares">Paylaşım</option></select></label>
+        </div>
+        <div class="ig-posts" id="ig-posts"></div>
+      </div>
+    </div>
+
+    <!-- Erişim ve ayarlar -->
+    <div role="tabpanel" id="p-ayar" class="stack" hidden>
+      <div class="st-grid">
+        <div class="card st-card stack">
+          <h3>Instagram bağlantısı</h3>
+          <div id="ig-conn"></div>
+          <form class="form" id="ig-form" novalidate>
+            <div class="field"><label for="ig-token">Erişim token'ı (access token)</label><input id="ig-token" type="password" autocomplete="off" spellcheck="false" placeholder="IGAA… veya EAA…"></div>
+            <div class="field"><label for="ig-id">Instagram hesap kimliği (isteğe bağlı)</label><input id="ig-id" inputmode="numeric" autocomplete="off" placeholder="Örn. 17841400000000000"><span class="small muted">Yalnızca "Facebook ile giriş" token'ı kullanılıyorsa ve hesap otomatik bulunamazsa gerekir.</span></div>
+            <p class="small muted">Token kaydedildikten sonra hiçbir ekranda tekrar gösterilmez; yalnızca sunucu tarafında kullanılır. Gereken izinler: <b>instagram_business_basic</b> ve <b>instagram_business_manage_insights</b> (Instagram ile giriş) ya da <b>instagram_basic</b>, <b>instagram_manage_insights</b>, <b>pages_show_list</b> (Facebook ile giriş).</p>
+            <div id="ig-msg" hidden></div>
+            <div class="row-btns"><button class="btn" type="submit">Kaydet ve verileri çek</button><button class="btn ghost small" type="button" id="ig-sync">Şimdi güncelle</button><button class="btn ghost small danger-text" type="button" id="ig-clear">Bağlantıyı kaldır</button></div>
+          </form>
+        </div>
+
+        <div class="card st-card stack">
+          <h3>Panel erişimi</h3>
+          <p class="small muted">Panele erişimi olan herkes aynı yetkiye sahiptir. Davet edilen kişiye e-postayla bir bağlantı gider; şifresini belirleyip iki adımlı doğrulamayı kurar.</p>
+          <ul class="members" id="members"></ul>
+          <form class="form" id="inv-form" novalidate>
+            <div class="field"><label for="inv-email">Davet edilecek e-posta</label><input id="inv-email" type="email" autocomplete="off" required></div>
+            <div id="inv-msg" hidden></div>
+            <button class="btn small" type="submit">Davet gönder</button>
+          </form>
+        </div>
+
+        <div class="card st-card stack">
+          <h3>Etiketli bağlantı oluştur</h3>
+          <p class="small muted">Instagram biyografisi, hikâye veya reklamda bu bağlantıyı kullanırsanız ziyaretler panelde ayrı görünür.</p>
+          <div class="field"><label for="u-page">Sayfa</label><select id="u-page"><option value="">Ana sayfa</option><option value="randevu.html">Randevu</option><option value="testler.html">Testler</option></select></div>
+          <div class="field"><label for="u-src">Kaynak</label><select id="u-src"><option>instagram</option><option>google</option><option>facebook</option><option>whatsapp</option><option>doktortakvimi</option></select></div>
+          <div class="field"><label for="u-med">Yer</label><select id="u-med"><option value="bio">Biyografi</option><option value="story">Hikâye</option><option value="post">Gönderi</option><option value="reklam">Reklam</option><option value="mesaj">Mesaj</option></select></div>
+          <div class="field"><label for="u-camp">Kampanya adı (isteğe bağlı)</label><input id="u-camp" placeholder="ör. kasim-kaygi-serisi" autocomplete="off"></div>
+          <div class="utm-out"><code id="u-out"></code><button class="btn ghost small" type="button" id="u-copy">Kopyala</button></div>
+        </div>
+
+        <div class="card st-card stack">
+          <h3>Bu cihaz</h3>
+          <label class="check"><input type="checkbox" id="notrack"> Bu tarayıcıdan yapılan site ziyaretlerini sayma</label>
+          <p class="small muted">Kendi ziyaretleriniz istatistikleri şişirmesin diye kullandığınız her cihazda bir kez işaretleyin.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<div class="chart-tip" id="tip" role="status" hidden></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script src="assets/js/config.js?v=20261118a"></script>
+<script src="assets/js/data.js?v=20261118a"></script>
+<script src="assets/js/main.js?v=20261118a"></script>
+<script src="assets/js/istatistik.js?v=20261118a"></script>
+</body>
+</html>

@@ -62,6 +62,12 @@
 - 29 Ekim, 20:05: Oturum kapanışı. Test randevusu (TEST Claude Silinecek) ve iki test saati silindi. Panelden gün/saat değişikliği canlıda henüz denenmedi (danışan bağlantısıyla değişiklik test edildi). Bekleyen konular: ECR-R/ECR-RS için Fraley izni; isteğe bağlı Sümer'den ECR Türkçe uyarlama izni; KVKK metnine SMS bilgilendirmesi cümlesi; GitHub Desktop'ta kullanılmayan portre.jpg/.webp silinebilir.
 - Sıradaki: panelden gerçek seans saatlerini açmak; config.js'e telefon/WhatsApp/adres; hakkımda/eğitim/fotoğraf; Google Ads.
 
+## 12 Kasım: Randevuyu düzenle
+- Panelde randevuya tıkla → "Randevuyu düzenle": gün, saat, süre değiştirilebilir.
+- Kutucuk 1: danışana değişiklik bildirimi (e-posta+SMS; yalnızca gün/saat değişirse).
+- Kutucuk 2: seans öncesi hatırlatmalar (3 gün/1 gün e-posta, 1 gün SMS). Kapalıysa o randevu için hatırlatma gitmez; gün/saat değişip açıksa hatırlatmalar yeni tarihe göre tekrar gider.
+- admin_reschedule_booking artık 6 parametreli (p_reminders eklendi). Sürüm v=20261111a.
+
 ## Eksikler / sıradaki adımlar
 1. SSL çıkınca Enforce HTTPS'i aç, siteyi kontrol et.
 2. Supabase (ücretsiz): proje aç (Frankfurt), supabase/schema.sql çalıştır, yönetici kullanıcı ekle, admins tablosuna ekle, URL + anon key → config.js. Kayıt (sign-up) kapatılacak.
@@ -83,4 +89,4 @@ VS Code'da dosyayı düzenle → kaydet → GitHub Desktop'ta özet yaz → Comm
 - Bilgisayardaki kopya: Belgeler\GitHub\psikolog-site (GitHub Desktop)
 
 ## Veritabanı değişiklik dosyaları (supabase/ klasörü, hepsi uygulandı)
-schema.sql (güncel tam şema), migration-ikisi.sql, migration-guvenlik.sql, migration-bildirim.sql, migration-zorunlu-alanlar.sql, migration-iptal.sql, migration-hatirlatma.sql, migration-takvim.sql, migration-manuel-randevu.sql, migration-bildirim-panel.sql, migration-sms.sql, migration-degisiklik.sql
+schema.sql (güncel tam şema), migration-ikisi.sql, migration-guvenlik.sql, migration-bildirim.sql, migration-zorunlu-alanlar.sql, migration-iptal.sql, migration-hatirlatma.sql, migration-takvim.sql, migration-manuel-randevu.sql, migration-bildirim-panel.sql, migration-sms.sql, migration-degisiklik.sql, migration-duzenle.sql

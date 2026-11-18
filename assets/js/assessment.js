@@ -121,6 +121,7 @@
       const res = await Data.submitAssessment({ form_id: form.id, name, email, phone, answers: a, website: $("t-website").value });
       if (!res || res.ok === false) throw new Error(res && res.error);
       $("form-view").hidden = true; $("done-view").hidden = false;
+      if (window.psTrack) window.psTrack("test_tamam");
       $("crisis").hidden = !res.flagged;
       $("d-title").textContent = `Teşekkürler, ${name.split(" ")[0]}.`;
       $("d-text").textContent = res.demo

@@ -61,6 +61,7 @@
   /* ---------- Ortak API ---------- */
   const Data = {
     mode: useSupabase ? "supabase" : "demo",
+    sb,
     fmt,
 
     async listAvailableSlots() {
