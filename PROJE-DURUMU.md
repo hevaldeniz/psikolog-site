@@ -80,6 +80,7 @@
 ## 18 Kasım: Meta Pixel (1118692314488950)
 - config.js → metaPixelId. Yalnızca çerez bandında "Kabul et" denirse yüklenir (Google Ads ile aynı onay); yalnızca genel sayfalarda (ana sayfa, KVKK). test, testler, randevu, iptal, admin, istatistik sayfalarında hiç yüklenmez (sağlık verisi Meta'ya gitmez). Olay: yalnızca PageView. noscript görseli eklenmedi (onaysız iz bırakırdı).
 - KVKK "Çerezler" bölümü güncellendi + "Çerez tercihlerini değiştir" düğmesi. Sürüm v=20261118c.
+- İstatistik paneli erişimi: sayfa adresi açık (admin.html gibi) ama veri yalnızca giriş + iki adımlı doğrulama + üyelikle gelir; anonim istekler reddediliyor (test edildi). Supabase kütüphanesi yüklenemezse artık demo görünümü yerine giriş ekranı + hata. Aynı tarayıcıda yönetim paneline girilmişse istatistik paneli doğrudan açılır (oturum ortak). Sürüm v=20261118d.
 
 ## Eksikler / sıradaki adımlar
 1. SSL çıkınca Enforce HTTPS'i aç, siteyi kontrol et.

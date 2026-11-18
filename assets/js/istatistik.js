@@ -1,7 +1,11 @@
 /* İstatistik paneli: site ziyaretleri (çerezsiz sayaç), isimsiz randevu/test toplamları ve Instagram verileri.
    Erişim: stats_users tablosundaki üyeler + iki adımlı doğrulama. Danışan kişisel verisi bu sayfaya hiç gelmez. */
 (function () {
-  const C = window.SITE_CONFIG, sb = Data.sb, DEMO = !sb;
+  const C = window.SITE_CONFIG, sb = Data.sb;
+  // Demo görünümü yalnızca Supabase hiç ayarlanmamışsa (yerel geliştirme). Canlıda kütüphane yüklenemezse
+  // panel açılmaz, giriş ekranında hata gösterilir.
+  const DEMO = !sb && !C.supabaseUrl;
+  const BROKEN = !sb && !!C.supabaseUrl;
   const $ = id => document.getElementById(id);
   const TZ = "Europe/Istanbul";
   const nf = new Intl.NumberFormat("tr-TR");
@@ -26,6 +30,10 @@
 
   async function boot() {
     if (DEMO) { show("app"); return start(); }
+    if (BROKEN) {
+      show("login"); $("login-form").querySelector("button[type=submit]").disabled = true;
+      return note($("login-msg"), "Giriş servisine bağlanılamadı. Reklam engelleyiciyi bu sayfada kapatıp sayfayı yenileyin.");
+    }
     const { data: { session } } = await sb.auth.getSession();
     if (!session) {
       show("login");

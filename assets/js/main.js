@@ -44,7 +44,7 @@
   }
 
   // Demo modu uyarısı
-  if (window.Data && window.Data.mode === "demo") {
+  if (window.Data && window.Data.mode === "demo" && !C.supabaseUrl) {
     const bar = document.createElement("div");
     bar.className = "demo-bar";
     bar.textContent = "Demo modu: randevular yalnızca bu tarayıcıda saklanıyor. Canlıya almak için config.js içine Supabase bilgilerini girin.";
