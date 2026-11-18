@@ -27,6 +27,9 @@ window.SITE_CONFIG = {
 
   // Google Ads — README'deki "5. Google Ads" adımı
   googleAdsId: "",                    // örn. "AW-123456789"
+  // Meta (Facebook/Instagram) Pixel — yalnızca çerez onayı verilirse ve yalnızca genel sayfalarda
+  // (ana sayfa, KVKK) yüklenir; test, randevu ve iptal sayfalarında hiç yüklenmez (sağlık verisi).
+  metaPixelId: "1118692314488950",
   conversions: {
     booking: "",                      // randevu tamamlandı dönüşüm etiketi
     contact: ""                       // telefon / WhatsApp tıklaması dönüşüm etiketi

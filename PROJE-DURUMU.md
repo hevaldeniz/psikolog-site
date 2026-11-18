@@ -77,6 +77,10 @@
 - Davet ve "şifremi unuttum" e-postaları Resend ile (Supabase varsayılan e-postası yalnızca ekip üyelerine gider). Auth yönlendirme adreslerine istatistik.html (www ve www'siz) eklendi.
 - Sürüm v=20261118a (istatistik.js 20261118b).
 
+## 18 Kasım: Meta Pixel (1118692314488950)
+- config.js → metaPixelId. Yalnızca çerez bandında "Kabul et" denirse yüklenir (Google Ads ile aynı onay); yalnızca genel sayfalarda (ana sayfa, KVKK). test, testler, randevu, iptal, admin, istatistik sayfalarında hiç yüklenmez (sağlık verisi Meta'ya gitmez). Olay: yalnızca PageView. noscript görseli eklenmedi (onaysız iz bırakırdı).
+- KVKK "Çerezler" bölümü güncellendi + "Çerez tercihlerini değiştir" düğmesi. Sürüm v=20261118c.
+
 ## Eksikler / sıradaki adımlar
 1. SSL çıkınca Enforce HTTPS'i aç, siteyi kontrol et.
 2. Supabase (ücretsiz): proje aç (Frankfurt), supabase/schema.sql çalıştır, yönetici kullanıcı ekle, admins tablosuna ekle, URL + anon key → config.js. Kayıt (sign-up) kapatılacak.

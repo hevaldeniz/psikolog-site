@@ -65,17 +65,39 @@
     gtag("js", new Date()); gtag("config", C.googleAdsId);
   }
 
+  /* ---------- Meta Pixel: yalnızca onayla ve yalnızca genel sayfalarda ---------- */
+  const privatePage = /\/(admin|istatistik|test|testler|randevu|iptal|r)(\.html|\/)?$/.test(location.pathname) || /\/r\//.test(location.pathname);
+  const pixelOn = !!C.metaPixelId && !privatePage;
+  let pixelLoaded = false;
+  function loadPixel() {
+    if (!pixelOn || pixelLoaded) return; pixelLoaded = true;
+    !function (f, b, e, v, n, t, s) {
+      if (f.fbq) return; n = f.fbq = function () { n.callMethod ? n.callMethod.apply(n, arguments) : n.queue.push(arguments); };
+      if (!f._fbq) f._fbq = n; n.push = n; n.loaded = !0; n.version = "2.0"; n.queue = [];
+      t = b.createElement(e); t.async = !0; t.src = v; s = b.getElementsByTagName(e)[0]; s.parentNode.insertBefore(t, s);
+    }(window, document, "script", "https://connect.facebook.net/en_US/fbevents.js");
+    window.fbq("init", C.metaPixelId);
+    window.fbq("track", "PageView");
+  }
+
   let consent = null;
   try { consent = localStorage.getItem("psk_consent"); } catch (e) {}
   function applyConsent(v) {
     const g = v === "all" ? "granted" : "denied";
     gtag("consent", "update", { ad_storage: g, ad_user_data: g, ad_personalization: g, analytics_storage: g });
+    if (v === "all") loadPixel();
   }
+  // KVKK sayfasındaki "Çerez tercihlerini değiştir" düğmesi
+  document.querySelectorAll("[data-cookie-reset]").forEach(b => b.addEventListener("click", () => {
+    try { localStorage.removeItem("psk_consent"); } catch (e) {}
+    location.reload();
+  }));
+  const needsBanner = (C.googleAdsId || pixelOn) && !isAdmin && !/istatistik/.test(location.pathname);
   if (consent) applyConsent(consent);
-  else if (C.googleAdsId && !isAdmin) {
+  else if (needsBanner) {
     const bar = document.createElement("div");
     bar.className = "cookie";
-    bar.innerHTML = `<div class="wrap"><p>Sitemizde, reklamlarımızın etkisini ölçmek için çerezler kullanıyoruz. Detaylar <a href="kvkk.html">KVKK ve Çerez Aydınlatma Metni</a>'nde.</p>
+    bar.innerHTML = `<div class="wrap"><p>Sitemizde, reklamlarımızın etkisini ölçmek için Google ve Meta (Facebook/Instagram) çerezlerini yalnızca onayınızla kullanıyoruz. Detaylar <a href="kvkk.html">KVKK ve Çerez Aydınlatma Metni</a>'nde.</p>
       <div><button class="btn ghost small" id="ck-no" type="button">Yalnızca gerekli</button><button class="btn small" id="ck-yes" type="button">Kabul et</button></div></div>`;
     document.body.appendChild(bar);
     const done = v => { try { localStorage.setItem("psk_consent", v); } catch (e) {} applyConsent(v); bar.remove(); };
